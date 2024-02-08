@@ -1,11 +1,13 @@
-const { DataTypes, UUIDV4 } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const Wards = sequelize.define('wards', {
   ward_id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    defaultValue: UUIDV4,
+    // defaultValue: UUIDV4,
+    autoIncrement: true,
+    defaultValue: 2,
   },
   wardType: {
     type: DataTypes.STRING,
@@ -31,10 +33,10 @@ const Wards = sequelize.define('wards', {
 }, { timestamps: false });
 
 // create the pricelists model
-// sequelize.sync().then(()=>{
-//     console.log('Book table created')
-// }).catch(error=>{
-//     console.error('Unable to create table :', error)
-// })
+// sequelize.sync().then(() => {
+//   console.log('Ward table created');
+// }).catch((error) => {
+//   console.error('Unable to create table :', error);
+// });
 
 module.exports = Wards;

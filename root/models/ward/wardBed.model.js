@@ -14,6 +14,13 @@ const ward_bed = sequelize.define('ward_beds', {
   },
   ward_id: {
     type: DataTypes.INTEGER,
+    // references: {
+    //   model: 'wards',
+    //   key: 'ward_id',
+    // },
+    // onDelete: 'CASCADE',
+    // defaultValue: 2,
+
   },
   hospital_id: {
     type: DataTypes.INTEGER,
@@ -22,13 +29,12 @@ const ward_bed = sequelize.define('ward_beds', {
     type: DataTypes.STRING,
   },
 });
-
 // create the pricelists model
-// sequelize.sync().then(()=>{
-//     console.log('Book table created')
-// }).catch(error=>{
-//     console.error('Unable to create table :', error)
-// })
+// sequelize.sync().then(() => {
+//   console.log('Book table created');
+// }).catch((error) => {
+//   console.error('Unable to create table :', error);
+// });
 
 ward_bed.belongsTo(Wards, { foreignKey: 'ward_id' });
 

@@ -4,6 +4,7 @@ const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Patient = require('../patient/patients.model');
 const InsuranceDetail = require('../insurance/insuranceDetail.model');
+const Users = require('../user/user.model');
 
 const Appointments2 = sequelize.define('appointments2', {
   appointment_id: {
@@ -164,6 +165,7 @@ const Appointments2 = sequelize.define('appointments2', {
 }, { timestamps: false });
 
 Appointments2.belongsTo(Patient, { foreignKey: 'patient_id' });
+Appointments2.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
 // Patient.hasMany(Appointments2, { foreignKey: 'patient_id' });
 Appointments2.belongsTo(InsuranceDetail, { foreignKey: 'reference_account_id', targetKey: 'insurance_id' });
 
