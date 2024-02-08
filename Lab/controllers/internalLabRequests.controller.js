@@ -1,12 +1,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../db/connect');
+const sequelize = require('../../root/db/connect');
 // const Patient_details = require('../../models/patient/patients.models');
-const Procedure_detail = require('../../models/procedure/procedureDetails.model');
-const Users = require('../../models/user.model');
+const Procedure_detail = require('../../root/models/procedure/procedureDetails.model');
+const Users = require('../../root/models/user.model');
 // const Appointments = require('../../models/appointment/appointments.models');
-const Internal_lab_request2 = require('../../models/lab/internalLabRequests2.model');
+const Internal_lab_request2 = require('../../root/models/lab/internalLabRequests2.model');
 // const Appointments2 = require('../../models/appointment/appointments2.models');
 // const Patient = require('../../models/patient/patient2.models');
 

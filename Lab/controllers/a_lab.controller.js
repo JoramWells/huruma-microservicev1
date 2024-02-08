@@ -1,8 +1,8 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../db/connect');
-const A_lab = require('../../models/lab/aLab.models');
+const sequelize = require('../db/connect');
+const A_lab = require('../models/_lab/aLab.models');
 
 const addAlab = async (req, res, next) => {
   try {

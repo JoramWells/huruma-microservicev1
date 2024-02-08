@@ -2,10 +2,10 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 
-const Lab_tests_summary_section = require('../../models/lab/labTestsSummarySection.model');
-const Lab_tests_summary_sub_section = require('../../models/lab/labTestsSummarySubSection.model');
-const Procedure_detail = require('../../models/procedure/procedureDetails.model');
-const Procedure_item = require('../../models/procedure/procedureItems.model');
+const Lab_tests_summary_section = require('../models/_lab/labTestsSummarySection.model');
+const Lab_tests_summary_sub_section = require('../models/_lab/labTestsSummarySubSection.model');
+const Procedure_detail = require('../models/procedure/procedureDetails.model');
+const Procedure_item = require('../models/procedure/procedureItems.model');
 
 const addLabTestSummarySubSection = async (req, res, next) => {
   try {
