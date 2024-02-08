@@ -1,9 +1,10 @@
 /* eslint-disable import/no-unresolved */
 const express = require('express');
 const {
-  addLabTestSummarySubSection, getAllLabTestSummarySubSection,
-  getLabTestSummarySubSection, editLabTestSummarySubSection, deleteLabTestSummarySubSection,
-} = require('../controllers/lab/labTestsSummarySubSection.controller');
+ addLabTestSummarySubSection, getAllLabTestSummarySubSection,
+  getLabTestSummarySubSection, editLabTestSummarySubSection,
+  deleteLabTestSummarySubSection,
+} = require('../controllers/labTestsSummarySubSection.controller');
 
 const router = express.Router();
 

@@ -58,7 +58,6 @@ const serviceTypeRoutes = require('./routes/serviceType.routes');
 const personalAccountChargeRoutes = require('./routes/charges/personalAccountCharges.routes');
 const accountingSupplierRoutes = require('./routes/accountingSupplier.routes');
 const accountingItemRoutes = require('./routes/accountingItem.routes');
-const labTestSummarySubSectionRoutes = require('./routes/labTestSummarySubSection.routes');
 const payrollDeductionsRoutes = require('./routes/payroll/payrollDeductions.routes');
 const payrollEarningsRoutes = require('./routes/payroll/payrollEarnings.routes');
 const payrollEmployeeRecordsRoutes = require('./routes/payroll/payrollEmployeeRecords.routes');
@@ -68,8 +67,6 @@ const payrollPayTypeRoutes = require('./routes/payroll/payrollPayType.routes');
 const payrollEmployeeBenefitsFileRoutes = require('./routes/payroll/payrollEmployeeBenefitFile.routes');
 const payrollEmployeeDeductionsRoutes = require('./routes/payroll/payrollEmployeeDeductions.routes');
 const userPrivilegeDetailRoutes = require('./routes/userPrivilegeDetail.routes');
-const internalLabRequestRoutes = require('./routes/lab/internalLabRequest.routes');
-const aLabRoutes = require('./routes/lab/aLab.routes');
 const internalPharmacyRequestRoutes = require('./routes/pharmacy/internalPharmacyRequest.routes');
 
 const app = express();
@@ -141,7 +138,6 @@ app.use('/service-type', serviceTypeRoutes);
 app.use('/personal-account-charge', personalAccountChargeRoutes);
 app.use('/accounting-suppliers', accountingSupplierRoutes);
 app.use('/accounting-items', accountingItemRoutes);
-app.use('/lab-tests-summary-sub-section', labTestSummarySubSectionRoutes);
 app.use('/payroll-deductions', payrollDeductionsRoutes);
 app.use('/payroll-earnings', payrollEarningsRoutes);
 app.use('/payroll-employee-records', payrollEmployeeRecordsRoutes);
@@ -151,8 +147,6 @@ app.use('/payroll-pay-type', payrollPayTypeRoutes);
 app.use('/payroll-employee-benefits-file', payrollEmployeeBenefitsFileRoutes);
 app.use('/payroll-employee-deductions', payrollEmployeeDeductionsRoutes);
 app.use('/user-privilege-details', userPrivilegeDetailRoutes);
-app.use('/internal-lab-requests', internalLabRequestRoutes);
-app.use('/lab', aLabRoutes);
 app.use('/internal-pharmacy-request', internalPharmacyRequestRoutes);
 
 // app.use((err, req, res, next) => {
