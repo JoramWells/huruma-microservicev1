@@ -1,0 +1,125 @@
+/* eslint-disable consistent-return */
+/* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
+const { Sequelize } = require('sequelize');
+const sequelize = require('../../db/connect');
+const Inpatient_case_types = require('../../models/inpatientCaseTypes.model');
+const Admissions = require('../../models/admission/admission.model');
+const ward_bed = require('../../models/ward/wardBed.model');
+const Admissions2 = require('../../models/admission/admission2.model');
+// const Patient = require('../../../Patients/models/patient2.models');
+const Admission_category = require('../../models/admission/admissionCategory');
+
+// Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
+// Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
+
+const addAdmission = async (req, res, next) => {
+  console.log(req.body);
+  try {
+    const admission = Admissions2.create(req.body);
+    res.status(201).json(admission);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
+  }
+};
+
+const getAllAdmission = async (req, res, next) => {
+  try {
+    const admissions = await Admissions2.findAll({
+      order: [['admission_date', 'DESC']],
+      limit: 100,
+      include: [
+        // {
+        //   model: Patient,
+        //   attributes: ['first_name', 'middle_name'],
+        // },
+        {
+          model: ward_bed,
+          attributes: ['bed_number'],
+        },
+      ],
+    });
+    res.json(admissions);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
+  }
+};
+
+const getAdmissionDetail = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const admission = await Admissions2.findOne({
+      limit: 100,
+      where: {
+        admission_id: id,
+      },
+      include: [
+        // {
+        //   model: Patient,
+        //   attributes: ['first_name', 'middle_name'],
+
+        // },
+        {
+          model: Admission_category,
+          attributes: ['admission_category_description'],
+        },
+        {
+          model: Inpatient_case_types,
+          attributes: ['inpatient_case_type_description'],
+        },
+      ],
+    });
+    res.json(admission);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
+  }
+};
+
+const editAdmissionDetail = async (req, res, next) => {
+  const { id, firstName } = req.body;
+  try {
+    const user = await Admissions.findOne({
+      where: {
+        id,
+      },
+    });
+    user.firstName = firstName;
+    return user.save();
+  } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+const deleteAdmission = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const results = await Admissions.destroy({
+      where: {
+        admission_id: id,
+      },
+    });
+    if (results) {
+      return res.status(200).json({ message: 'User deleted successfully' });
+    }
+    return res.status(404).json({ message: 'User not found.' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+module.exports = {
+  addAdmission,
+  getAllAdmission,
+  getAdmissionDetail,
+  editAdmissionDetail,
+  deleteAdmission,
+};
