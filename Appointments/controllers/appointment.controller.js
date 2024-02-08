@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 // const { Kafka } = require('kafkajs');
 const sequelize = require('../db/connect');
-const Appointments2 = require('../models/appointment/appointments2.models');
+const Appointments2 = require('../models/_appointment/appointments2.models');
 // const Insurance_detail = require('../../root/models/insurance/insurance.model');
 const Patient = require('../models/patient/patients.model');
 const InsuranceDetail = require('../models/insurance/insuranceDetail.model');
