@@ -6,10 +6,12 @@ const sequelize = require('../../db/connect');
 // const Patient_details = require('../patient/patients.models');
 const Procedure_detail = require('../procedure/procedureDetails.model');
 const Users = require('../user/user.model');
+const Patient = require('../patient/patients.models');
+const Appointments2 = require('../appointment/appointments2.models');
 // const Appointments2 = require('../appointment/appointments2.models');
 // const Patient = require('../patient/patient2.models');
 
-const Internal_lab_request2 = sequelize.define('internal_lab_request2s', {
+const InternalLabRequests = sequelize.define('internal_lab_request2s', {
   lab_request_id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -49,11 +51,10 @@ const Internal_lab_request2 = sequelize.define('internal_lab_request2s', {
 
 });
 
-// Internal_lab_request2.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
-// Internal_lab_request2.belongsTo(Patient, { foreignKey: 'patient_id' });
-Internal_lab_request2.belongsTo(Procedure_detail, { foreignKey: 'procedure_id' });
-Procedure_detail.belongsTo(Internal_lab_request2, { foreignKey: 'procedure_id' });
-Internal_lab_request2.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
+InternalLabRequests.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
+InternalLabRequests.belongsTo(Patient, { foreignKey: 'patient_id' });
+InternalLabRequests.belongsTo(Procedure_detail, { foreignKey: 'procedure_id' });
+InternalLabRequests.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
 
 // sequelize.sync().then(() => {
 //   console.log('Book table created');
@@ -61,4 +62,4 @@ Internal_lab_request2.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'us
 //   console.error('Unable to create table :', error);
 // });
 
-module.exports = Internal_lab_request2;
+module.exports = InternalLabRequests;

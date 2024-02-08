@@ -1,18 +1,16 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../root/db/connect');
-// const Patient_details = require('../../models/patient/patients.models');
-const Procedure_detail = require('../../root/models/procedure/procedureDetails.model');
-const Users = require('../../root/models/user.model');
-// const Appointments = require('../../models/appointment/appointments.models');
-const Internal_lab_request2 = require('../../root/models/lab/internalLabRequests2.model');
-// const Appointments2 = require('../../models/appointment/appointments2.models');
-// const Patient = require('../../models/patient/patient2.models');
+const sequelize = require('../db/connect');
+const Procedure_detail = require('../models/procedure/procedureDetails.model');
+const Users = require('../models/user/user.model');
+const InternalLabRequests = require('../models/_lab/internalLabRequests2.model');
+const Patient = require('../models/patient/patients.models');
+const Appointments2 = require('../models/appointment/appointments2.models');
 
 const addInternalLabRequest = async (req, res, next) => {
   try {
-    const newAppointment = await Internal_lab_request2.create(req.body);
+    const newAppointment = await InternalLabRequests.create(req.body);
     res.json(newAppointment);
 
     next();
@@ -25,18 +23,22 @@ const addInternalLabRequest = async (req, res, next) => {
 // get all priceListItems
 const getAllInternalLabRequests = async (req, res, next) => {
   try {
-    const results = await Internal_lab_request2.findAll({
+    const results = await InternalLabRequests.findAll({
       limit: 100,
-      // include: [
-      //   {
-      //     model: Appointments2,
-      //     attributes: ['appointment_date'],
-      //   },
-      //   {
-      //     model: Patient,
-      //     attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
-      //   },
-      // ],
+      include: [
+        {
+          model: Appointments2,
+          attributes: ['appointment_date'],
+        },
+        {
+          model: Patient,
+          attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
+        },
+        {
+          model: Procedure_detail,
+          attributes: ['procedure_name', 'procedure_cost'],
+        },
+      ],
     });
     res.json(results);
     next();
@@ -50,7 +52,7 @@ const getAllInternalLabRequests = async (req, res, next) => {
 const getInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await Internal_lab_request2.findAll({
+    const result = await InternalLabRequests.findAll({
       where: {
         patient_id: id,
       },
@@ -85,7 +87,7 @@ const getInternalLabRequest = async (req, res, next) => {
 const editInternalLabRequest = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    Internal_lab_request2.findOne({
+    InternalLabRequests.findOne({
       where: {
         id,
       },
@@ -104,7 +106,7 @@ const editInternalLabRequest = async (req, res, next) => {
 const add = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    Internal_lab_request2.findOne({
+    InternalLabRequests.findOne({
       where: {
         id,
       },
@@ -120,7 +122,7 @@ const add = async (req, res, next) => {
 const deleteInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    Internal_lab_request2.destroy({
+    InternalLabRequests.destroy({
       where: {
         id,
       },

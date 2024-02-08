@@ -3,7 +3,7 @@ const express = require('express');
 const {
   addInternalLabRequest, getAllInternalLabRequests,
   getInternalLabRequest, editInternalLabRequest, deleteInternalLabRequest,
-} = require('../../controllers/lab/internalLabRequests.controller');
+} = require('../controllers/internalLabRequests.controller');
 
 const router = express.Router();
 
