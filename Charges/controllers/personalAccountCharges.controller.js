@@ -98,6 +98,12 @@ const getUserPersonalAccountCharge = async (req, res, next) => {
       where: {
         patient_id: id,
       },
+      include: [
+        {
+          model: Patient,
+          attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
+        },
+      ],
     });
     res.json(result);
     next();

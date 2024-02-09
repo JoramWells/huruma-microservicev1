@@ -7,6 +7,7 @@ const Users = require('../models/user/user.model');
 const InternalLabRequests = require('../models/_lab/internalLabRequests2.model');
 const Patient = require('../models/patient/patients.models');
 const Appointments2 = require('../models/appointment/appointments2.models');
+const InsuranceDetail = require('../models/insurance/insuranceDetail.model');
 
 const addInternalLabRequest = async (req, res, next) => {
   try {
@@ -29,6 +30,10 @@ const getAllInternalLabRequests = async (req, res, next) => {
         {
           model: Appointments2,
           attributes: ['appointment_date'],
+          include: [{
+            model: InsuranceDetail,
+            attributes: ['insurance_name'],
+          }],
         },
         {
           model: Patient,
@@ -52,19 +57,19 @@ const getAllInternalLabRequests = async (req, res, next) => {
 const getInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await InternalLabRequests.findAll({
+    const result = await InternalLabRequests.findOne({
       where: {
-        patient_id: id,
+        lab_request_id: id,
       },
       include: [
-        // {
-        //   model: Appointments2,
-        //   attributes: ['appointment_date', 'charges', 'appointment_time'],
-        // },
-        // {
-        //   model: Patient,
-        //   attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
-        // },
+        {
+          model: Appointments2,
+          attributes: ['appointment_date', 'charges', 'appointment_time'],
+        },
+        {
+          model: Patient,
+          attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
+        },
         {
           model: Procedure_detail,
           attributes: ['procedure_name', 'procedure_cost'],
