@@ -1,110 +1,48 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../db/connect');
+const Appointments2 = require('../_appointment/appointments2.models');
 
-const Patient_details = sequelize.define('patient_details', {
+const VitalSigns = sequelize.define('patient_details', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
     defaultValue: UUIDV4,
   },
   appointment_id: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
   },
-  out_patient_file_no: {
-    type: DataTypes.STRING,
+  temperature: {
+    type: DataTypes.INTEGER,
   },
-  first_name: {
-    type: DataTypes.STRING,
+  pulseRate: {
+    type: DataTypes.INTEGER,
   },
-  middle_name: {
-    type: DataTypes.STRING,
+  respiratoryRate: {
+    type: DataTypes.INTEGER,
   },
-  last_name: {
-    type: DataTypes.STRING,
+  systolic: {
+    type: DataTypes.INTEGER,
   },
-  patient_gender: {
-    type: DataTypes.STRING,
+  diastolic: {
+    type: DataTypes.INTEGER,
   },
-  dob: {
-    type: DataTypes.STRING,
+  weight: {
+    type: DataTypes.INTEGER,
   },
-  cell_phone: {
-    type: DataTypes.STRING,
+  height: {
+    type: DataTypes.INTEGER,
   },
-  nhif_no: {
-    type: DataTypes.STRING,
+  bmi: {
+    type: DataTypes.INTEGER,
   },
-  email: {
-    type: DataTypes.STRING,
+  sp02: {
+    type: DataTypes.INTEGER,
   },
-  next_of_kin: {
-    type: DataTypes.STRING,
-  },
-  nxt_of_kin_cell_phone: {
-    type: DataTypes.STRING,
-  },
-  hospital_id: {
-    type: DataTypes.STRING,
-  },
-  patient_type: {
-    type: DataTypes.STRING,
-  },
-  allergies: {
-    type: DataTypes.STRING,
-  },
-  existing_patient: {
-    type: DataTypes.STRING,
-  },
-  month_of_birth: {
-    type: DataTypes.STRING,
-  },
-  staff_number: {
-    type: DataTypes.STRING,
-  },
-  insurance_membership_number: {
-    type: DataTypes.STRING,
-  },
-  residence: {
-    type: DataTypes.STRING,
-  },
-  next_of_kin_name: {
-    type: DataTypes.STRING,
-  },
-  membership_enabled: {
-    type: DataTypes.STRING,
-  },
-  copay_payment_account_id: {
-    type: DataTypes.STRING,
-  },
-  company_id: {
-    type: DataTypes.STRING,
-  },
-  patient_category_id: {
-    type: DataTypes.STRING,
-  },
-  day_of_birth: {
-    type: DataTypes.STRING,
-  },
-  id_number: {
-    type: DataTypes.STRING,
-  },
-  highest_iops: {
-    type: DataTypes.STRING,
-  },
-  cct: {
-    type: DataTypes.STRING,
-  },
-  residence_id: {
-    type: DataTypes.STRING,
-  },
-  principal_member_name: {
-    type: DataTypes.STRING,
-  },
-  old_patient_file_no_inpatient: {
-    type: DataTypes.STRING,
-  },
+  
 });
+
+VitalSigns.belongsTo(Appointments2, { foreignKey:'appointment_id'})
 
 // sequelize.query('ALTER TABLE Patient_details ALTER COLUMN patient_id TYPE VARCHAR(255);')
 //   .then(() => {
@@ -113,4 +51,4 @@ const Patient_details = sequelize.define('patient_details', {
 //   .catch((error) => {
 //     console.error('Error modifying column data type:', error);
 //   });
-module.exports = Patient_details;
+module.exports = VitalSigns;
