@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../db/connect');
+const sequelize = require('../../db/connect');
 const Appointments2 = require('../_appointment/appointments2.models');
 
 const VitalSigns = sequelize.define('patient_details', {
@@ -10,6 +10,9 @@ const VitalSigns = sequelize.define('patient_details', {
     defaultValue: UUIDV4,
   },
   appointment_id: {
+    type: DataTypes.UUID,
+  },
+  patient: {
     type: DataTypes.UUID,
   },
   temperature: {
@@ -39,10 +42,10 @@ const VitalSigns = sequelize.define('patient_details', {
   sp02: {
     type: DataTypes.INTEGER,
   },
-  
+
 });
 
-VitalSigns.belongsTo(Appointments2, { foreignKey:'appointment_id'})
+VitalSigns.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
 
 // sequelize.query('ALTER TABLE Patient_details ALTER COLUMN patient_id TYPE VARCHAR(255);')
 //   .then(() => {
