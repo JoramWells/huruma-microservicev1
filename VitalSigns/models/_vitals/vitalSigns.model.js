@@ -2,8 +2,9 @@
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Appointments2 = require('../_appointment/appointments2.models');
+const Patient = require('../patient/patient2.models');
 
-const VitalSigns = sequelize.define('patient_details', {
+const VitalSigns = sequelize.define('vitalSigns', {
   id: {
     type: DataTypes.UUID,
     primaryKey: true,
@@ -12,7 +13,7 @@ const VitalSigns = sequelize.define('patient_details', {
   appointment_id: {
     type: DataTypes.UUID,
   },
-  patient: {
+  patient_id: {
     type: DataTypes.UUID,
   },
   temperature: {
@@ -46,12 +47,12 @@ const VitalSigns = sequelize.define('patient_details', {
 });
 
 VitalSigns.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
+VitalSigns.belongsTo(Patient, { foreignKey: 'patient_id' });
 
-// sequelize.query('ALTER TABLE Patient_details ALTER COLUMN patient_id TYPE VARCHAR(255);')
-//   .then(() => {
-//     console.log('Column data type modified successfully.');
-//   })
-//   .catch((error) => {
-//     console.error('Error modifying column data type:', error);
-//   });
+sequelize.sync().then(() => {
+  console.log('Vital Signs table created');
+}).catch((error) => {
+  console.error('Unable to create table :', error);
+});
+
 module.exports = VitalSigns;

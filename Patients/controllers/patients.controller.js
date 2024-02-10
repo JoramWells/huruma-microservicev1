@@ -3,16 +3,16 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const moment = require('moment/moment');
-const { Kafka } = require('kafkajs');
+// const { Kafka } = require('kafkajs');
 const sequelize = require('../db/connect');
 const Patient = require('../models/patient2.models');
 
-const kafka = new Kafka({
-  clientId: 'patient',
-  brokers: ['kafka-1:29092', 'kafka-2:39092'],
-});
+// const kafka = new Kafka({
+//   clientId: 'patient',
+//   brokers: ['kafka-1:29092', 'kafka-2:39092'],
+// });
 
-const producer = kafka.producer();
+// const producer = kafka.producer();
 
 // const Patient_details = require('../models/patients.models');
 // const Appointments2 = require('../../Appointments/models/appointments2.models');
@@ -59,8 +59,8 @@ const addPatients = async (req, res, next) => {
         newAppointment = await Appointments2.create({
           patient_id: newProfile?.patient_id,
           account_type_id: req.body.account_type_id,
-          appointment_date: moment(new Date()).format('MM-DD-YYYY'),
-          appointment_time: moment(new Date()).format('hh:mm:ss'),
+          appointment_date: moment().format('MM-DD-YYYY'),
+          appointment_time: moment().format('hh:mm:ss'),
           charges: cost,
           reference_account_id,
         });
@@ -70,8 +70,8 @@ const addPatients = async (req, res, next) => {
       newAppointment = await Appointments2.create({
         patient_id: newProfile?.patient_id,
         account_type_id: req.body.account_type_id,
-        appointment_date: moment(new Date()).format('MM-DD-YYYY'),
-        appointment_time: moment(new Date()).format('hh:mm:ss'),
+        appointment_date: moment().format('MM-DD-YYYY'),
+        appointment_time: moment().format('hh:mm:ss'),
         charges: 350,
         reference_account_id,
       });
