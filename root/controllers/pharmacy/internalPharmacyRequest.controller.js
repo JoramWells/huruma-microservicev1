@@ -7,10 +7,10 @@ const sequelize = require('../../db/connect');
 const Medication = require('../../models/medication/medication.model');
 // const Patient = require('../../models/patient/patient2.models');
 const Internal_pharmacy_request = require('../../models/pharmacy/internalPharmacyRequests.models');
-const Internal_pharmacy_request2 = require('../../models/pharmacy/internalPharmacyRequests.models2');
+const Internal_pharmacy_request2 = require('./models/_pharmacy/internalPharmacyRequests.models2');
 const Procedure_detail = require('../../models/procedure/procedureDetails.model');
 const Users = require('../../models/user.model');
-const Patient = require('./models/patient2.models');
+const Patient = require('./models/patient/patient2.models');
 
 const addInternalPharmacyRequest = async (req, res, next) => {
   try {

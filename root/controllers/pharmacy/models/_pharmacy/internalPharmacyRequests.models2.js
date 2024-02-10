@@ -6,7 +6,7 @@ const sequelize = require('../../db/connect');
 // const Patient_details = require('../patient/patients.models');
 const Procedure_detail = require('../procedure/procedureDetails.model');
 const Medication = require('../medication/medication.model');
-// const Patient = require('../patient/patient2.models');
+const Patient = require('../patient/patient2.models');
 // const Appointments2 = require('../appointment/appointments2.models');
 
 const Internal_pharmacy_request2 = sequelize.define('internal_pharmacy_request2s', {
@@ -84,7 +84,7 @@ const Internal_pharmacy_request2 = sequelize.define('internal_pharmacy_request2s
 //   console.error('Unable to create table :', error);
 // });
 
-// Internal_pharmacy_request2.belongsTo(Patient, { foreignKey: 'patient_id' });
+Internal_pharmacy_request2.belongsTo(Patient, { foreignKey: 'patient_id' });
 // Internal_pharmacy_request2.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
 Internal_pharmacy_request2.belongsTo(Medication, { foreignKey: 'medication_id' });
 
