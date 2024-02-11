@@ -9,7 +9,7 @@ const internalPharmacyRequestRoutes = require('./routes/internalPharmacyRequest.
 
 const app = express();
 
-const PORT = process.env.PORT || 5006;
+const PORT = process.env.PORT || 5007;
 const corsOption = {
     origin: ['*'],
 };

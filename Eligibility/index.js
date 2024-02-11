@@ -9,7 +9,7 @@ const eligibilityRoutes = require('./routes/eligibility.routes');
 
 const app = express();
 
-const PORT = process.env.PORT || 5007;
+const PORT = process.env.PORT || 5008;
 const corsOption = {
     origin: ['*'],
 };
