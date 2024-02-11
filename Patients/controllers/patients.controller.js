@@ -51,7 +51,6 @@ const addPatients = async (req, res, next) => {
           insurance_id: reference_account_id,
         },
       });
-      console.log(results, 'h');
 
       if (results?.cost) {
         const { cost } = results;
