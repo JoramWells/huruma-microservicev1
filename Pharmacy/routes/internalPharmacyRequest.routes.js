@@ -3,7 +3,7 @@ const express = require('express');
 const {
   addInternalPharmacyRequest, getAllInternalPharmacyRequests, getInternalPharmacyRequest,
   editInternalPharmacyRequest, deleteInternalPharmacyRequest,
-} = require('../../controllers/pharmacy/internalPharmacyRequest.controller');
+} = require('../../root/controllers/pharmacy/internalPharmacyRequest.controller');
 // const Appointment = require('../controllers/Appointment');
 
 const router = express.Router();
