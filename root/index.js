@@ -67,7 +67,6 @@ const payrollPayTypeRoutes = require('./routes/payroll/payrollPayType.routes');
 const payrollEmployeeBenefitsFileRoutes = require('./routes/payroll/payrollEmployeeBenefitFile.routes');
 const payrollEmployeeDeductionsRoutes = require('./routes/payroll/payrollEmployeeDeductions.routes');
 const userPrivilegeDetailRoutes = require('./routes/userPrivilegeDetail.routes');
-const internalPharmacyRequestRoutes = require('./routes/pharmacy/internalPharmacyRequest.routes');
 
 const app = express();
 
@@ -147,7 +146,6 @@ app.use('/payroll-pay-type', payrollPayTypeRoutes);
 app.use('/payroll-employee-benefits-file', payrollEmployeeBenefitsFileRoutes);
 app.use('/payroll-employee-deductions', payrollEmployeeDeductionsRoutes);
 app.use('/user-privilege-details', userPrivilegeDetailRoutes);
-app.use('/internal-pharmacy-request', internalPharmacyRequestRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

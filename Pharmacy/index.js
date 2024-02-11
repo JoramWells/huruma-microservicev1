@@ -5,11 +5,11 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./db/connect');
-const personalAccountChargeRoutes = require('./routes/personalAccountCharges.routes');
+const internalPharmacyRequestRoutes = require('./routes/internalPharmacyRequest.routes');
 
 const app = express();
 
-const PORT = process.env.PORT || 5004;
+const PORT = process.env.PORT || 5006;
 const corsOption = {
     origin: ['*'],
 };
@@ -22,7 +22,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/personal-account-charge', personalAccountChargeRoutes);
+app.use('/internal-pharmacy-request', internalPharmacyRequestRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
