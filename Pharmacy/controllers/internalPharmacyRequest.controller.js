@@ -2,14 +2,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const Sequelize = require('sequelize');
-const sequelize = require('../../db/connect');
+const sequelize = require('../db/connect');
 // const Appointments = require('../../models/appointment/appointments.models');
-const Medication = require('../../models/medication/medication.model');
+const Medication = require('../models/medication/medication.model');
 // const Patient = require('../../models/patient/patient2.models');
-const Internal_pharmacy_request = require('../../models/pharmacy/internalPharmacyRequests.models');
 const Internal_pharmacy_request2 = require('../models/_pharmacy/internalPharmacyRequests.models2');
-const Procedure_detail = require('../../models/procedure/procedureDetails.model');
-const Users = require('../../models/user.model');
+const Procedure_detail = require('../models/procedure/procedureDetails.model');
+const Users = require('../models/user/user.model');
 const Patient = require('../models/patient/patient2.models');
 
 const addInternalPharmacyRequest = async (req, res, next) => {
@@ -75,7 +74,7 @@ const getInternalPharmacyRequest = async (req, res, next) => {
 const editInternalPharmacyRequest = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    Internal_pharmacy_request.findOne({
+    Internal_pharmacy_request2.findOne({
       where: {
         id,
       },
@@ -94,7 +93,7 @@ const editInternalPharmacyRequest = async (req, res, next) => {
 const deleteInternalPharmacyRequest = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    Internal_pharmacy_request.destroy({
+    Internal_pharmacy_request2.destroy({
       where: {
         id,
       },
