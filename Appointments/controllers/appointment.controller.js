@@ -74,7 +74,7 @@ const getAllAppointments = async (req, res, next) => {
       include: [
         {
           model: Patient,
-          attributes: ['first_name', 'middle_name', 'last_name'],
+          attributes: ['first_name', 'middle_name', 'last_name', 'patient_gender'],
         },
         {
           model: InsuranceDetail,

@@ -54,10 +54,10 @@ const getInternalPharmacyRequest = async (req, res, next) => {
         patient_id: id,
       },
       include: [
-        // {
-        //   model: Patient,
-        //   attributes: ['first_name', 'middle_name', 'dob', 'patient_gender', 'patient_id'],
-        // },
+        {
+          model: Patient,
+          attributes: ['first_name', 'middle_name', 'dob', 'patient_gender', 'patient_id'],
+        },
         {
           model: Medication,
           attributes: ['medication_name'],

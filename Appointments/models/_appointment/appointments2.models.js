@@ -53,9 +53,6 @@ const Appointments2 = sequelize.define('appointments2', {
   admission_status: {
     type: DataTypes.STRING,
   },
-  vital_signs: {
-    type: DataTypes.STRING,
-  },
   patient_registration_charge: {
     type: DataTypes.INTEGER,
   },
@@ -63,51 +60,6 @@ const Appointments2 = sequelize.define('appointments2', {
     type: DataTypes.STRING,
   },
   patient_monitoring_notes: {
-    type: DataTypes.STRING,
-  },
-  temperature: {
-    type: DataTypes.STRING,
-  },
-  pulse_rate: {
-    type: DataTypes.STRING,
-  },
-  respiratory_rate: {
-    type: DataTypes.STRING,
-  },
-  systolic: {
-    type: DataTypes.STRING,
-  },
-  diastolic: {
-    type: DataTypes.STRING,
-  },
-  weight: {
-    type: DataTypes.STRING,
-  },
-  height: {
-    type: DataTypes.STRING,
-  },
-  body_mass_index: {
-    type: DataTypes.STRING,
-  },
-  temperature_2: {
-    type: DataTypes.STRING,
-  },
-  pulse_rate_2: {
-    type: DataTypes.STRING,
-  },
-  respiratory_rate_2: {
-    type: DataTypes.STRING,
-  },
-  systolic_2: {
-    type: DataTypes.STRING,
-  },
-  diastolic_2: {
-    type: DataTypes.STRING,
-  },
-  weight_2: {
-    type: DataTypes.STRING,
-  },
-  height_2: {
     type: DataTypes.STRING,
   },
   nhif_claim_number: {
@@ -118,9 +70,6 @@ const Appointments2 = sequelize.define('appointments2', {
   },
   consultation_group_id: {
     type: DataTypes.INTEGER,
-  },
-  sp02: {
-    type: DataTypes.STRING,
   },
   company_id: {
     type: DataTypes.INTEGER,
@@ -135,12 +84,6 @@ const Appointments2 = sequelize.define('appointments2', {
     type: DataTypes.INTEGER,
   },
   muac_for_infants: {
-    type: DataTypes.STRING,
-  },
-  weight_conclusion: {
-    type: DataTypes.STRING,
-  },
-  height_conclusion: {
     type: DataTypes.STRING,
   },
   clinic_id: {
