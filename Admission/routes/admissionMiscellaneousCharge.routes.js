@@ -6,7 +6,7 @@ const {
   getAllAdmissionMiscellaneousCharges,
   getAdmissionMiscellaneousChargesDetail,
   editAdmissionMiscellaneousCharges,
-} = require('../../controllers/admission/admissionMiscelleneousCharges.controller');
+} = require('../controllers/admissionMiscelleneousCharges.controller');
 
 const router = express.Router();
 

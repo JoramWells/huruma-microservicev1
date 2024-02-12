@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../root/db/connect');
-const Admissions_miscellaneous_charges = require('../models/admission/admissionMiscellaneousCharge.model');
+const sequelize = require('../db/connect');
+const Admissions_miscellaneous_charges = require('../models/_admission/admissionMiscellaneousCharge.model');
 
 const addAdmissionMiscellaneousCharges = async (req, res, next) => {
   sequelize.sync().then(() => {

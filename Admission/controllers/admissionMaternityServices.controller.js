@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../root/db/connect');
-const Admissions_maternity_services = require('../models/admission/admissionMaternityServices.model');
+const sequelize = require('../db/connect');
+const Admissions_maternity_services = require('../models/_admission/admissionMaternityServices.model');
 // const Patient_details = require('../../models/patient/patients.models');
 
 const addAdmissionMaternityServices = async (req, res, next) => {

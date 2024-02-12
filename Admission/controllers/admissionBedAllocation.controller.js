@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../root/db/connect');
-const Admissions_bed_allocation = require('../models/admission/admissionBedAllocation.model');
+const sequelize = require('../db/connect');
+const Admissions_bed_allocation = require('../models/_admission/admissionBedAllocation.model');
 
 const addAdmissionBedAllocation = async (req, res, next) => {
   sequelize.sync().then(() => {

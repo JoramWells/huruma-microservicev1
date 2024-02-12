@@ -3,7 +3,7 @@ const express = require('express');
 const {
   addAdmissionBedAllocation,
   getAllAdmissionBedAllocation, getAdmissionBedAllocation, editAdmissionBedAllocation,
-} = require('../../controllers/admission/admissionBedAllocation.controller');
+} = require('../controllers/admissionBedAllocation.controller');
 
 const router = express.Router();
 

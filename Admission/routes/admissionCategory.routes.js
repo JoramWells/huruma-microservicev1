@@ -3,7 +3,7 @@ const express = require('express');
 const {
   addAdmissionCategory, getAllAdmissionCategory,
   getAdmissionDetailCategory, editAdmissionDetailCategory,
-} = require('../../controllers/admission/admissionCategory.controller');
+} = require('../controllers/admissionCategory.controller');
 
 const router = express.Router();
 

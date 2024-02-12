@@ -5,7 +5,7 @@ const { Sequelize } = require('sequelize');
 const sequelize = require('../db/connect');
 const Inpatient_case_types = require('../models/inpatient/inpatientCaseTypes.model');
 const Admissions2 = require('../models/_admission/admission2.model');
-const ward_bed = require('../../root/models/ward/wardBed.model');
+// const ward_bed = require('../../root/models/ward/wardBed.model');
 // const Patient = require('../../../Patients/models/patient2.models');
 const Admission_category = require('../models/_admission/admissionCategory');
 
@@ -30,16 +30,16 @@ const getAllAdmission = async (req, res, next) => {
     const admissions = await Admissions2.findAll({
       order: [['admission_date', 'DESC']],
       limit: 100,
-      include: [
+      // include: [
         // {
         //   model: Patient,
         //   attributes: ['first_name', 'middle_name'],
         // },
-        {
-          model: ward_bed,
-          attributes: ['bed_number'],
-        },
-      ],
+        // {
+        //   model: ward_bed,
+        //   attributes: ['bed_number'],
+        // },
+      // ],
     });
     res.json(admissions);
     next();

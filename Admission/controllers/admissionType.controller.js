@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../root/db/connect');
-const Admission_types = require('../models/admission/admissionTypes.model');
+const sequelize = require('../db/connect');
+const Admission_types = require('../models/_admission/admissionTypes.model');
 
 const addAdmissionType = async (req, res, next) => {
   sequelize.sync().then(() => {

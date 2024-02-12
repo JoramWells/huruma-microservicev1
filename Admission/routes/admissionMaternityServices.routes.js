@@ -4,7 +4,7 @@ const express = require('express');
 const {
   addAdmissionMaternityServices, getAllAdmissionMaternityServices,
   getAdmissionMaternityServicesDetail, editAdmissionMaternityServices,
-} = require('../../controllers/admission/admissionMaternityServices.controller');
+} = require('../controllers/admissionMaternityServices.controller');
 
 const router = express.Router();
 
