@@ -11,7 +11,7 @@ const connect = new Sequelize(
   USERNAME,
   PASSWORD,
   {
-    host: 'motherangela_database_1',
+    host: 'huruma_database_1',
     dialect: 'postgres',
     logging: false,
     define: {
