@@ -22,7 +22,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/personal-account-charge', eligibilityRoutes);
+app.use('/eligibility', eligibilityRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

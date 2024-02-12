@@ -38,7 +38,7 @@ const getAllEligibility = async (req, res, next) => {
           include: [
             {
               model: Patient,
-              attributes: ['first_name'],
+              attributes: ['first_name', 'middle_name'],
             },
           ],
         },

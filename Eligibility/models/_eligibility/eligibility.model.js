@@ -21,6 +21,7 @@ const Eligibility = sequelize.define('eligibility', {
   },
   date: {
     type: DataTypes.DATE,
+    defaultValue: new Date('1998-02-09'),
   },
   result: {
     type: DataTypes.STRING,
@@ -38,10 +39,10 @@ const Eligibility = sequelize.define('eligibility', {
     type: DataTypes.STRING,
   },
   reason: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   tested: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
 
 });
@@ -50,7 +51,7 @@ Eligibility.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
 Eligibility.belongsTo(Patient, { foreignKey: 'patient_id' });
 
 sequelize.sync().then(() => {
-  console.log('Elligible table created');
+  console.log('Eligible Table create');
 }).catch((error) => {
   console.error('Unable to create table :', error);
 });
