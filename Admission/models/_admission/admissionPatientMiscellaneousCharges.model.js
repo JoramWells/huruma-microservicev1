@@ -9,7 +9,7 @@ const Admission_patient_miscellaneous_charges = sequelize
     admission_patient_miscellaneous_charge_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-
+   },
       admission_miscellaneous_charge_id:
        { type: DataTypes.INTEGER },
       appointment_id:
@@ -26,8 +26,6 @@ const Admission_patient_miscellaneous_charges = sequelize
         { types: DataTypes.INTEGER },
       admission_category_id:
         { type: DataTypes.INTEGER },
-
-    },
 
   });
 

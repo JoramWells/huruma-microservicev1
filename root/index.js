@@ -28,12 +28,7 @@ const supplierClassificationRoutes = require('./routes/supplierClassification.ro
 const procedureRoutes = require('./procedure.routes');
 const procedureGroupRoutes = require('./routes/procedureGroup.routes');
 // const patientRoutes = require('./routes/patient.routes');
-const doctorAdmissionBedRoutes = require('./routes/admission/admissionBedAllocation.routes');
-const admissionRoutes = require('./routes/admission/admission.routes');
-const admissionMaternityServices = require('./routes/admission/admissionMaternityServices.routes');
-const admissionMiscellaneousChargesRoutes = require('./routes/admission/admissionMiscellaneousCharge.routes');
-const admissionCategoryRoutes = require('./routes/admission/admissionCategory.routes');
-const admissionTypeRoutes = require('./routes/admission/admissionType.routes');
+
 const outPatientServicesCHRoutes = require('./routes/outpatientServicesChildHealth.routes');
 const inPatientCaseTypeRoutes = require('./routes/inPatientCaseTypes.routes');
 const accountTypeRoutes = require('./routes/accountType.routes');
@@ -107,12 +102,7 @@ app.use('/supplier-classification', supplierClassificationRoutes);
 app.use('/procedures', procedureRoutes);
 app.use('/procedure-group', procedureGroupRoutes);
 // app.use('/patient', patientRoutes);
-app.use('/bed-allocation', doctorAdmissionBedRoutes);
-app.use('/admission', admissionRoutes);
-app.use('/admission-category', admissionCategoryRoutes);
-app.use('/admission-type', admissionTypeRoutes);
-app.use('/adm-maternity-services', admissionMaternityServices);
-app.use('/adm-miscellaneous-charge', admissionMiscellaneousChargesRoutes);
+
 app.use('/out-patient-services-ch', outPatientServicesCHRoutes);
 app.use('/in-patient-case-type', inPatientCaseTypeRoutes);
 app.use('/account-type', accountTypeRoutes);

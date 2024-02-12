@@ -2,13 +2,12 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const { Sequelize } = require('sequelize');
-const sequelize = require('../../root/db/connect');
-const Inpatient_case_types = require('../../root/models/inpatientCaseTypes.model');
-const Admissions = require('../models/admission/admission.model');
+const sequelize = require('../db/connect');
+const Inpatient_case_types = require('../models/inpatient/inpatientCaseTypes.model');
+const Admissions2 = require('../models/_admission/admission2.model');
 const ward_bed = require('../../root/models/ward/wardBed.model');
-const Admissions2 = require('../models/admission/admission2.model');
 // const Patient = require('../../../Patients/models/patient2.models');
-const Admission_category = require('../models/admission/admissionCategory');
+const Admission_category = require('../models/_admission/admissionCategory');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
@@ -87,7 +86,7 @@ const getAdmissionDetail = async (req, res, next) => {
 const editAdmissionDetail = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const user = await Admissions.findOne({
+    const user = await Admissions2.findOne({
       where: {
         id,
       },
@@ -102,7 +101,7 @@ const editAdmissionDetail = async (req, res, next) => {
 const deleteAdmission = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Admissions.destroy({
+    const results = await Admissions2.destroy({
       where: {
         admission_id: id,
       },
