@@ -2,10 +2,10 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
+const AdmissionCategory = require('./admissionCategory');
+const Patient = require('../patient/patients.model');
 // const Inpatient_case_types = require('../inpatientCaseTypes.model');
 // const ward_bed = require('../ward/wardBed.model');
-// const Patient = require('../../../Patients/models/patient2.models');
-// const Admission_category = require('./admissionCategory');
 
 const Admissions2 = sequelize.define('admissions2', {
   admission_id: {
@@ -127,8 +127,8 @@ const Admissions2 = sequelize.define('admissions2', {
 });
 
 // Admissions2.belongsTo(ward_bed, { foreignKey: 'bed_id' });
-// Admissions2.belongsTo(Patient, { foreignKey: 'patient_id' });
-// Admissions2.belongsTo(Admission_category, { foreignKey: 'admission_category_id' });
+Admissions2.belongsTo(Patient, { foreignKey: 'patient_id' });
+Admissions2.belongsTo(AdmissionCategory, { foreignKey: 'admission_category_id' });
 // Admissions2.belongsTo(Inpatient_case_types, { foreignKey: 'inpatient_case_type_id' });
 
 // sequelize.sync().then(() => {

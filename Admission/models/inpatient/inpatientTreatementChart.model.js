@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db/connect');
+const sequelize = require('../../db/connect');
 
 const Inpatient_treatement_chart = sequelize.define('inpatient_treatement_charts', {
   insurance_id: {

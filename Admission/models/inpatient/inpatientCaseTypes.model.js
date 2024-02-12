@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db/connect');
+const sequelize = require('../../db/connect');
 
 const Inpatient_case_types = sequelize
   .define('inpatient_case_type', {

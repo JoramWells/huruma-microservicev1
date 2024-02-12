@@ -3,7 +3,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const Admission_category = sequelize.define('admission_categories', {
+const AdmissionCategory = sequelize.define('admission_categories', {
   admission_category_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -13,4 +13,4 @@ const Admission_category = sequelize.define('admission_categories', {
   },
 });
 
-module.exports = Admission_category;
+module.exports = AdmissionCategory;
