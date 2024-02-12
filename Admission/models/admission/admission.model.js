@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../db/connect');
+const sequelize = require('../../../root/db/connect');
 // const Inpatient_case_types = require('../inpatientCaseTypes.model');
 // const Patient_details = require('../../../Patients/models/patient2.models');
 // const ward_bed = require('../ward/wardBed.model');

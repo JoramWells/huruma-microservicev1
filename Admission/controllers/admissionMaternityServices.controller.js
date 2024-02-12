@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../db/connect');
-const Admissions_bed_allocation = require('../../models/admission/admissionBedAllocation.model');
+const sequelize = require('../../root/db/connect');
+const Admissions_maternity_services = require('../models/admission/admissionMaternityServices.model');
+// const Patient_details = require('../../models/patient/patients.models');
 
-const addAdmissionBedAllocation = async (req, res, next) => {
+const addAdmissionMaternityServices = async (req, res, next) => {
   sequelize.sync().then(() => {
-    Admissions_bed_allocation.create(req.body)
+    Admissions_maternity_services.create(req.body)
       .then((response) => {
         res.json(response.data);
         next();
@@ -15,10 +16,18 @@ const addAdmissionBedAllocation = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllAdmissionBedAllocation = async (req, res, next) => {
+const getAllAdmissionMaternityServices = async (req, res, next) => {
   try {
     await sequelize.sync().then(() => {
-      Admissions_bed_allocation.findAll({ limit: 100 })
+      Admissions_maternity_services.findAll({
+        limit: 100,
+        // include: [
+        //   {
+        //     model: Patient_details,
+        //     attributes: ['first_name'],
+        //   },
+        // ],
+      })
         .then((response) => {
           // console.log(response);
           res.status(200).json(response);
@@ -27,17 +36,19 @@ const getAllAdmissionBedAllocation = async (req, res, next) => {
         })
         .catch((error) => {
           next(error);
+          console.log(error);
         });
     });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
 
-const getAdmissionBedAllocation = async (req, res, next) => {
+const getAdmissionMaternityServicesDetail = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    Admissions_bed_allocation.findOne({
+    Admissions_maternity_services.findOne({
       where: {
         id,
       },
@@ -47,10 +58,10 @@ const getAdmissionBedAllocation = async (req, res, next) => {
   });
 };
 
-const editAdmissionBedAllocation = async (req, res, next) => {
+const editAdmissionMaternityServices = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    Admissions_bed_allocation.findOne({
+    Admissions_maternity_services.findOne({
       where: {
         id,
       },
@@ -64,10 +75,10 @@ const editAdmissionBedAllocation = async (req, res, next) => {
   });
 };
 
-const deleteAdmissionBedAllocation = async (req, res, next) => {
+const deleteAdmissionMaternityServices = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    Admissions_bed_allocation.destroy({
+    Admissions_maternity_services.destroy({
       where: {
         id,
       },
@@ -79,9 +90,9 @@ const deleteAdmissionBedAllocation = async (req, res, next) => {
 };
 
 module.exports = {
-  addAdmissionBedAllocation,
-  getAllAdmissionBedAllocation,
-  getAdmissionBedAllocation,
-  editAdmissionBedAllocation,
-  deleteAdmissionBedAllocation,
+  addAdmissionMaternityServices,
+  getAllAdmissionMaternityServices,
+  getAdmissionMaternityServicesDetail,
+  editAdmissionMaternityServices,
+  deleteAdmissionMaternityServices,
 };

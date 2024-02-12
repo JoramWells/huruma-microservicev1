@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../db/connect');
-const Admission_category = require('../../models/admission/admissionCategory');
+const sequelize = require('../../root/db/connect');
+const Admission_category = require('../models/admission/admissionCategory');
 
 const addAdmissionCategory = async (req, res, next) => {
   try {

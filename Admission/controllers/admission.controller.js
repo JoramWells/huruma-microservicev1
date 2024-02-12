@@ -2,13 +2,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const { Sequelize } = require('sequelize');
-const sequelize = require('../../db/connect');
-const Inpatient_case_types = require('../../models/inpatientCaseTypes.model');
-const Admissions = require('../../models/admission/admission.model');
-const ward_bed = require('../../models/ward/wardBed.model');
-const Admissions2 = require('../../models/admission/admission2.model');
+const sequelize = require('../../root/db/connect');
+const Inpatient_case_types = require('../../root/models/inpatientCaseTypes.model');
+const Admissions = require('../models/admission/admission.model');
+const ward_bed = require('../../root/models/ward/wardBed.model');
+const Admissions2 = require('../models/admission/admission2.model');
 // const Patient = require('../../../Patients/models/patient2.models');
-const Admission_category = require('../../models/admission/admissionCategory');
+const Admission_category = require('../models/admission/admissionCategory');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });

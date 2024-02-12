@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../db/connect');
-const Admission_types = require('../../models/admission/admissionTypes.model');
+const sequelize = require('../../root/db/connect');
+const Admissions_miscellaneous_charges = require('../models/admission/admissionMiscellaneousCharge.model');
 
-const addAdmissionType = async (req, res, next) => {
+const addAdmissionMiscellaneousCharges = async (req, res, next) => {
   sequelize.sync().then(() => {
-    Admission_types.create(req.body)
+    Admissions_miscellaneous_charges.create(req.body)
       .then((response) => {
         res.json(response.data);
         next();
@@ -14,12 +14,13 @@ const addAdmissionType = async (req, res, next) => {
   });
 };
 
-const getAllAdmissionType = async (req, res, next) => {
+// get all priceListItems
+const getAllAdmissionMiscellaneousCharges = async (req, res, next) => {
   try {
     await sequelize.sync().then(() => {
-      Admission_types.findAll()
+      Admissions_miscellaneous_charges.findAll({ limit: 100 })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           res.status(200).json(response);
           // res.sendStatus(200)
           next();
@@ -35,12 +36,12 @@ const getAllAdmissionType = async (req, res, next) => {
   }
 };
 
-const getAdmissionDetailType = async (req, res, next) => {
+const getAdmissionMiscellaneousChargesDetail = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    Admission_types.findOne({
+    Admissions_miscellaneous_charges.findOne({
       where: {
-        admission_type_id: id,
+        id,
       },
     }).then((response) => {
       res.json(response);
@@ -48,10 +49,10 @@ const getAdmissionDetailType = async (req, res, next) => {
   });
 };
 
-const editAdmissionDetailCategory = async (req, res, next) => {
+const editAdmissionMiscellaneousCharges = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    Admission_types.findOne({
+    Admissions_miscellaneous_charges.findOne({
       where: {
         id,
       },
@@ -65,10 +66,10 @@ const editAdmissionDetailCategory = async (req, res, next) => {
   });
 };
 
-const deleteAdmissionCategory = async (req, res, next) => {
+const deleteAdmissionMiscellaneousCharges = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    Admission_types.destroy({
+    Admissions_miscellaneous_charges.destroy({
       where: {
         id,
       },
@@ -80,9 +81,9 @@ const deleteAdmissionCategory = async (req, res, next) => {
 };
 
 module.exports = {
-  addAdmissionType,
-  getAllAdmissionType,
-  getAdmissionDetailType,
-  editAdmissionDetailCategory,
-  deleteAdmissionCategory,
+  addAdmissionMiscellaneousCharges,
+  getAllAdmissionMiscellaneousCharges,
+  getAdmissionMiscellaneousChargesDetail,
+  editAdmissionMiscellaneousCharges,
+  deleteAdmissionMiscellaneousCharges,
 };
