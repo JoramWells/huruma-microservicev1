@@ -9,6 +9,6 @@ RUN yarn install
 
 COPY . .
 
-EXPOSE 5004
+EXPOSE 5009
 
 CMD [ "yarn", "start"]

@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 const { Sequelize } = require('sequelize');
 const sequelize = require('../db/connect');
-const Inpatient_case_types = require('../models/inpatientCaseTypes.model');
+const Inpatient_case_types = require('../models/inpatient/inpatientCaseTypes.model');
 
 const addInPatientCaseType = async (req, res, next) => {
   sequelize.sync().then(() => {
