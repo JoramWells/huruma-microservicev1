@@ -22,10 +22,10 @@ const Procedure_detail = sequelize.define('procedure_details', {
   },
   hospital_id: {
     type: DataTypes.INTEGER,
-    references: {
-      model: 'hospital_details',
-      key: 'hospital_id',
-    },
+    // references: {
+    //   model: 'hospital_details',
+    //   key: 'hospital_id',
+    // },
   },
   procedure_cost_corporate: {
     type: DataTypes.STRING,

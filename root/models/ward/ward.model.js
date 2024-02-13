@@ -7,7 +7,6 @@ const Wards = sequelize.define('wards', {
     primaryKey: true,
     // defaultValue: UUIDV4,
     autoIncrement: true,
-    defaultValue: 2,
   },
   wardType: {
     type: DataTypes.STRING,

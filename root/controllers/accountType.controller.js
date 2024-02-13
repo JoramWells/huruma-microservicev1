@@ -8,14 +8,15 @@ const Account_type = require('../models/accountTypes.model');
 // Account_type.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
 
 const addAccountType = async (req, res, next) => {
-  sequelize.sync().then(() => {
-    Account_type.create(req.body)
-      .then((response) => {
-        res.json(response.data);
-        next();
-      })
-      .catch((error) => console.error(error));
-  });
+try {
+  const results = await Account_type.create(req.body)
+  res.json(results)
+  next()
+
+} catch (error) {
+  next(error)
+  console.log(error)
+}      
 };
 
 const getAllAccountTypes = async (req, res, next) => {

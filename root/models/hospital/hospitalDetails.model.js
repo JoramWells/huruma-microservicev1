@@ -78,11 +78,11 @@ const Hospital_detail = sequelize.define('hospital_details', {
   },
 });
 
-// sequelize.sync().then(() => {
-//   console.log('Book table created');
-// }).catch((error) => {
-//   console.error('Unable to create table :', error);
-// });
+sequelize.sync().then(() => {
+  console.log('Book table created');
+}).catch((error) => {
+  console.error('Unable to create table :', error);
+});
 
 // Sequelize migration script
 // async (queryInterface, Sequelize) => {

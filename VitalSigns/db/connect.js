@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 
 const DB = 'huruma2';
 const USERNAME = 'postgres';
-const PASSWORD = 'postgres';
+const PASSWORD = 'root';
 
 const connect = new Sequelize(
   DB,
@@ -22,5 +22,7 @@ const connect = new Sequelize(
   },
 
 );
+
+
 
 module.exports = connect;
