@@ -56,10 +56,10 @@ InternalLabRequests.belongsTo(Patient, { foreignKey: 'patient_id' });
 InternalLabRequests.belongsTo(Procedure_detail, { foreignKey: 'procedure_id' });
 InternalLabRequests.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
 
-// sequelize.sync().then(() => {
-//   console.log('Book table created');
-// }).catch((error) => {
-//   console.error('Unable to create table :', error);
-// });
+sequelize.sync().then(() => {
+  console.log('Lab table created');
+}).catch((error) => {
+  console.error('Unable to create table :', error);
+});
 
 module.exports = InternalLabRequests;

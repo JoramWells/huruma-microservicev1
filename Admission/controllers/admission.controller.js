@@ -5,9 +5,10 @@ const { Sequelize } = require('sequelize');
 const sequelize = require('../db/connect');
 const Inpatient_case_types = require('../models/inpatient/inpatientCaseTypes.model');
 const Admissions2 = require('../models/_admission/admission2.model');
-// const ward_bed = require('../../root/models/ward/wardBed.model');
-// const Patient = require('../../../Patients/models/patient2.models');
+const WardBed = require('../models/ward/wardBed.model')
+const Patient = require('../models/patient/patients.model');
 const Admission_category = require('../models/_admission/admissionCategory');
+const Wards = require('../models/ward/ward.model');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
@@ -30,16 +31,20 @@ const getAllAdmission = async (req, res, next) => {
     const admissions = await Admissions2.findAll({
       order: [['admission_date', 'DESC']],
       limit: 100,
-      // include: [
-        // {
-        //   model: Patient,
-        //   attributes: ['first_name', 'middle_name'],
-        // },
-        // {
-        //   model: ward_bed,
-        //   attributes: ['bed_number'],
-        // },
-      // ],
+      include: [
+        {
+          model: Patient,
+          attributes: ['first_name', 'middle_name'],
+        },
+        {
+          model: WardBed,
+          attributes: ['bed_number'],
+        },
+        {
+          model: Wards,
+          attributes: ['ward_description']
+        }
+      ],
     });
     res.json(admissions);
     next();

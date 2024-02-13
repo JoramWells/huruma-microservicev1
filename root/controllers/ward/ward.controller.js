@@ -19,23 +19,17 @@ const addWard = async (req, res, next) => {
 
 // get all pricelists
 const getAllWards = async (req, res, next) => {
-  await sequelize.sync().then(() => {
-    Wards.findAll({
-      limit: 100,
-      include: [
-        {
-          model: Wards,
-        },
-      ],
-    })
-      .then((response) => {
-        // console.log(response);
-        res.json(response);
-        // res.sendStatus(200)
-        next();
-      })
-      .catch((error) => console.error('Unable to retrieve data: ', error));
-  });
+  try {
+    const results = await Wards.findAll()
+    res.json(results)
+    // console.log(response);
+    // res.sendStatus(200)
+    next();
+  } catch (error) {
+    console.log(error)
+    next(error)
+
+  }
 };
 
 const getWardById = async (req, res, next) => {
