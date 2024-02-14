@@ -77,11 +77,11 @@ const Procedure_detail = sequelize.define('procedure_details', {
   },
 });
 
-sequelize.sync().then(() => {
-  console.log('Procedure details table created');
-}).catch((error) => {
-  console.error('Unable to create table :', error);
-});
+// sequelize.sync().then(() => {
+//   console.log('Procedure details table created');
+// }).catch((error) => {
+//   console.error('Unable to create table :', error);
+// });
 
 // // Sequelize migration script
 // async (queryInterface, Sequelize) => {

@@ -28,10 +28,10 @@ const InternalLabRequests = sequelize.define('internal_lab_request2s', {
   },
   procedure_id: {
     type: DataTypes.INTEGER,
-    references: {
-      model: 'procedure_details',
-      key: 'procedure_id',
-    },
+    // references: {
+    //   model: 'procedure_details',
+    //   key: 'procedure_id',
+    // },
   },
   status: {
     type: DataTypes.INTEGER,
@@ -47,6 +47,78 @@ const InternalLabRequests = sequelize.define('internal_lab_request2s', {
   },
   results: {
     type: DataTypes.STRING,
+  },
+  user_id:{
+    type:DataTypes.INTEGER
+  },
+  service_type_id:{
+    type:DataTypes.INTEGER
+  },
+  quantity: {
+    type: DataTypes.INTEGER
+  },
+  request_reference: {
+    type: DataTypes.STRING
+  },
+  microscopy: {
+    type: DataTypes.STRING
+  },
+  flag: {
+    type: DataTypes.STRING
+  },
+  specimen_type_id: {
+    type: DataTypes.INTEGER
+  },
+  date_of_request: {
+    type: DataTypes.DATE
+  },
+  time_of_request: {
+    type: DataTypes.STRING
+  },
+  requests_posting_locked: {
+    type: DataTypes.STRING
+  },
+  notes: {
+    type: DataTypes.STRING
+  },
+  results_status_id: {
+    type: DataTypes.INTEGER
+  },
+  urgent: {
+    type: DataTypes.STRING
+  },
+  date_of_results: {
+    type: DataTypes.DATE
+  },
+  time_of_results: {
+    type: DataTypes.STRING
+  },
+  is_referral: {
+    type: DataTypes.STRING
+  },
+  referral_supplier_id: {
+    type: DataTypes.INTEGER
+  },
+  procedure_performed: {
+    type: DataTypes.STRING
+  },
+  operation_category_id: {
+    type: DataTypes.INTEGER
+  },
+  operation_sub_category_id: {
+    type: DataTypes.INTEGER
+  },
+  specimen_referral_type_id: {
+    type: DataTypes.INTEGER
+  },
+  hiv_service_id: {
+    type: DataTypes.INTEGER
+  },
+  procedure_performed_by: {
+    type: DataTypes.INTEGER
+  },
+  is_exclusion: {
+    type: DataTypes.STRING
   },
 
 });

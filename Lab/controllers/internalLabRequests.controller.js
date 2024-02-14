@@ -57,7 +57,7 @@ const getAllInternalLabRequests = async (req, res, next) => {
 const getInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await InternalLabRequests.findOne({
+    const result = await InternalLabRequests.findAll({
       where: {
         lab_request_id: id,
       },
