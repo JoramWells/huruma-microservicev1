@@ -4,7 +4,7 @@ const { getAllPriceListItems } = require('../controllers/priceListItems.controll
 
 const router = express.Router();
 
-router.get('/get-all-price-list-items', getAllPriceListItems);
+router.get('/fetchAll', getAllPriceListItems);
 router.get('/pricelist-detail/:id', getPriceListById);
 router.put('/edit-pricelist', editPriceList);
 

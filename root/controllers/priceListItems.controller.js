@@ -37,17 +37,13 @@ const addPriceListItem = async (req, res, next) => {
 // get all priceListItems
 const getAllPriceListItems = async (req, res, next) => {
   try {
-    await sequelize.sync().then(() => {
-      PriceListsItems.findAll({ limit: 100 })
-        .then((response) => {
+     const results = await PriceListsItems.findAll();
           // console.log(response);
-          res.status(200).json(response);
+      res.status(200).json(results);
           // res.sendStatus(200)
-          next();
-        })
-        .catch((error) => next(error));
-    });
+      next();
   } catch (error) {
+    console.log(error)
     next(error);
   }
 };
