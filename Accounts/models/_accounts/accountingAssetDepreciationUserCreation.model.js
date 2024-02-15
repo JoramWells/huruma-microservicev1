@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Users = require('../user/user.model');
 
 const AccountingAssetDepreciationUserCreations = sequelize.define('accounting_asset_depreciation_user_creations', {
   asset_depreciation_user_creation_id: {
@@ -9,7 +10,7 @@ const AccountingAssetDepreciationUserCreations = sequelize.define('accounting_as
     primaryKey: true,
   },
   user_id: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
   },
   date_of_journal: {
     type: DataTypes.DATE,
@@ -22,6 +23,8 @@ const AccountingAssetDepreciationUserCreations = sequelize.define('accounting_as
   },
 });
 
+
+AccountingAssetDepreciationUserCreations.belongsTo(Users,{foreignKey:'user_id'})
 
 module.exports = AccountingAssetDepreciationUserCreations;
 
