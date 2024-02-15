@@ -2,6 +2,9 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const AccountingAssetCategory = require('./accountingAssetCategory.model');
+const AccountingAssetLocation = require('./accountingAssetLocation.model');
+const AccountingAssetStatus = require('./accountingAssetStatus.model');
 
 const AccountingAssets = sequelize.define('accounting_assets', {
   asset_id: {
@@ -75,6 +78,10 @@ const AccountingAssets = sequelize.define('accounting_assets', {
     type: DataTypes.DATE,
   },
 });
+
+AccountingAssets.belongsTo(AccountingAssetCategory, { foreignKey: 'asset_category_id' })
+AccountingAssets.belongsTo(AccountingAssetLocation, { foreignKey: 'asset_location_id' })
+AccountingAssets.belongsTo(AccountingAssetStatus, { foreignKey: 'asset_status_id' })
 
 module.exports = AccountingAssets;
 
