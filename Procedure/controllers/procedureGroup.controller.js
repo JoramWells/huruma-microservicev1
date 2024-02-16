@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const sequelize = require('../db/connect');
-const ProcedureGroup = require('../../models/procedure/procedureGroup.model');
+const ProcedureGroup = require('../models/_procedure/procedureGroup.model');
 
 const addProcedureGroup = async (req, res, next) => {
   sequelize.sync().then(() => {

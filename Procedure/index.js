@@ -8,7 +8,7 @@ const sequelize = require('./db/connect');
 const procedureGroupRoutes = require('./routes/procedureGroup.routes');
 const procedureDetailsRoutes = require('./routes/procedureDetails.routes');
 const procedureItemsRoutes = require('./routes/procedureItems.routes');
-const procedureRoutes = require('../routes/procedure.routes');
+const procedureRoutes = require('./routes/procedure.routes');
 
 
 const app = express();
@@ -26,6 +26,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
+app.use('/procedure', procedureRoutes);
 app.use('/procedure-group', procedureGroupRoutes);
 app.use('/procedure-details', procedureDetailsRoutes);
 app.use('/procedure-items', procedureItemsRoutes);

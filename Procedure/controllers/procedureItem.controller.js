@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const sequelize = require('../db/connect');
-const Procedure_item = require('../../models/procedure/procedureItems.model');
+const Procedure_item = require('../models/_procedure/procedureItems.model');
 
 const addProcedureItem = async (req, res, next) => {
   // create user
