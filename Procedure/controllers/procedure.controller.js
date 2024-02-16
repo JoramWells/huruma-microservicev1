@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const sequelize = require('../db/connect');
-const Procedures = require('../../models/procedure/procedure.model');
+const Procedures = require('../models/_procedure/procedure.model');
 
 const addProcedures = async (req, res, next) => {
   sequelize.sync().then(() => {
