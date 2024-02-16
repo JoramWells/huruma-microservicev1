@@ -8,6 +8,7 @@ const sequelize = require('./db/connect');
 const accountTypeRoutes = require('./routes/accountType.routes');
 const accountingSupplierRoutes = require('./routes/accountingSupplier.routes');
 const accountingItemRoutes = require('./routes/accountingItem.routes');
+const accountingCostCentre = require('./routes/accountingCostCentre.routes')
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(cors());
 app.use('/account-type', accountTypeRoutes);
 app.use('/accounting-suppliers', accountingSupplierRoutes);
 app.use('/accounting-items', accountingItemRoutes);
+app.use('/cost-centre', accountingCostCentre);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
