@@ -1,8 +1,6 @@
 const express = require('express');
+const { addProcedures, getAllProcedures, getProcedureDetail, editProcedure } = require('../controllers/procedure.controller');
 
-const {
-  addProcedures, getAllProcedures, getProcedureDetail, editProcedure,
-} = require('./controllers/procedure/procedure.controller');
 
 const router = express.Router();
 

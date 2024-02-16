@@ -1,9 +1,6 @@
 /* eslint-disable import/no-unresolved */
 const express = require('express');
-const {
-  addProcedureItem, getAllProcedureItem, getProcedureItemById,
-  editProcedureItem, deleteProcedureItem,
-} = require('../../root/controllers/procedure/procedureItem.controller');
+const { addProcedureItem, getAllProcedureItem, getProcedureItemById, editProcedureItem, deleteProcedureItem } = require('../controllers/procedureItem.controller');
 
 const router = express.Router();
 

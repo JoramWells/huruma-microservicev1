@@ -1,9 +1,6 @@
 /* eslint-disable import/no-unresolved */
 const express = require('express');
-const {
-  addProcedureDetail, getAllProcedureDetails,
-  getProcedureDetailsById, editProcedureDetail, deleteProcedureDetail,
-} = require('../../root/controllers/procedure/procedureDetails.controller');
+const { addProcedureDetail, getAllProcedureDetails, getProcedureDetailsById, editProcedureDetail, deleteProcedureDetail } = require('../controllers/procedureDetails.controller');
 
 const router = express.Router();
 

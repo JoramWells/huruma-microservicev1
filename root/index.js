@@ -25,7 +25,6 @@ const itemRoutes = require('./routes/item.routes');
 const radiologyRoutes = require('./routes/radiology.routes');
 const supplierRoutes = require('./routes/supplier.routes');
 const supplierClassificationRoutes = require('./routes/supplierClassification.routes');
-const procedureRoutes = require('./procedure.routes');
 // const patientRoutes = require('./routes/patient.routes');
 
 const outPatientServicesCHRoutes = require('./routes/outpatientServicesChildHealth.routes');
@@ -96,7 +95,6 @@ app.use('/items', itemRoutes);
 app.use('/radiology', radiologyRoutes);
 app.use('/suppliers', supplierRoutes);
 app.use('/supplier-classification', supplierClassificationRoutes);
-app.use('/procedures', procedureRoutes);
 // app.use('/patient', patientRoutes);
 
 app.use('/out-patient-services-ch', outPatientServicesCHRoutes);

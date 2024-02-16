@@ -1,8 +1,5 @@
 const express = require('express');
-
-const {
-  addProcedureGroup, getAllProcedureGroup, getProcedureGroupDetail, editProcedureGroup,
-} = require('../../root/controllers/procedure/procedureGroup.controller');
+const { addProcedureGroup, getAllProcedureGroup, getProcedureGroupDetail, editProcedureGroup } = require('../controllers/procedureGroup.controller');
 
 const router = express.Router();
 

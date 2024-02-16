@@ -8,6 +8,8 @@ const sequelize = require('./db/connect');
 const procedureGroupRoutes = require('./routes/procedureGroup.routes');
 const procedureDetailsRoutes = require('./routes/procedureDetails.routes');
 const procedureItemsRoutes = require('./routes/procedureItems.routes');
+const procedureRoutes = require('../routes/procedure.routes');
+
 
 const app = express();
 
