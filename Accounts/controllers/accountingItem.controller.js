@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 
-const Accounting_item = require('../models/accountingItems.model');
+const Accounting_item = require('../models/_accounts/accountingItems.model');
 
 const addAccountingItem = async (req, res, next) => {
   try {

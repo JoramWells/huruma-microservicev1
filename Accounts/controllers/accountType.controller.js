@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const { Sequelize } = require('sequelize');
-const sequelize = require('../../root/db/connect');
-const Account_type = require('../../root/models/accountTypes.model');
+const sequelize = require('../db/connect');
+const Account_type = require('../models/_accounts/accountTypes.model');
 
 // Account_type.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Account_type.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });

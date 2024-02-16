@@ -5,13 +5,13 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./db/connect');
-const accountTypeRoutes = require('../Accounts/routes/accountType.routes');
-const accountingSupplierRoutes = require('../Accounts/routes/accountingSupplier.routes');
-const accountingItemRoutes = require('../Accounts/routes/accountingItem.routes');
+const accountTypeRoutes = require('./routes/accountType.routes');
+const accountingSupplierRoutes = require('./routes/accountingSupplier.routes');
+const accountingItemRoutes = require('./routes/accountingItem.routes');
 
 const app = express();
 
-const PORT = process.env.PORT || 5009;
+const PORT = process.env.PORT || 5010;
 const corsOption = {
     origin: ['*'],
 };
