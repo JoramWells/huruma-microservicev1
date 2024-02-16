@@ -4,24 +4,21 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const AccountingAccountDetails = require('./accountingAccountDetails.model');
 
-const AccountingBanksReconciliationClosingBalance = sequelize.define('accounting_banks_reconciliation_closing_balances', {
-  closing_balance_id: {
+const AccountingCostCentres = sequelize.define('accounting_cost_centres', {
+  cost_centre_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
-  account_id: {
+  cost_centre_description: {
     type: DataTypes.INTEGER,
   },
-  date_of_closing: {
-    type: DataTypes.DATE,
-  },
-  amount: {
+  department_id: {
     type: DataTypes.INTEGER,
   },
 });
 
-AccountingBanksReconciliationClosingBalance.belongsTo(AccountingAccountDetails,{foreignKey:'account_id'})
+AccountingCostCentres.belongsTo(AccountingAccountDetails,{foreignKey:'account_id'})
 
-module.exports = AccountingBanksReconciliationClosingBalance;
+module.exports = AccountingCostCentres;
 
 // has no classification and status
