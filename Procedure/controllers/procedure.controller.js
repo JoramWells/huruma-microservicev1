@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../db/connect');
+const sequelize = require('../db/connect');
 const Procedures = require('../../models/procedure/procedure.model');
 
 const addProcedures = async (req, res, next) => {

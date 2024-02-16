@@ -2,7 +2,7 @@ const express = require('express');
 
 const {
   addProcedureGroup, getAllProcedureGroup, getProcedureGroupDetail, editProcedureGroup,
-} = require('../controllers/procedure/procedureGroup.controller');
+} = require('../../root/controllers/procedure/procedureGroup.controller');
 
 const router = express.Router();
 

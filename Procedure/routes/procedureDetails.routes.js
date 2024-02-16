@@ -3,7 +3,7 @@ const express = require('express');
 const {
   addProcedureDetail, getAllProcedureDetails,
   getProcedureDetailsById, editProcedureDetail, deleteProcedureDetail,
-} = require('../controllers/procedure/procedureDetails.controller');
+} = require('../../root/controllers/procedure/procedureDetails.controller');
 
 const router = express.Router();
 

@@ -2,17 +2,14 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const sequelize = require('../db/connect');
-const Procedure_detail = require('../models/procedure/procedureDetails.model');
-const Users = require('../models/user/user.model');
-const InternalLabRequests = require('../models/_lab/internalLabRequests2.model');
-const Patient = require('../models/patient/patients.models');
-const Appointments2 = require('../models/appointment/appointments2.models');
-const InsuranceDetail = require('../models/insurance/insuranceDetail.model');
+const SpecimenTypes = require('../models/_lab/specimenTypes.model');
+
+
 
 const addSpecimenType = async (req, res, next) => {
   try {
-    const newAppointment = await InternalLabRequests.create(req.body);
-    res.json(newAppointment);
+    const results = await SpecimenTypes.create(req.body);
+    res.json(results);
 
     next();
   } catch (error) {
@@ -24,7 +21,7 @@ const addSpecimenType = async (req, res, next) => {
 // get all priceListItems
 const getAllSpecimenTypes = async (req, res, next) => {
   try {
-    const results = await InternalLabRequests.findAll({});
+    const results = await SpecimenTypes.findAll({});
     res.json(results);
     next();
   } catch (error) {
@@ -37,7 +34,7 @@ const getAllSpecimenTypes = async (req, res, next) => {
 const getSpecimenTypeDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await InternalLabRequests.findAll({
+    const result = await SpecimenTypes.findAll({
       where: {
         lab_request_id: id,
       },
@@ -54,7 +51,7 @@ const getSpecimenTypeDetail = async (req, res, next) => {
 const editSpecimenType = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    InternalLabRequests.findOne({
+    SpecimenTypes.findOne({
       where: {
         id,
       },
@@ -71,7 +68,7 @@ const editSpecimenType = async (req, res, next) => {
 const deleteSpecimenType = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    InternalLabRequests.destroy({
+    SpecimenTypes.destroy({
       where: {
         id,
       },

@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../db/connect');
+const sequelize = require('../../../root/db/connect');
 
 const Procedures = sequelize.define('procedures', {
   procedureName: {

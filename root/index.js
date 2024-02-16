@@ -26,7 +26,6 @@ const radiologyRoutes = require('./routes/radiology.routes');
 const supplierRoutes = require('./routes/supplier.routes');
 const supplierClassificationRoutes = require('./routes/supplierClassification.routes');
 const procedureRoutes = require('./procedure.routes');
-const procedureGroupRoutes = require('./routes/procedureGroup.routes');
 // const patientRoutes = require('./routes/patient.routes');
 
 const outPatientServicesCHRoutes = require('./routes/outpatientServicesChildHealth.routes');
@@ -35,8 +34,7 @@ const hospitalStoreRoutes = require('./routes/hospitalStore.routes');
 const maternityAntenatalProfileRoutes = require('./routes/maternityAntenatalProfile.routes');
 const maternityProfileRoutes = require('./routes/maternityProfile.routes');
 const wardTypeRoutes = require('./routes/ward/wardType.routes');
-const procedureDetailsRoutes = require('./routes/procedureDetails.routes');
-const procedureItemsRoutes = require('./routes/procedureItems.routes');
+
 const diseaseRoutes = require('./routes/disease.routes');
 const diseaseMinistryRoutes = require('./routes/diseaseMinistry.routes');
 const creditPaymentRoutes = require('./routes/creditPayment.routes');
@@ -99,7 +97,6 @@ app.use('/radiology', radiologyRoutes);
 app.use('/suppliers', supplierRoutes);
 app.use('/supplier-classification', supplierClassificationRoutes);
 app.use('/procedures', procedureRoutes);
-app.use('/procedure-group', procedureGroupRoutes);
 // app.use('/patient', patientRoutes);
 
 app.use('/out-patient-services-ch', outPatientServicesCHRoutes);
@@ -108,8 +105,6 @@ app.use('/hospital-store', hospitalStoreRoutes);
 app.use('/maternity-antenatal-profile', maternityAntenatalProfileRoutes);
 app.use('/maternity-profile', maternityProfileRoutes);
 app.use('/ward-types', wardTypeRoutes);
-app.use('/procedure-details', procedureDetailsRoutes);
-app.use('/procedure-items', procedureItemsRoutes);
 app.use('/disease', diseaseRoutes);
 app.use('/disease-ministry', diseaseMinistryRoutes);
 app.use('/credit-payment', creditPaymentRoutes);

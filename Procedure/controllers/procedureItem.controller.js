@@ -1,34 +1,35 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../../db/connect');
-const Procedure_detail = require('../../models/procedure/procedureDetails.model');
+const sequelize = require('../db/connect');
+const Procedure_item = require('../../models/procedure/procedureItems.model');
 
-const addProcedureDetail = async (req, res, next) => {
+const addProcedureItem = async (req, res, next) => {
   // create user
   try {
-    const procedure = await Procedure_detail.create(req.body);
+    const procedure = await Procedure_item.create(req.body);
     res.status(201).json(procedure);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-const getAllProcedureDetails = async (req, res, next) => {
+const getAllProcedureItem = async (req, res, next) => {
   try {
-    const procedures = await Procedure_detail.findAll();
+    const procedures = await Procedure_item.findAll();
     res.json(procedures);
     next();
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
     next(error);
   }
 };
 
-const getProcedureDetailsById = async (req, res, next) => {
+const getProcedureItemById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const procedure = await Procedure_detail.findOne({
+    const procedure = await Procedure_item.findOne({
       where: {
         procedure_id: id,
       },
@@ -39,10 +40,10 @@ const getProcedureDetailsById = async (req, res, next) => {
   }
 };
 
-const editProcedureDetail = async (req, res, next) => {
+const editProcedureItem = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const procedure = await Procedure_detail.findOne({
+    const procedure = await Procedure_item.findOne({
       where: {
         id,
       },
@@ -54,11 +55,11 @@ const editProcedureDetail = async (req, res, next) => {
   }
 };
 
-const deleteProcedureDetail = async (req, res, next) => {
+const deleteProcedureItem = async (req, res, next) => {
   const procedureId = req.params.id;
 
   try {
-    const results = await Procedure_detail.destroy({
+    const results = await Procedure_item.destroy({
       where: {
         id: procedureId,
       },
@@ -74,9 +75,9 @@ const deleteProcedureDetail = async (req, res, next) => {
 };
 
 module.exports = {
-  addProcedureDetail,
-  getAllProcedureDetails,
-  getProcedureDetailsById,
-  editProcedureDetail,
-  deleteProcedureDetail,
+  addProcedureItem,
+  getAllProcedureItem,
+  getProcedureItemById,
+  editProcedureItem,
+  deleteProcedureItem,
 };
