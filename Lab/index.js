@@ -8,6 +8,7 @@ const sequelize = require('./db/connect');
 const internalLabRequestRoutes = require('./routes/internalLabRequest.routes');
 const aLabRoutes = require('./routes/aLab.routes');
 const labTestSummarySubSectionRoutes = require('./routes/labTestSummarySubSection.routes');
+const specimenTypeRoutes = require('./routes/specimenType.routes');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(cors());
 app.use('/internal-lab-requests', internalLabRequestRoutes);
 app.use('/lab', aLabRoutes);
 app.use('/lab-tests-summary-sub-section', labTestSummarySubSectionRoutes);
+app.use('/specimen-type', specimenTypeRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;
