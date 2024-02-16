@@ -5,12 +5,9 @@ const express = require('express');
 const cors = require('cors');
 
 const sequelize = require('./db/connect');
-const doctorAdmissionBedRoutes = require('./routes/admissionBedAllocation.routes');
-const admissionRoutes = require('./routes/admission.routes');
-const admissionMaternityServices = require('./routes/admissionMaternityServices.routes');
-const admissionMiscellaneousChargesRoutes = require('./routes/admissionMiscellaneousCharge.routes');
-const admissionCategoryRoutes = require('./routes/admissionCategory.routes');
-const admissionTypeRoutes = require('./routes/admissionType.routes');
+const accountTypeRoutes = require('../Accounts/routes/accountType.routes');
+const accountingSupplierRoutes = require('../Accounts/routes/accountingSupplier.routes');
+const accountingItemRoutes = require('../Accounts/routes/accountingItem.routes');
 
 const app = express();
 
@@ -27,12 +24,9 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/bed-allocation', doctorAdmissionBedRoutes);
-app.use('/admission', admissionRoutes);
-app.use('/admission-category', admissionCategoryRoutes);
-app.use('/admission-type', admissionTypeRoutes);
-app.use('/adm-maternity-services', admissionMaternityServices);
-app.use('/adm-miscellaneous-charge', admissionMiscellaneousChargesRoutes);
+app.use('/account-type', accountTypeRoutes);
+app.use('/accounting-suppliers', accountingSupplierRoutes);
+app.use('/accounting-items', accountingItemRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

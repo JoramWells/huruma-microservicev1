@@ -31,7 +31,6 @@ const procedureGroupRoutes = require('./routes/procedureGroup.routes');
 
 const outPatientServicesCHRoutes = require('./routes/outpatientServicesChildHealth.routes');
 const inPatientCaseTypeRoutes = require('./routes/inPatientCaseTypes.routes');
-const accountTypeRoutes = require('./routes/accountType.routes');
 const hospitalStoreRoutes = require('./routes/hospitalStore.routes');
 const maternityAntenatalProfileRoutes = require('./routes/maternityAntenatalProfile.routes');
 const maternityProfileRoutes = require('./routes/maternityProfile.routes');
@@ -51,8 +50,6 @@ const insuranceMedicationMapping = require('./routes/insurance/insuranceMedicati
 const insuranceServiceCostMapping = require('./routes/insurance/insuranceServiceCostMapping.routes');
 const serviceTypeRoutes = require('./routes/serviceType.routes');
 const personalAccountChargeRoutes = require('./routes/charges/personalAccountCharges.routes');
-const accountingSupplierRoutes = require('./routes/accountingSupplier.routes');
-const accountingItemRoutes = require('./routes/accountingItem.routes');
 const payrollDeductionsRoutes = require('./routes/payroll/payrollDeductions.routes');
 const payrollEarningsRoutes = require('./routes/payroll/payrollEarnings.routes');
 const payrollEmployeeRecordsRoutes = require('./routes/payroll/payrollEmployeeRecords.routes');
@@ -74,6 +71,7 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true,
 }));
+
 
 
 // enable cors
@@ -106,7 +104,6 @@ app.use('/procedure-group', procedureGroupRoutes);
 
 app.use('/out-patient-services-ch', outPatientServicesCHRoutes);
 app.use('/in-patient-case-type', inPatientCaseTypeRoutes);
-app.use('/account-type', accountTypeRoutes);
 app.use('/hospital-store', hospitalStoreRoutes);
 app.use('/maternity-antenatal-profile', maternityAntenatalProfileRoutes);
 app.use('/maternity-profile', maternityProfileRoutes);
@@ -126,8 +123,6 @@ app.use('/insurance-medication-mapping', insuranceMedicationMapping);
 app.use('/insurance-service-cost-mapping', insuranceServiceCostMapping);
 app.use('/service-type', serviceTypeRoutes);
 app.use('/personal-account-charge', personalAccountChargeRoutes);
-app.use('/accounting-suppliers', accountingSupplierRoutes);
-app.use('/accounting-items', accountingItemRoutes);
 app.use('/payroll-deductions', payrollDeductionsRoutes);
 app.use('/payroll-earnings', payrollEarningsRoutes);
 app.use('/payroll-employee-records', payrollEmployeeRecordsRoutes);
