@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
-const AccountingAccountDetails = require('./accountingAccountDetails.model');
+const AccountingDepartment = require('./accountingDepartment.model');
 
 const AccountingCostCentres = sequelize.define('accounting_cost_centres', {
   cost_centre_id: {
@@ -10,14 +10,14 @@ const AccountingCostCentres = sequelize.define('accounting_cost_centres', {
     primaryKey: true,
   },
   cost_centre_description: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   department_id: {
     type: DataTypes.INTEGER,
   },
 });
 
-AccountingCostCentres.belongsTo(AccountingAccountDetails,{foreignKey:'account_id'})
+AccountingCostCentres.belongsTo(AccountingDepartment,{foreignKey:'department_id'})
 
 module.exports = AccountingCostCentres;
 
