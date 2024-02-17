@@ -2,7 +2,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Insurance_detail = require('./insurance.model');
-const Service_type = require('../serviceTypes.model');
+// const Service_type = require('../servics/serviceTypes.model');
 
 const Insurance_service_cost_mapping = sequelize.define('insurance_service_cost_mappings', {
   service_cost_mapping_id: {
@@ -49,6 +49,6 @@ const Insurance_service_cost_mapping = sequelize.define('insurance_service_cost_
 
 Insurance_service_cost_mapping.belongsTo(Insurance_detail, { foreignKey: 'insurance_id' });
 Insurance_detail.hasMany(Insurance_service_cost_mapping, { foreignKey: 'insurance_id' });
-Insurance_service_cost_mapping.belongsTo(Service_type, { foreignKey: 'service_type_id' });
+// Insurance_service_cost_mapping.belongsTo(Service_type, { foreignKey: 'service_type_id' });
 
 module.exports = Insurance_service_cost_mapping;

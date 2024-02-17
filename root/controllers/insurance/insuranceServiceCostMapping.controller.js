@@ -4,7 +4,7 @@
 
 const Insurance_detail = require('../../models/insurance/insurance.model');
 const Insurance_service_cost_mapping = require('../../models/insurance/insuranceServiceMapping.model');
-const Service_type = require('../../models/serviceTypes.model');
+// const Service_type = require('../../models/servics/serviceTypes.model');
 
 const addInsuranceServiceCostMapping = async (req, res, next) => {
   try {
@@ -24,10 +24,10 @@ const getAllInsuranceServiceCostMapping = async (req, res, next) => {
           model: Insurance_detail,
           attributes: ['insurance_name'],
         },
-        {
-          model: Service_type,
-          attributes: ['service_type_description'],
-        },
+        // {
+        //   model: Service_type,
+        //   attributes: ['service_type_description'],
+        // },
       ],
     });
     res.json(results);
