@@ -11,6 +11,7 @@ const accountingItemRoutes = require('./routes/accountingItem.routes');
 const accountingCostCentre = require('./routes/accountingCostCentre.routes')
 const accountingStore = require('./routes/accountingStore.routes')
 const accountingDepartment = require('./routes/accountingDepartment.routes')
+const accountingJournal = require('./routes/accountingJournal.routes')
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/account-type', accountTypeRoutes);
 app.use('/accounting-suppliers', accountingSupplierRoutes);
 app.use('/accounting-department', accountingDepartment);
 app.use('/accounting-items', accountingItemRoutes);
+app.use('/accounting-journal', accountingJournal);
 app.use('/cost-centre', accountingCostCentre);
 app.use('/stores', accountingStore);
 

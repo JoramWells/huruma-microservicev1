@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const AccountingAccountDetails = require('./accountingAccountDetails.model');
 
 const AccountingJournal = sequelize.define('accounting_journal', {
   journal_id: {
@@ -69,6 +70,9 @@ const AccountingJournal = sequelize.define('accounting_journal', {
     type: DataTypes.STRING,
   },
 });
+
+AccountingJournal.belongsTo(AccountingAccountDetails,{foreignKey:'account_id'})
+
 module.exports = AccountingJournal;
 
 // has no classification and status
