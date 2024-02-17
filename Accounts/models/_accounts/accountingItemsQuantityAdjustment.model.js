@@ -3,51 +3,45 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const Accounting_item = sequelize.define('accounting_items', {
-  item_id: {
+const AccountingItemsQuantityAdjustment = sequelize.define('accounting_items_quantities_adjustment', {
+  adjustment_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
-  item_code: {
+  date_of_adjustment: {
     type: DataTypes.STRING,
   },
-  item_description: {
+  time_of_adjustment: {
     type: DataTypes.STRING,
   },
-  item_category_id: {
+  store_id: {
     type: DataTypes.INTEGER,
   },
-  measuring_unit_id: {
+  item_id: {
     type: DataTypes.INTEGER,
   },
-  buying_price: {
+  current_quantity: {
     type: DataTypes.INTEGER,
   },
-  selling_price: {
+  correct_quantity: {
     type: DataTypes.INTEGER,
   },
-  reorder_level: {
+  quantity_of_adjustment: {
     type: DataTypes.INTEGER,
   },
-  item_type_id: {
+  reference: {
+    type: DataTypes.STRING,
+  },
+  user_id: {
     type: DataTypes.INTEGER,
   },
-  parent_item_id: {
+  unit_price: {
     type: DataTypes.INTEGER,
   },
-  stock_or_expense_account_id: {
-    type: DataTypes.INTEGER,
-  },
-  income_account_id: {
-    type: DataTypes.INTEGER,
-  },
-  stock_account_id: {
-    type: DataTypes.INTEGER,
-  },
-  item_brand_id: {
+  reason_for_adjustment: {
     type: DataTypes.INTEGER,
   },
 });
-module.exports = Accounting_item;
+module.exports = AccountingItemsQuantityAdjustment;
 
 // has no classification and status
