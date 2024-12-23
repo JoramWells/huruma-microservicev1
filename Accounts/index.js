@@ -15,7 +15,7 @@ const accountingJournal = require('./routes/accountingJournal.routes')
 
 const app = express();
 
-const PORT = process.env.PORT || 5010;
+const PORT = process.env.PORT || 5013;
 const corsOption = {
     origin: ['*'],
 };
