@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Procedure_detail = require('./procedureDetails.model');
 
-const Procedure_item = sequelize.define('procedure_items', {
+const ProcedureItem = sequelize.define('procedure_items', {
   procedure_item_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -49,6 +50,18 @@ const Procedure_item = sequelize.define('procedure_items', {
   allow_numerical_input_only: {
     type: DataTypes.STRING,
   },
+  // created_at: {
+  //   type: DataTypes.DATE,
+  //   allowNull: false,
+  //   defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  // },
+  // updated_at: {
+  //   type: DataTypes.DATE,
+  //   allowNull: false,
+  //   defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+  // },
 });
 
-module.exports = Procedure_item;
+ProcedureItem.belongsTo(Procedure_detail, { foreignKey: 'procedure_id' });
+
+module.exports = ProcedureItem;

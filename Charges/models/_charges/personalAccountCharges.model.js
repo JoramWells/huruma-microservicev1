@@ -1,11 +1,14 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Patient_details = require('../patient/patients.models');
 
 const Personal_account_charge = sequelize.define('personal_account_charges', {
   personal_account_charge_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    unique:true,
+    autoIncrement:true
   },
   charge_no: {
     type: DataTypes.STRING,
@@ -83,5 +86,7 @@ const Personal_account_charge = sequelize.define('personal_account_charges', {
     type: DataTypes.STRING,
   },
 }, { timestamps: false });
+
+Personal_account_charge.belongsTo(Patient_details, {foreignKey:'patient_id_pac', targetKey:'patient_id'})
 
 module.exports = Personal_account_charge;

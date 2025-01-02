@@ -3,9 +3,12 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const moment = require('moment/moment');
+const express = require('express');
+
+const http = require('http');
+const { Server } = require('socket.io');
 // const { Kafka } = require('kafkajs');
 const sequelize = require('../db/connect');
-const Patient = require('../models/patient2.models');
 
 // const kafka = new Kafka({
 //   clientId: 'patient',
@@ -18,6 +21,18 @@ const Patient = require('../models/patient2.models');
 // const Appointments2 = require('../../Appointments/models/appointments2.models');
 const InsuranceServiceCostMapping = require('../models/insurance/insuranceServiceCostMapping.model');
 const Appointments2 = require('../models/appointment/appointments.model');
+const Patient_details = require('../models/patients.models');
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on('connection', (socket) => { console.log('Connected to patient client'); });
+
+// connect
+// io.on('connection', (socket) => {
+//   console.log('A client connected');
+// });
 
 // using *Patients model
 const addPatients = async (req, res, next) => {
@@ -28,7 +43,7 @@ const addPatients = async (req, res, next) => {
     // the reference account_id is the id of the insurance-service-cost-mapping
     const reference_account_id = insuranceAccount?.value;
 
-    console.log(reference_account_id);
+    console.log(req.body);
     // await producer.send({
     //   topic: 'register-patient',
     //   messages: [
@@ -41,7 +56,7 @@ const addPatients = async (req, res, next) => {
     // await producer.disconnect();
 
     // create a new user profile
-    const newProfile = await Patient.create(req.body);
+    const newProfile = await Patient_details.create(req.body);
     let newAppointment = {};
 
     // // Check if user has a corporate. results = null, charges = 0
@@ -55,21 +70,22 @@ const addPatients = async (req, res, next) => {
       if (results?.cost) {
         const { cost } = results;
 
-        newAppointment = await Appointments2.create({
+        newAppointment = await Appointments2.afterCreate({
           patient_id: newProfile?.patient_id,
           account_type_id: req.body.account_type_id,
-          appointment_date: moment().format('MM-DD-YYYY'),
+          appointment_date: moment().format('YYYY-MM-DD'),
           appointment_time: moment().format('hh:mm:ss'),
           charges: cost,
           reference_account_id,
         });
+        io.emit('newAppointment');
       }
     } else {
       // // Create ew Appointment. Initial amount 350 for new patient
-      newAppointment = await Appointments2.create({
+      newAppointment = await Appointments2.afterCreate({
         patient_id: newProfile?.patient_id,
         account_type_id: req.body.account_type_id,
-        appointment_date: moment().format('MM-DD-YYYY'),
+        appointment_date: moment().format('YYYY-MM-DD'),
         appointment_time: moment().format('hh:mm:ss'),
         charges: 350,
         reference_account_id,
@@ -92,10 +108,11 @@ const addPatients = async (req, res, next) => {
 // get all priceListItems
 const getAllPatients = async (req, res, next) => {
   try {
-    const patients = await Patient.findAll({ limit: 100 });
+    const patients = await Patient_details.findAll({ limit: 100 });
     res.json(patients);
     next();
   } catch (error) {
+    console.log(error);
     res.sendStatus(500).json({ error: 'Internal Server error' });
     next(error);
   }
@@ -104,7 +121,7 @@ const getAllPatients = async (req, res, next) => {
 const getPatientDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const patient = await Patient.findOne({
+    const patient = await Patient_details.findOne({
       where: {
         patient_id: id,
       },
@@ -124,7 +141,7 @@ const editPatient = async (req, res, next) => {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const editPAtient = await Patient.findOne({
+    const editPAtient = await Patient_details.findOne({
       where: {
         patient_id: id,
       },
@@ -146,7 +163,7 @@ const editPatient = async (req, res, next) => {
 const deletePatient = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const results = await Patient.destroy({
+    const results = await Patient_details.destroy({
       where: {
         patient_id: id,
       },

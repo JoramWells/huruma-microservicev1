@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const sequelize = require('../db/connect');
+const Procedure_detail = require('../models/_procedure/procedureDetails.model');
 const Procedure_item = require('../models/_procedure/procedureItems.model');
 
 const addProcedureItem = async (req, res, next) => {
@@ -16,7 +17,15 @@ const addProcedureItem = async (req, res, next) => {
 
 const getAllProcedureItem = async (req, res, next) => {
   try {
-    const procedures = await Procedure_item.findAll();
+    const procedures = await Procedure_item.findAll({
+      // order: [['updated_at', 'DESC']],
+      include: [
+        {
+          model: Procedure_detail,
+          attributes: ['procedure_name'],
+        },
+      ],
+    });
     res.json(procedures);
     next();
   } catch (error) {
@@ -29,28 +38,54 @@ const getAllProcedureItem = async (req, res, next) => {
 const getProcedureItemById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const procedure = await Procedure_item.findOne({
-      where: {
-        procedure_id: id,
-      },
-    });
-    res.json(procedure);
+    if (id !== 'null') {
+      const procedure = await Procedure_item.findOne({
+        where: {
+          procedure_item_id: id,
+        },
+        include: [
+          {
+            model: Procedure_detail,
+            attributes: ['procedure_id', 'procedure_name'],
+          },
+        ],
+      });
+      res.json(procedure);
+    } else {
+      res.json();
+    }
+    next();
   } catch (error) {
     res.status(404).json(error.message);
   }
 };
 
 const editProcedureItem = async (req, res, next) => {
-  const { id, firstName } = req.body;
+  const { id } = req.params;
+  const {
+    procedure_id,
+    procedure_item_description,
+    normal_values,
+    normal_values_start,
+    normal_values_end,
+  } = req.body;
   try {
     const procedure = await Procedure_item.findOne({
       where: {
-        id,
+        procedure_item_id: id,
       },
     });
-    procedure.firstName = firstName;
-    return procedure.save();
+    procedure.procedure_id = procedure_id;
+    procedure.procedure_item_description = procedure_item_description;
+    procedure.normal_values = normal_values;
+    procedure.normal_values_start = normal_values_start;
+    procedure.normal_values_end = normal_values_end;
+    procedure.save();
+    res.json(procedure);
+    next();
   } catch (error) {
+    console.log(error);
+    next(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

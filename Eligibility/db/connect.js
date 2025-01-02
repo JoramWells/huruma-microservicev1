@@ -4,14 +4,14 @@ const Sequelize = require('sequelize');
 
 const DB = 'huruma2';
 const USERNAME = 'postgres';
-const PASSWORD = 'postgres';
+const PASSWORD = 'root';
 
 const connect = new Sequelize(
   DB,
   USERNAME,
   PASSWORD,
   {
-    host: 'database',
+    host: 'huruma_database_1',
     dialect: 'postgres',
     logging: false,
     define: {

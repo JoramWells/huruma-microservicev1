@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Appointments2 = require('../appointment/appointments2.models');
-const Patient = require('../patient/patient2.models');
+const Appointments = require('../appointment/appointments2.models');
+const Patient_details = require('../patient/patient2.models');
 
 const Eligibility = sequelize.define('eligibility', {
   id: {
@@ -11,10 +11,10 @@ const Eligibility = sequelize.define('eligibility', {
     defaultValue: UUIDV4,
   },
   appointment_id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
   },
   patient_id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
   },
   isTested: {
     type: DataTypes.STRING,
@@ -47,8 +47,9 @@ const Eligibility = sequelize.define('eligibility', {
 
 });
 
-Eligibility.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
-Eligibility.belongsTo(Patient, { foreignKey: 'patient_id' });
+Eligibility.belongsTo(Appointments, { foreignKey: 'appointment_id' });
+Appointments.hasMany(Eligibility,{foreignKey:'appointment_id'})
+Eligibility.belongsTo(Patient_details, { foreignKey: 'patient_id' });
 
 sequelize.sync().then(() => {
   console.log('Eligible Table create');

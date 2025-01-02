@@ -6,6 +6,7 @@ const Patient_details = sequelize.define('patient_details', {
   patient_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement:true
     // defaultValue: UUIDV4,
   },
   in_patient_file_no: {

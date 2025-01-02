@@ -4,10 +4,13 @@
 const sequelize = require('../db/connect');
 const Procedure_detail = require('../models/procedure/procedureDetails.model');
 const Users = require('../models/user/user.model');
-const InternalLabRequests = require('../models/_lab/internalLabRequests2.model');
+const InternalLabRequests = require('../models/_lab/internalLabRequests.model');
 const Patient = require('../models/patient/patients.models');
-const Appointments2 = require('../models/appointment/appointments2.models');
+const Appointments2 = require('../models/appointment/appointments.model');
 const InsuranceDetail = require('../models/insurance/insuranceDetail.model');
+const Patient_details = require('../models/patient/patients.models');
+const ProcedureCategory = require('../models/procedure/procedureCategory.model');
+const ServiceType = require('../models/services/serviceType.model');
 
 const addInternalLabRequest = async (req, res, next) => {
   try {
@@ -20,6 +23,7 @@ const addInternalLabRequest = async (req, res, next) => {
     res.sendStatus(500).json({ message: 'Internal server error!!' });
   }
 };
+
 
 // get all priceListItems
 const getAllInternalLabRequests = async (req, res, next) => {
@@ -42,6 +46,18 @@ const getAllInternalLabRequests = async (req, res, next) => {
         {
           model: Procedure_detail,
           attributes: ['procedure_name', 'procedure_cost'],
+          include: [
+            {
+              model: ProcedureCategory,
+              attributes:['category_id', 'category_name','service_type_id'],
+              include:[
+                {
+                  model:ServiceType,
+                  attributes: ['service_type_id','service_type_description']
+                }
+              ]
+            }
+          ]
         },
       ],
     });
@@ -53,6 +69,7 @@ const getAllInternalLabRequests = async (req, res, next) => {
     next(error);
   }
 };
+
 
 const getInternalLabRequest = async (req, res, next) => {
   const { id } = req.params;
@@ -67,7 +84,7 @@ const getInternalLabRequest = async (req, res, next) => {
           attributes: ['appointment_date', 'charges', 'appointment_time'],
         },
         {
-          model: Patient,
+          model: Patient_details,
           attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
         },
         {
