@@ -20,7 +20,7 @@ const clusterMiddleware = require('./middleware/clusterMiddleware');
 
 const app = express();
 
-const PORT = process.env.PORT || 5011;
+const PORT = process.env.PORT || 5000;
 const corsOption = {
     origin: ['*'],
 };

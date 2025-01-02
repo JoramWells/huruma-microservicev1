@@ -45,12 +45,13 @@ const insuranceMedicationMapping = require('./routes/insurance/insuranceMedicati
 const insuranceServiceCostMapping = require('./routes/insurance/insuranceServiceCostMapping.routes');
 const personalAccountChargeRoutes = require('./routes/charges/personalAccountCharges.routes');
 const userPrivilegeDetailRoutes = require('./routes/userPrivilegeDetail.routes');
+const ministryDiseasesRoutes = require('./routes/diseaseMinistry.routes');
 
 const app = express();
 
 const PORT = process.env.PORT || 5001;
 const corsOption = {
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3001'],
 };
 
 app.use(express.json());
@@ -103,6 +104,7 @@ app.use('/insurance-types', insuranceTypeRoutes);
 app.use('/insurance-service-cost-mapping', insuranceServiceCostMapping);
 app.use('/personal-account-charge', personalAccountChargeRoutes);
 app.use('/user-privilege-details', userPrivilegeDetailRoutes);
+app.use('/disease-ministry', ministryDiseasesRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

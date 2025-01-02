@@ -6,14 +6,14 @@
   "type": "commonjs",
   "scripts": {
     "test": "mocha ./tests/appointmentController.test.ts",
-    "start": "npx tsc-watch & nodemon ./dist/index.js",
+    "start": "nodemon index.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "compression": "^1.7.4",
+    "compression": "^1.7.5",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-http-proxy": "^2.0.0",
