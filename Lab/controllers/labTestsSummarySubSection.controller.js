@@ -20,20 +20,20 @@ const addLabTestSummarySubSection = async (req, res, next) => {
 const getAllLabTestSummarySubSection = async (req, res, next) => {
   try {
     const results = await Lab_tests_summary_sub_section.findAll({
-      include: [
-        {
-          model: Procedure_detail,
-          attributes: ['procedure_name'],
-        },
-        {
-          model: Procedure_item,
-          attributes: ['procedure_item_description'],
-        },
-        {
-          model: Lab_tests_summary_section,
-          attributes: ['lab_tests_summary_section_description'],
-        },
-      ],
+      // include: [
+        // {
+        //   model: Procedure_detail,
+        //   attributes: ['procedure_name'],
+        // },
+        // {
+        //   model: Procedure_item,
+        //   attributes: ['procedure_item_description'],
+        // },
+        // {
+        //   model: Lab_tests_summary_section,
+        //   attributes: ['lab_tests_summary_section_description'],
+        // },
+      // ],
     });
     res.json(results);
     next();
