@@ -62,7 +62,7 @@ app.use(express.urlencoded({
 
 
 // enable cors
-app.use(cors(corsOption));
+app.use(cors());
 
 app.use('/item-type', itemTypeRoutes);
 app.use('/departments', departmentRoutes);

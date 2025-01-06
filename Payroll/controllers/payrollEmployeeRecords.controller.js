@@ -23,16 +23,16 @@ const addPayrollEmployeeRecord = async (req, res, next) => {
 const getAllPayrollEmployeeRecords = async (req, res, next) => {
   try {
     const results = await Payroll_employee_record.findAll({
-      include: [
-        {
-          model: Payroll_job_title,
-          attributes: ['job_title_description'],
-        },
-        {
-          model:AccountingDepartment,
-          attributes:['department_name']
-        }
-      ],
+      // include: [
+      //   {
+      //     model: Payroll_job_title,
+      //     attributes: ['job_title_description'],
+      //   },
+      //   {
+      //     model:AccountingDepartment,
+      //     attributes:['department_name']
+      //   }
+      // ],
     });
     res.json(results);
     next();

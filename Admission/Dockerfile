@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 5009
 
-# CMD [ "yarn", "start"]
+CMD [ "yarn", "start"]

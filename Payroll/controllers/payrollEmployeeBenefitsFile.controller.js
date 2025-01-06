@@ -21,12 +21,12 @@ const addPayrollEmployeeBenefits = async (req, res, next) => {
 const getAllPayrollEmployeeBenefits = async (req, res, next) => {
   try {
     const results = await Payroll_employee_benefits_file.findAll({
-      include: [
-        {
-          model: Payroll_employee_loan_record,
-          attributes: ['full_name'],
-        },
-      ],
+      // include: [
+      //   {
+      //     model: Payroll_employee_loan_record,
+      //     attributes: ['full_name'],
+      //   },
+      // ],
     });
     res.json(results);
     next();
