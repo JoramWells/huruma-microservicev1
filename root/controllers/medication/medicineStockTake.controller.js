@@ -2,17 +2,19 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const Redis = require('redis');
-const Medication_stock_take = require('../models/medication/medicationStockTake.model');
+// const Redis = require('redis');
+const { Op } = require('sequelize');
+const Medication_stock_take = require('../../models/medication/medicationStockTake.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
-// create redis client
-const redisClient = Redis.createClient({
-  host: '127.0.0.1',
-  port: '6379',
-});
-redisClient.on('error', (error) => {
-  console.error(error);
-});
+// // create redis client
+// const redisClient = Redis.createClient({
+//   host: '127.0.0.1',
+//   port: '6379',
+// });
+// redisClient.on('error', (error) => {
+//   console.error(error);
+// });
 
 const EXPIRATION = 3600;
 
@@ -27,18 +29,34 @@ const addMedicationStockTake = async (req, res, next) => {
 };
 
 const getAllMedicationStockTake = async (req, res, next) => {
-  try {
-    redisClient.get('MedicationStockTake', async (err, stocks) => {
-      if (err) console.log(err);
-      if (stocks != null) {
-        return res.json(JSON.parse(stocks));
-      }
+  const { page, pageSize, searchQuery } = req.query
+  let where = {}
 
-      // else
-      const results = await Medication_stock_take.findAll({});
-      redisClient.setEx('MedicationStockTake', EXPIRATION, JSON.stringify(results));
-      next();
+  try {
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { medication_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const {rows, count} = await Medication_stock_take.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      where,
     });
+    res.json({
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    })
+    next();
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });

@@ -2,9 +2,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const { Op } = require('sequelize');
 const Medication = require('../../models/medication/medication.model');
 const Medication_category = require('../../models/medication/medicationCategory.models');
 const Medication_packaging_type = require('../../models/medication/medicationPackaging.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 const addMedication = async (req, res, next) => {
   try {
@@ -17,8 +19,26 @@ const addMedication = async (req, res, next) => {
 };
 
 const getAllMedication = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query
+  let where = {}
+
   try {
-    const results = await Medication.findAll({
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { medication_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Medication.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      where,
       include: [
         {
           model: Medication_category,
@@ -30,7 +50,12 @@ const getAllMedication = async (req, res, next) => {
         },
       ],
     });
-    res.json(results);
+    res.json({
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });

@@ -2,8 +2,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const { Op } = require('sequelize');
 const Medication_category = require('../../models/medication/medicationCategory.models');
 const Medication_packaging_type = require('../../models/medication/medicationPackaging.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 const addMedicationCategory = async (req, res, next) => {
   try {
@@ -16,9 +18,34 @@ const addMedicationCategory = async (req, res, next) => {
 };
 
 const getAllMedicationCategories = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query
+  let where = {}
+
   try {
-    const results = await Medication_category.findAll({});
-    res.json(results);
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { category_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+
+    const { rows, count } = await Medication_category.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      where
+    });
+    res.json({
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });

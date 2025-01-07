@@ -54,7 +54,6 @@ const Users = sequelize.define('users', {
 
 Users.belongsTo(User_types, { foreignKey: 'user_type_id' });
 User_types.hasMany(Users, { foreignKey: 'user_type_id' });
-User_types.hasMany(Users, { foreignKey: 'user_type_id' });
 
 // sequelize.sync().then(() => {
 //   console.log('Book table created');

@@ -6,6 +6,10 @@ const { Op } = require('sequelize');
 const Medication = require('../../models/medication/medication.model');
 const Medicine_purchase = require('../../models/medication/medicinePurchases.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
+const Users = require('../../models/user.model');
+const Hospital_store = require('../../models/hospitalStores.model');
+const Medication_purchase_type = require('../../models/medication/medicationPurchaseType.model');
+const Suppliers = require('../../models/suppliers.model');
 
 const addMedicationPurchases = async (req, res, next) => {
   try {
@@ -42,6 +46,20 @@ const getAllMedicationPurchases = async (req, res, next) => {
           attributes: ['medication_name'],
           where
         },
+        {
+          model: Users,
+          attributes: ['full_name', 'user_name']
+        },{
+          model: Hospital_store,
+          attributes: ['hospital_store_description']
+        },{
+          model: Medication_purchase_type,
+          attributes: ['medication_purchase_type_description']
+        },
+        {
+          model: Suppliers,
+          attributes: ['supplier_name']
+        }
       ],
     });
     res.json({

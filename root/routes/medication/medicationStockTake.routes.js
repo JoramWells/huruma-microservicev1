@@ -3,7 +3,7 @@ const express = require('express');
 const {
   addMedicationStockTake, getAllMedicationStockTake,
   getMedicationStockTakeDetail, editMedicationStockTake, deleteMedicationStockTake,
-} = require('../../controllers/medicinePurchases.controller copy');
+} = require('../../controllers/medication/medicineStockTake.controller');
 
 const router = express.Router();
 

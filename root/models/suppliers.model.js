@@ -4,10 +4,13 @@ const sequelize = require('../db/connect');
 const Suppliers = sequelize.define('suppliers', {
   supplier_id: {
     type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    unique: true,
+    allowNull: false
   },
   supplier_name: {
     type: DataTypes.STRING,
-    primaryKey: true,
   },
   supplier_phone: {
     type: DataTypes.STRING,
