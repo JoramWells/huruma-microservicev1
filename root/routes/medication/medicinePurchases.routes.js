@@ -1,9 +1,7 @@
 /* eslint-disable import/no-unresolved */
 const express = require('express');
-const {
-  addMedicationPurchases, getAllMedicationPurchases,
-  getMedicationPurchaseDetail, editMedicationPurchase, deleteMedicationPurchase,
-} = require('../controllers/medicinePurchases.controller');
+const { addMedicationPurchases, getAllMedicationPurchases, getMedicationPurchaseDetail, editMedicationPurchase, deleteMedicationPurchase } = require('../../controllers/medication/medicinePurchases.controller');
+
 
 const router = express.Router();
 

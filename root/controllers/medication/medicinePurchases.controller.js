@@ -2,8 +2,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const Medication = require('../models/medication/medication.model');
-const Medicine_purchase = require('../models/medication/medicinePurchases.model');
+const { Op } = require('sequelize');
+const Medication = require('../../models/medication/medication.model');
+const Medicine_purchase = require('../../models/medication/medicinePurchases.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 const addMedicationPurchases = async (req, res, next) => {
   try {
@@ -16,16 +18,38 @@ const addMedicationPurchases = async (req, res, next) => {
 };
 
 const getAllMedicationPurchases = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query
+
+  let where = {}
   try {
-    const results = await Medicine_purchase.findAll({
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { medication_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Medicine_purchase.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
       include: [
         {
           model: Medication,
           attributes: ['medication_name'],
+          where
         },
       ],
     });
-    res.json(results);
+    res.json({
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     console.log(error);

@@ -3,6 +3,7 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Maternity_profile = require('../../models/maternity/maternityProfile.model');
+const Patient = require('../../models/patient/patient.model');
 // const Patient_details = require('../../models/patient/patients.models');
 // const Appointments2 = require('../../models/appointment/appointments2.models');
 // const Maternity_profile = require('../models/maternityProfile.model');
@@ -19,7 +20,13 @@ const addMaternityProfile = async (req, res, next) => {
 
 const getAllMaternityProfile = async (req, res, next) => {
   try {
-    const profiles = await Maternity_profile.findAll({});
+    const profiles = await Maternity_profile.findAll({
+      // include:[
+      //   {
+      //     model: Patient
+      //   }
+      // ]
+    });
     res.json(profiles);
     next();
   } catch (error) {

@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 const Payroll_employee_benefits_file = require('../models/_payroll/payrollEmployeeBenefitsFile.model');
-const Payroll_employee_loan_record = require('../models/_payroll/payrollEmployeeLoanRecord.model.js');
+const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model.js');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
@@ -21,12 +21,13 @@ const addPayrollEmployeeBenefits = async (req, res, next) => {
 const getAllPayrollEmployeeBenefits = async (req, res, next) => {
   try {
     const results = await Payroll_employee_benefits_file.findAll({
-      // include: [
-      //   {
-      //     model: Payroll_employee_loan_record,
-      //     attributes: ['full_name'],
-      //   },
-      // ],
+      include: [
+        {
+          model: Payroll_employee_record,
+          attributes: ['full_name'],
+          require: true
+        },
+      ],
     });
     res.json(results);
     next();
