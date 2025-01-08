@@ -4,6 +4,8 @@
 
 const Insurance_detail = require('../../models/insurance/insurance.model');
 const Insurance_service_cost_mapping = require('../../models/insurance/insuranceServiceMapping.model');
+const Service_type = require('../../models/insurance/servics/serviceTypes.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 // const Service_type = require('../../models/servics/serviceTypes.model');
 
 const addInsuranceServiceCostMapping = async (req, res, next) => {
@@ -17,20 +19,45 @@ const addInsuranceServiceCostMapping = async (req, res, next) => {
 };
 
 const getAllInsuranceServiceCostMapping = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query
+  let where = {}
+
   try {
-    const results = await Insurance_service_cost_mapping.findAll({
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { insurance_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Insurance_service_cost_mapping.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      // where,
       include: [
         {
           model: Insurance_detail,
           attributes: ['insurance_name'],
         },
-        // {
-        //   model: Service_type,
-        //   attributes: ['service_type_description'],
-        // },
+        {
+          model: Service_type,
+          attributes: ['service_type_description'],
+        },
       ],
     });
-    res.json(results);
+    res.json(
+      {
+        data: rows,
+        total: count,
+        page: page,
+        pageSize: limit,
+      }
+    );
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });

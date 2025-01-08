@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
-// const sequelize = require('../../../db/connect');
+const sequelize = require('../../../db/connect');
 
 const Service_type = sequelize.define('service_types', {
   service_type_id: {

@@ -2,12 +2,14 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 // const { Kafka } = require('kafkajs');
+const { Op } = require('sequelize');
 const sequelize = require('../db/connect');
 const Appointments2 = require('../models/_appointment/appointments2.models');
 // const Insurance_detail = require('../../root/models/insurance/insurance.model');
 const Patient = require('../models/patient/patients.model');
 const InsuranceDetail = require('../models/insurance/insuranceDetail.model');
 const Users = require('../models/user/user.model');
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 // const Patient = require('../../Patients/models/patient2.models');
 
 // const kafka = new Kafka({
@@ -68,13 +70,33 @@ const addAppointments = async (req, res, next) => {
 
 // get all priceListItems
 const getAllAppointments = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const appointmentResults = await Appointments2.findAll({
-      limit: 100,
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+
+    const { rows, count } = await Appointments2.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
       include: [
         {
           model: Patient,
           attributes: ['first_name', 'middle_name', 'last_name', 'patient_gender'],
+          where,
         },
         {
           model: InsuranceDetail,
@@ -87,7 +109,12 @@ const getAllAppointments = async (req, res, next) => {
       ],
     });
 
-    res.status(200).json(appointmentResults);
+    res.status(200).json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     // console.log(appointmentResults);
 
     console.log('fetching data..');

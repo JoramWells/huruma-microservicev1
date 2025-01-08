@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 // const Redis = require('redis');
-const { Op } = require('sequelize');
+const { Op, col,fn } = require('sequelize');
 const Medication_stock_take = require('../../models/medication/medicationStockTake.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
@@ -43,7 +43,7 @@ const getAllMedicationStockTake = async (req, res, next) => {
         ],
       };
     }
-    const {rows, count} = await Medication_stock_take.findAndCountAll({
+    const { rows, count } = await Medication_stock_take.findAndCountAll({
       page,
       pageSize,
       limit,
@@ -111,10 +111,33 @@ const deleteMedicationStockTake = async (req, res, next) => {
   }
 };
 
+// 
+const getMedicationStockTakeRange = async (req, res, next) => {
+  try {
+    const results = await Medication_stock_take.findAll({
+      // limit: 10,
+      attributes: [
+        [col("date_of_stock_take"), "date_of_stock_take"],
+        [col("medication_name"), "medication_name"],
+        [fn("COUNT", col("date_of_stock_take")), 'count']
+      ],
+      group:[
+        "medication_name",
+        "date_of_stock_take"
+      ]
+    })
+    res.json(results)
+    next()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 module.exports = {
   addMedicationStockTake,
   getAllMedicationStockTake,
   getMedicationStockTakeDetail,
   editMedicationStockTake,
   deleteMedicationStockTake,
+  getMedicationStockTakeRange
 };

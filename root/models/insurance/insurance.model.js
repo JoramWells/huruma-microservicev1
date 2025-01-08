@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const InsuranceType = require('./insuranceType.model');
+const Insurance_limit_type = require('./insuranceLimitTypes.model');
 
 const Insurance_detail = sequelize.define('insurance_details', {
   insurance_id: {
@@ -63,5 +65,8 @@ const Insurance_detail = sequelize.define('insurance_details', {
 // }).catch(error=>{
 //     console.error('Unable to create table :', error)
 // })
+
+Insurance_detail.belongsTo(InsuranceType, { foreignKey: 'insurance_type_id' })
+Insurance_detail.belongsTo(Insurance_limit_type, { foreignKey: 'insurance_limit_type_id' })
 
 module.exports = Insurance_detail;
