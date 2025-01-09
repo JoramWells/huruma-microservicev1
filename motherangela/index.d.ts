@@ -1,0 +1,7 @@
+export * from './types/appointments'
+export * from './types/generics'
+export * from './types/patients'
+export * from './types/insurances'
+export * from './types/maternity'
+export * from './types/payroll'
+export * from './types/pharmacy'
