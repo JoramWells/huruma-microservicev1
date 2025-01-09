@@ -2,7 +2,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const Payroll_deduction = require('../models/_payroll/payrollDeductions.model');
 const Payroll_employee_deduction = require('../models/_payroll/payrollEmployeeDeductions.model');
+const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model');
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
@@ -18,9 +21,46 @@ const addPayrollEmployeeDeduction = async (req, res, next) => {
 };
 
 const getAllPayrollEmployeeDeductions = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query
+
+  let where = {}
+
   try {
-    const results = await Payroll_employee_deduction.findAll({});
-    res.json(results);
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { full_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+
+    const { rows, count } = await Payroll_employee_deduction.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      include: [
+        {
+          model: Payroll_employee_record,
+          attributes: ['full_name'],
+          where,
+
+        },
+        {
+          model: Payroll_deduction,
+          attributes: ['deduction_description']
+        }
+      ]
+    });
+    res.json({
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });

@@ -2,19 +2,19 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const { Op } = require('sequelize');
-const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model');
-const Payroll_job_title = require('../models/_payroll/payrollJobTitles.model');
-const Payroll_taxable_state = require('../models/_payroll/payrollTaxableStatus.model');
-const AccountingDepartment = require('../models/accounts/accountingDepartment.model');
+// const Payroll_deduction = require('../models/_payroll/payrollDeductions.model');
+// const Payroll_periods = require('../models/_payroll/payrollPeriods.model');
+// const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model');
+const Payroll_employee_category = require('../models/_payroll/payrollEmployeeCategory.model');
+const Payroll_periods = require('../models/_payroll/payrollPeriods.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
 
-const addPayrollEmployeeRecord = async (req, res, next) => {
+const addPayrollPeriod = async (req, res, next) => {
   try {
-    const results = Payroll_employee_record.create(req.body);
+    const results = Payroll_periods.create(req.body);
     res.status(201).json(results);
     next();
   } catch (error) {
@@ -22,7 +22,7 @@ const addPayrollEmployeeRecord = async (req, res, next) => {
   }
 };
 
-const getAllPayrollEmployeeRecords = async (req, res, next) => {
+const getAllPayrollPeriods = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query
 
   let where = {}
@@ -38,22 +38,24 @@ const getAllPayrollEmployeeRecords = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await Payroll_employee_record.findAndCountAll({
+
+    const { rows, count } = await Payroll_periods.findAndCountAll({
       page,
       pageSize,
       limit,
       offset,
-      where
-      // include: [
-      //   {
-      //     model: Payroll_job_title,
-      //     attributes: ['job_title_description'],
-      //   },
-      //   {
-      //     model:AccountingDepartment,
-      //     attributes:['department_name']
-      //   }
-      // ],
+      include: [
+        {
+          model: Payroll_employee_category,
+          attributes: ['employee_category_description'],
+          where,
+
+        },
+        //   {
+        //     model: Payroll_deduction,
+        //     attributes: ['deduction_description']
+        //   }
+      ]
     });
     res.json({
       data: rows,
@@ -68,10 +70,10 @@ const getAllPayrollEmployeeRecords = async (req, res, next) => {
   }
 };
 
-const getPayrollEmployeeRecord = async (req, res, next) => {
+const getPayrollPeriod = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Payroll_employee_record.findOne({
+    const results = await Payroll_periods.findOne({
       where: {
         credit_payment_id: id,
       },
@@ -83,10 +85,10 @@ const getPayrollEmployeeRecord = async (req, res, next) => {
   }
 };
 
-const editPayrollEmployeeRecord = async (req, res, next) => {
+const editPayrollPeriod = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const results = await Payroll_employee_record.findOne({
+    const results = await Payroll_periods.findOne({
       where: {
         id,
       },
@@ -98,10 +100,10 @@ const editPayrollEmployeeRecord = async (req, res, next) => {
   }
 };
 
-const deletePayrollEmployeeRecord = async (req, res, next) => {
+const deletePayrollPeriod = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Payroll_employee_record.destroy({
+    const results = await Payroll_periods.destroy({
       where: {
         admission_id: id,
       },
@@ -116,9 +118,9 @@ const deletePayrollEmployeeRecord = async (req, res, next) => {
 };
 
 module.exports = {
-  addPayrollEmployeeRecord,
-  getAllPayrollEmployeeRecords,
-  getPayrollEmployeeRecord,
-  editPayrollEmployeeRecord,
-  deletePayrollEmployeeRecord,
+  addPayrollPeriod,
+  getAllPayrollPeriods,
+  getPayrollPeriod,
+  editPayrollPeriod,
+  deletePayrollPeriod,
 };

@@ -14,6 +14,8 @@ const payrollEmployeeCategoryRoutes = require('./routes/payrollEmployeeCategory.
 const payrollPayTypeRoutes = require('./routes/payrollPayType.routes');
 const payrollEmployeeBenefitsFileRoutes = require('./routes/payrollEmployeeBenefitFile.routes');
 const payrollEmployeeDeductionsRoutes = require('./routes/payrollEmployeeDeductions.routes');
+const payrollPeriodsRoutes = require('./routes/payrollPeriods.routes');
+const payrollMonthlyDeductionsRoutes = require('./routes/payrollMonthlyDeductions.routes');
 
 
 const app = express();
@@ -54,6 +56,8 @@ if (cluster.isMaster) {
   app.use('/payroll-pay-type', payrollPayTypeRoutes);
   app.use('/payroll-employee-benefits-file', payrollEmployeeBenefitsFileRoutes);
   app.use('/payroll-employee-deductions', payrollEmployeeDeductionsRoutes);
+  app.use('/payroll-periods', payrollPeriodsRoutes);
+  app.use('/payroll-monthly-deductions', payrollMonthlyDeductionsRoutes);
   // app.use((err, req, res, next) => {
   //   const errStatus = err.status || 500;
   //   const errMessage = err.message || 'Something went wrong';

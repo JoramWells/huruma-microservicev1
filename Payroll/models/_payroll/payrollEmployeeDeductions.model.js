@@ -2,6 +2,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Payroll_employee_record = require('./payrollEmployeeRecords.model');
+const Payroll_deduction = require('./payrollDeductions.model');
 // const Payroll_taxable_state = require('./payrollTaxableStatus.model');
 
 const Payroll_employee_deduction = sequelize.define('payroll_employee_deductions', {
@@ -21,7 +22,7 @@ const Payroll_employee_deduction = sequelize.define('payroll_employee_deductions
   fiscal_year: {
     type: DataTypes.INTEGER,
   },
-  fiscal_amount: {
+  fixed_amount: {
     type: DataTypes.INTEGER,
   },
   percentage_amount: {
@@ -34,5 +35,6 @@ const Payroll_employee_deduction = sequelize.define('payroll_employee_deductions
 }, { timestamps: false });
 
 Payroll_employee_deduction.belongsTo(Payroll_employee_record, { foreignKey: 'employee_id' });
+Payroll_employee_deduction.belongsTo(Payroll_deduction, { foreignKey: 'deduction_id' });
 
 module.exports = Payroll_employee_deduction;

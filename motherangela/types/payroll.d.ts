@@ -50,3 +50,15 @@ export interface PayrollEmployeeBenefitsFileInterface{
     payroll_employee_record?: PayrollEmployeeRecordsInterface
     payroll_id: string | null
 }
+
+export interface PayrollEmployeeDeduction{
+    employee_deduction_id: number
+    deduction_id: string
+    employee_id: number
+    fiscal_month: number
+    fiscal_year: number
+    fixed_amount: number
+    percentage_amount: string
+    hospital_id: string
+    payroll_employee_record: PayrollEmployeeRecordsInterface
+}
