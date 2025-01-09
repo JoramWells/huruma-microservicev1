@@ -1,6 +1,6 @@
 import { UserInterface } from "./patients";
 
-export interface MedicationInterface{
+export interface MedicineInterface{
   medication_name: string
 }
 
@@ -67,7 +67,7 @@ export interface MedicinePurchaseInterface {
   hospital_id: string;
   hospital_store: HospitalStoreInterface;
   hospital_store_id: string;
-  medication: MedicationInterface;
+  medication: MedicineInterface;
   medication_id: string;
   medication_purchase_type: MedicinePurchaseTypeInterface;
   medication_purchase_type_id: string;

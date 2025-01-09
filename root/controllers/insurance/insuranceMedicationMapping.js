@@ -2,9 +2,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
+const { Op } = require('sequelize');
 const Insurance_detail = require('../../models/insurance/insurance.model');
 const Insurance_medication_mapping = require('../../models/insurance/insuranceMedicationMapping.model');
 const Medication = require('../../models/medication/medication.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 const addInsuranceMedicationMapping = async (req, res, next) => {
   try {
@@ -17,12 +19,30 @@ const addInsuranceMedicationMapping = async (req, res, next) => {
 };
 
 const getAllInsuranceMedicationMapping = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query
+  let where = {}
+
   try {
-    const results = await Insurance_medication_mapping.findAll({
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { medication_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Insurance_medication_mapping.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
       include: [
         {
           model: Medication,
           attributes: ['medication_name'],
+          where
         },
         {
           model: Insurance_detail,
@@ -30,7 +50,12 @@ const getAllInsuranceMedicationMapping = async (req, res, next) => {
         },
       ],
     });
-    res.json(results);
+    res.json({
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });

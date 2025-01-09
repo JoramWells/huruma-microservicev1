@@ -1,3 +1,5 @@
+import { MedicineInterface } from "./pharmacy";
+
 export interface InsuranceTypeInterface{
   insurance_type_description: string
 }
@@ -39,4 +41,14 @@ export interface InsuranceServiceCostMappingInterface{
   service_type: ServiceTypeInterface
   service_type_id: string
   withholding_tax_percentage: string
+}
+
+export interface InsuranceMedicineMappingInterface{
+  insurance_detail: InsuranceInterface
+  insurance_id: string
+  mapping_id: number
+  medication: MedicineInterface
+  medication_id: string
+  visible: string
+
 }
