@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Payroll_taxable_state = require('./payrollTaxableStatus.model');
+const Payroll_taxable_state = require('./payrollTaxableState.model');
 
 const Payroll_earning = sequelize.define('payroll_earnings', {
   earning_id: {

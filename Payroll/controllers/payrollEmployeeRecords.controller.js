@@ -5,7 +5,6 @@
 const { Op } = require('sequelize');
 const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model');
 const Payroll_job_title = require('../models/_payroll/payrollJobTitles.model');
-const Payroll_taxable_state = require('../models/_payroll/payrollTaxableStatus.model');
 const AccountingDepartment = require('../models/accounts/accountingDepartment.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 

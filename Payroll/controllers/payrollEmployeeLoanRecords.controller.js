@@ -2,19 +2,16 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-// const Payroll_deduction = require('../models/_payroll/payrollDeductions.model');
-// const Payroll_periods = require('../models/_payroll/payrollPeriods.model');
-// const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model');
-const Payroll_employee_category = require('../models/_payroll/payrollEmployeeCategory.model');
-const Payroll_periods = require('../models/_payroll/payrollPeriods.model');
+
+const Payroll_employee_loan_record = require('../models/_payroll/payrollEmployeeLoanRecord.model.js');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
 
-const addPayrollPeriod = async (req, res, next) => {
+const addPayrollEmployeeLoanRecords = async (req, res, next) => {
   try {
-    const results = Payroll_periods.create(req.body);
+    const results = Payroll_employee_loan_record.create(req.body);
     res.status(201).json(results);
     next();
   } catch (error) {
@@ -22,7 +19,7 @@ const addPayrollPeriod = async (req, res, next) => {
   }
 };
 
-const getAllPayrollPeriods = async (req, res, next) => {
+const getAllPayrollEmployeeLoanRecords = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query
 
   let where = {}
@@ -39,23 +36,23 @@ const getAllPayrollPeriods = async (req, res, next) => {
       };
     }
 
-    const { rows, count } = await Payroll_periods.findAndCountAll({
+    const { rows, count } = await Payroll_employee_loan_record.findAndCountAll({
       page,
       pageSize,
       limit,
       offset,
-      include: [
-        {
-          model: Payroll_employee_category,
-          attributes: ['employee_category_description'],
-          where,
+      // include: [
+      //   {
+      //     model: Payroll_employee_category,
+      //     attributes: ['employee_category_description'],
+      //     where,
 
-        },
-        //   {
-        //     model: Payroll_deduction,
-        //     attributes: ['deduction_description']
-        //   }
-      ]
+      //   },
+      //   {
+      //     model: Payroll_deduction,
+      //     attributes: ['deduction_description']
+      //   }
+      // ]
     });
     res.json({
       data: rows,
@@ -70,10 +67,10 @@ const getAllPayrollPeriods = async (req, res, next) => {
   }
 };
 
-const getPayrollPeriod = async (req, res, next) => {
+const getPayrollEmployeeLoanRecords = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Payroll_periods.findOne({
+    const results = await Payroll_employee_loan_record.findOne({
       where: {
         credit_payment_id: id,
       },
@@ -85,10 +82,10 @@ const getPayrollPeriod = async (req, res, next) => {
   }
 };
 
-const editPayrollPeriod = async (req, res, next) => {
+const editPayrollEmployeeLoanRecords = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const results = await Payroll_periods.findOne({
+    const results = await Payroll_employee_loan_record.findOne({
       where: {
         id,
       },
@@ -100,10 +97,10 @@ const editPayrollPeriod = async (req, res, next) => {
   }
 };
 
-const deletePayrollPeriod = async (req, res, next) => {
+const deletePayrollEmployeeLoanRecords = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Payroll_periods.destroy({
+    const results = await Payroll_employee_loan_record.destroy({
       where: {
         admission_id: id,
       },
@@ -118,9 +115,9 @@ const deletePayrollPeriod = async (req, res, next) => {
 };
 
 module.exports = {
-  addPayrollPeriod,
-  getAllPayrollPeriods,
-  getPayrollPeriod,
-  editPayrollPeriod,
-  deletePayrollPeriod,
+  addPayrollEmployeeLoanRecords,
+  getAllPayrollEmployeeLoanRecords,
+  getPayrollEmployeeLoanRecords,
+  editPayrollEmployeeLoanRecords,
+  deletePayrollEmployeeLoanRecords,
 };

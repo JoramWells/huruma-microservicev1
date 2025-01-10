@@ -1,3 +1,17 @@
+export interface PayrollPeriodsInterface{
+    payroll_id: string
+    pay_period_id: string
+    payroll_description: string
+    start_date: Date | string
+    end_date: Date | string
+    fiscal_month: string
+    fiscal_year: string
+    deduct_nssf: string
+    deduct_nhif: string
+    hospital_id: string
+    employee_category_id: string
+}
+
 export interface PayrollEmployeeRecordsInterface{
     active_status: number | null
     address: string | null
@@ -49,9 +63,16 @@ export interface PayrollEmployeeBenefitsFileInterface{
     other_income_type_id: string | null
     payroll_employee_record?: PayrollEmployeeRecordsInterface
     payroll_id: string | null
+    payroll_periods?: PayrollPeriodsInterface
 }
 
-export interface PayrollEmployeeDeduction{
+export interface PayrollDeductionInterface{
+    deduction_id: string
+    deduction_description: number
+    taxable_state_id: number
+}
+
+export interface PayrollEmployeeDeductionInterface{
     employee_deduction_id: number
     deduction_id: string
     employee_id: number
@@ -60,5 +81,65 @@ export interface PayrollEmployeeDeduction{
     fixed_amount: number
     percentage_amount: string
     hospital_id: string
-    payroll_employee_record: PayrollEmployeeRecordsInterface
+    payroll_deduction?: PayrollDeduction
+    payroll_employee_record?: PayrollEmployeeRecordsInterface
+}
+
+export interface PayrollEmployeeLoanRecordsInterface{
+    loan_id: string
+    employee_id: string
+    loan_reference: string
+    loan_description: string
+    loan_date: string
+    loan_type_id: string
+    loan_amount: string
+    starting_loan_balance: string
+    monthly_installment: string
+    monthly_interest_rate: string
+    interest_formula_id: string
+    fringe_benefit_tax: string
+    deduction_start_date: Date | string 
+    hospital_id: string
+    payroll_employee_record?: PayrollEmployeeRecordsInterface
+
+}
+
+export interface PayrollEmployeeMonthlyDeductionInterface{
+    monthly_deduction_id: string
+    deduction_id: string
+    employee_id: string
+    amount: string
+    hospital_id: string
+    payroll_employee_record?: PayrollEmployeeRecordsInterface
+    payroll_deduction?: PayrollDeduction
+
+}
+
+export interface PayrollEmployeeMonthlyDeductionFileInterface{
+    monthly_deduction_file_id: string
+    payroll_id: string
+    employee_id: string
+    deduction_id: string
+    amount: string
+    payroll_employee_record?: PayrollEmployeeRecordsInterface
+
+}
+
+export interface PayrollTaxCategoryInterface{
+    tax_categories_id: string
+    tax_category_description: string
+}
+
+export interface PayrollTaxableStateInterface{
+    taxable_state_id: string
+    taxable_state_description: string
+
+}
+
+export interface PayrollTaxStatusInterface{
+    tax_status_id: string
+    taxable_state_description: string
+    personal_exemption: number
+    additional_exemption: number
+
 }

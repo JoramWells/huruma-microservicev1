@@ -2,15 +2,12 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const Payroll_deduction = require('../models/_payroll/payrollDeductions.model');
-const Payroll_taxable_state = require('../models/_payroll/payrollTaxableState.model');
+const Payroll_tax_status = require("../models/_payroll/payrollTaxStatus.model");
 
-// Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
-// Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
 
-const addPayrollDeductions = async (req, res, next) => {
+const addPayrollTaxStatus = async (req, res, next) => {
   try {
-    const results = Payroll_deduction.create(req.body);
+    const results = Payroll_tax_status.create(req.body);
     res.status(201).json(results);
     next();
   } catch (error) {
@@ -18,16 +15,9 @@ const addPayrollDeductions = async (req, res, next) => {
   }
 };
 
-const getAllPayrollDeductions = async (req, res, next) => {
+const getAllPayrollTaxStatus = async (req, res, next) => {
   try {
-    const results = await Payroll_deduction.findAll({
-      include: [
-        {
-          model: Payroll_taxable_state,
-          attributes: ['taxable_state_description'],
-        },
-      ],
-    });
+    const results = await Payroll_tax_status.findAll({});
     res.json(results);
     next();
   } catch (error) {
@@ -36,10 +26,10 @@ const getAllPayrollDeductions = async (req, res, next) => {
   }
 };
 
-const getPayrollDeduction = async (req, res, next) => {
+const getPayrollTaxStatus = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Payroll_deduction.findOne({
+    const results = await Payroll_tax_status.findOne({
       where: {
         credit_payment_id: id,
       },
@@ -51,10 +41,10 @@ const getPayrollDeduction = async (req, res, next) => {
   }
 };
 
-const editPayrollDeduction = async (req, res, next) => {
+const editPayrollTaxStatus = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const results = await Payroll_deduction.findOne({
+    const results = await Payroll_tax_status.findOne({
       where: {
         id,
       },
@@ -66,10 +56,10 @@ const editPayrollDeduction = async (req, res, next) => {
   }
 };
 
-const deletePayrollDeductions = async (req, res, next) => {
+const deletePayrollTaxStatus = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Payroll_deduction.destroy({
+    const results = await Payroll_tax_status.destroy({
       where: {
         admission_id: id,
       },
@@ -84,9 +74,9 @@ const deletePayrollDeductions = async (req, res, next) => {
 };
 
 module.exports = {
-  addPayrollDeductions,
-  getAllPayrollDeductions,
-  getPayrollDeduction,
-  editPayrollDeduction,
-  deletePayrollDeductions,
+  addPayrollTaxStatus,
+  getAllPayrollTaxStatus,
+  getPayrollTaxStatus,
+  editPayrollTaxStatus,
+  deletePayrollTaxStatus,
 };

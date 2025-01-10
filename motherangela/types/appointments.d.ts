@@ -36,3 +36,10 @@ export interface AppointmentInterface {
   total_appointment_discount: string | null;
   user: string | null;
 }
+
+export interface AppointmentDiagnosis{
+  appointment_diagnosis: string
+  appointment_id: string
+  diagnosis_id: string
+  diagnosis_for: string
+}

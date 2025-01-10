@@ -5,6 +5,7 @@
 // const Payroll_deduction = require('../models/_payroll/payrollDeductions.model');
 // const Payroll_periods = require('../models/_payroll/payrollPeriods.model');
 // const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model');
+const { Op } = require('sequelize');
 const Payroll_employee_category = require('../models/_payroll/payrollEmployeeCategory.model');
 const Payroll_periods = require('../models/_payroll/payrollPeriods.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
@@ -34,7 +35,7 @@ const getAllPayrollPeriods = async (req, res, next) => {
       where = {
         ...where,
         [Op.or]: [
-          { full_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { payroll_description: { [Op.iLike]: `%${searchQuery}%` } },
         ],
       };
     }
@@ -44,11 +45,11 @@ const getAllPayrollPeriods = async (req, res, next) => {
       pageSize,
       limit,
       offset,
+      where,
       include: [
         {
           model: Payroll_employee_category,
           attributes: ['employee_category_description'],
-          where,
 
         },
         //   {
@@ -75,7 +76,7 @@ const getPayrollPeriod = async (req, res, next) => {
     const { id } = req.params;
     const results = await Payroll_periods.findOne({
       where: {
-        credit_payment_id: id,
+        payroll_id: id,
       },
     });
     res.json(results);
