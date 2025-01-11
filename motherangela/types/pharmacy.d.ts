@@ -1,7 +1,24 @@
-import { UserInterface } from "./patients";
+import { AppointmentInterface } from "./appointments";
+import { PatientInterface, UserInterface } from "./patients";
 
 export interface MedicineInterface{
+  medication_id: string
   medication_name: string
+  medication_category_id: string
+  hospital_id: string
+  price: string
+  quantity: string
+  price_corporate: string
+  reorder_level: string
+  medication_packaging_type_id: string
+  price_foreigner: string
+  buying_price: string
+  sell_at_buying_price: string
+  visible: string
+  linked_item_id: string
+  appointment_type_allowed: string
+  medication_group_id: string
+
 }
 
 export interface MedicineCategory{
@@ -104,4 +121,87 @@ export interface MedicationStockTakeInterface {
   unit_price: string
   user_id: string
   variance_total_price: string
+}
+
+export interface InternalPharmacyRequestInterface{
+  pharmacy_request_id: string
+  appointment?:AppointmentInterface
+  appointment_id: string
+  patient_id: string
+  doctor_id: string
+  medication_id: string
+  medication?: MedicineInterface
+  delivery_status: string
+  cost: string
+  quantity: string
+  hospital_id: string
+  hospital_store_id: string
+  pay_status: string
+  prescription_term: string
+  user_id: string
+  user?: UserInterface
+  batch_no: string
+  date_of_request: string
+  time_of_request: string
+  discharge_drug: string
+  number_of_days: string
+  patient_detail?: PatientInterface
+  date_dispensed: string
+  time_dispensed: string
+  is_exclusion: string
+}
+
+export interface InternalPharmacyRequestsDeletionsInterface{
+  pharmacy_requests_deletion_id: string
+  pharmacy_request_id: string
+  appointment_id: string
+  patient_id: string
+  doctor_id: string
+  medication_id: string
+  delivery_status: string
+  cost: string
+  quantity: string
+  hospital_id: string
+  pay_status: string
+  prescription_term: string
+  user_id: string
+  batch_no: string
+  date_of_request: string
+  time_of_request: string
+  discharge_drug: string
+  number_of_days: string
+  hospital_store_id: string
+  date_deleted: string
+  time_deleted: string
+  deleting_user_id: string
+}
+
+export interface InternalPharmacyRequestsReturnsInterface{
+  medication_return_id: string
+  appointment_id: string
+  patient_id: string
+  doctor_id: string
+  medication_id: string
+  pharmacy_request_id: string
+  cost: string
+  quantity_returned: string
+  hospital_store_id: string
+  date_of_return: string
+  time_of_return: string
+  hospital_id: string
+  user_id: string
+}
+
+export interface InternalPharmacyRequestsUndeletableInterface{
+  pharmacy_request_id: string
+  appointment_id: string
+  patient_id: string
+  doctor_id: string
+  medication_id: string
+  delivery_status: string
+  cost: string
+  quantity: string
+  hospital_id: string
+  pay_status: string
+  prescription_term: string
 }

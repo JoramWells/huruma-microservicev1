@@ -22,7 +22,7 @@ app.use(express.urlencoded({
 // enable cors
 app.use(cors());
 
-app.use('/internal-pharmacy-request', internalPharmacyRequestRoutes);
+app.use('/internal-pharmacy-requests', internalPharmacyRequestRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

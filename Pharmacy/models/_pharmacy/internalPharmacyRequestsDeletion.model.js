@@ -7,22 +7,24 @@ const sequelize = require('../../db/connect');
 const Procedure_detail = require('../procedure/procedureDetails.model');
 const Medication = require('../medication/medication.model');
 const Patient = require('../patient/patient2.models');
-const PatientDetails = require('../patient/patientDetails.model');
-const Appointments = require('../appointment/appointments.model');
-const Users = require('../user/user.model');
 // const Appointments2 = require('../appointment/appointments2.models');
 
-const Internal_pharmacy_request2 = sequelize.define('internal_pharmacy_requests', {
-  pharmacy_request_id: {
+const InternalPharmacyRequestsDeletions = sequelize.define('internal_pharmacy_requests_deletions', {
+  pharmacy_requests_deletion_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     // defaultValue: UUIDV4,
   },
-  appointment_id: {
+  pharmacy_request_id: {
     type: DataTypes.INTEGER,
+    // primaryKey: true,
+    // defaultValue: UUIDV4,
+  },
+  appointment_id: {
+    type: DataTypes.UUID,
   },
   patient_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
   },
   doctor_id: {
     type: DataTypes.INTEGER,
@@ -69,13 +71,17 @@ const Internal_pharmacy_request2 = sequelize.define('internal_pharmacy_requests'
   number_of_days: {
     type: DataTypes.INTEGER,
   },
-  date_dispensed: {
+
+  hospital_store_id: {
+    type: DataTypes.INTEGER,
+  },
+  date_deleted: {
     type: DataTypes.STRING,
   },
-  time_dispensed: {
+  time_deleted: {
     type: DataTypes.STRING,
   },
-  is_exclusion: {
+  deleting_user_id: {
     type: DataTypes.STRING,
   },
 
@@ -86,9 +92,9 @@ const Internal_pharmacy_request2 = sequelize.define('internal_pharmacy_requests'
 // }).catch((error) => {
 //   console.error('Unable to create table :', error);
 // });
-Internal_pharmacy_request2.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
-Internal_pharmacy_request2.belongsTo(PatientDetails, { foreignKey: 'patient_id' });
-Internal_pharmacy_request2.belongsTo(Appointments, { foreignKey: 'appointment_id' });
-Internal_pharmacy_request2.belongsTo(Medication, { foreignKey: 'medication_id' });
 
-module.exports = Internal_pharmacy_request2;
+InternalPharmacyRequestsDeletions.belongsTo(Patient, { foreignKey: 'patient_id' });
+// Internal_pharmacy_request2.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
+InternalPharmacyRequestsDeletions.belongsTo(Medication, { foreignKey: 'medication_id' });
+
+module.exports = InternalPharmacyRequestsDeletions;

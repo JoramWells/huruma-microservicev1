@@ -10,6 +10,9 @@ const Internal_pharmacy_request2 = require('../models/_pharmacy/internalPharmacy
 const Procedure_detail = require('../models/procedure/procedureDetails.model');
 const Users = require('../models/user/user.model');
 const Patient = require('../models/patient/patient2.models');
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
+const PatientDetails = require('../models/patient/patientDetails.model');
+const Appointments = require('../models/appointment/appointments.model');
 
 const addInternalPharmacyRequest = async (req, res, next) => {
   try {
@@ -24,20 +27,61 @@ const addInternalPharmacyRequest = async (req, res, next) => {
 
 // get all priceListItems
 const getAllInternalPharmacyRequests = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const results = await Internal_pharmacy_request2.findAll({
-      limit: 100,
-      attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('internal_pharmacy_request2s.appointment_id')), 'appointment_id']],
-      group: ['internal_pharmacy_request2s.appointment_id', 'patient.patient_id'],
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Sequelize.Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Internal_pharmacy_request2.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      order: [
+        [Sequelize.literal("CAST(TO_DATE(date_of_request, 'YYYY-MM-DD') AS DATE)"), 'DESC']
+
+      ],
+      // attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('internal_pharmacy_request2s.appointment_id')), 'appointment_id']],
+      // group: ['internal_pharmacy_request2s.appointment_id', 'patient.patient_id'],
       include: [
         {
-          model: Patient,
+          model: PatientDetails,
           attributes: ['first_name', 'middle_name', 'last_name', 'dob', 'patient_id'],
         },
+        {
+          model: Appointments,
+          attributes: ['appointment_date'],
+
+
+        },
+        {
+          model: Users,
+          attributes: ['full_name']
+        },
+        {
+          model: Medication,
+          attributes: ['medication_name']
+        }
       ],
     });
     next();
-    res.json(results);
+    res.json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
   } catch (error) {
     console.log(error);
     next(error);
