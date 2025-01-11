@@ -113,6 +113,7 @@ export interface MedicationStockTakeInterface {
   hospital_id: string
   hospital_store_id: string
   medication_category_id: string
+  medication_category?: MedicineCategory;
   medication_id: string
   medication_name: string
   medication_packaging_type_description: string
@@ -131,7 +132,7 @@ export interface InternalPharmacyRequestInterface{
   doctor_id: string
   medication_id: string
   medication?: MedicineInterface
-  delivery_status: string
+  delivery_status?: number
   cost: string
   quantity: string
   hospital_id: string

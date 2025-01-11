@@ -3,9 +3,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 // const Redis = require('redis');
-const { Op, col,fn } = require('sequelize');
+const { Op, col, fn } = require('sequelize');
 const Medication_stock_take = require('../../models/medication/medicationStockTake.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
+const Medication_category = require('../../models/medication/medicationCategory.models');
 
 // // create redis client
 // const redisClient = Redis.createClient({
@@ -43,15 +44,54 @@ const getAllMedicationStockTake = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await Medication_stock_take.findAndCountAll({
-      page,
-      pageSize,
-      limit,
-      offset,
-      where,
-    });
+
+
+    const [data, count] = await Promise.all([
+      Medication_stock_take.findAndCountAll({
+        order: [['date_of_stock_take', 'DESC']],
+        page,
+        pageSize,
+        limit,
+        offset,
+        where,
+        include: [
+          {
+            model: Medication_category,
+            attributes: ['category_name']
+          }
+        ],
+        attributes: [
+          [fn("MAX", col('date_of_stock_take')), 'latestStockTakeDate'],
+          "medication_id",
+          "medication_name",
+          "medication_packaging_type_description",
+          "current_quantity",
+          "correct_quantity",
+          'quantity_variance',
+          'medication_stock_take_id'
+        ],
+        group: [
+          "medication_id",
+          "medication_category.category_id",
+          "medication_category.category_name",
+          "medication_stock_take_id",
+        ]
+      }),
+      Medication_stock_take.count({
+        distinct: true,
+        col: 'medication_name',
+        where
+      })
+
+    ])
+
+    // const count = await Medication_stock_take.count({
+    //   distinct: true,
+    //   col: 'medication_name'
+    // })
+
     res.json({
-      data: rows,
+      data: data.rows,
       total: count,
       page: page,
       pageSize: limit,
@@ -69,7 +109,24 @@ const getMedicationStockTakeDetail = async (req, res, next) => {
     const { id } = req.params;
     const result = await Medication_stock_take.findOne({
       where: {
-        result_id: id,
+        medication_stock_take_id: id,
+      },
+    });
+    res.json(result);
+    next();
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// 
+const getAllMedicationStockTakeDetail = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const result = await Medication_stock_take.findAll({
+      order: [['date_of_stock_take', 'ASC']],
+      where: {
+        medication_id: id,
       },
     });
     res.json(result);
@@ -121,7 +178,7 @@ const getMedicationStockTakeRange = async (req, res, next) => {
         [col("medication_name"), "medication_name"],
         [fn("COUNT", col("date_of_stock_take")), 'count']
       ],
-      group:[
+      group: [
         "medication_name",
         "date_of_stock_take"
       ]
@@ -139,5 +196,6 @@ module.exports = {
   getMedicationStockTakeDetail,
   editMedicationStockTake,
   deleteMedicationStockTake,
-  getMedicationStockTakeRange
+  getMedicationStockTakeRange,
+  getAllMedicationStockTakeDetail
 };

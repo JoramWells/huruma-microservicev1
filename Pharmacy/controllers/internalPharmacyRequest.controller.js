@@ -75,13 +75,14 @@ const getAllInternalPharmacyRequests = async (req, res, next) => {
         }
       ],
     });
-    next();
     res.json({
       data: rows,
       total: count,
       page,
       pageSize: limit,
     });
+    next();
+
   } catch (error) {
     console.log(error);
     next(error);

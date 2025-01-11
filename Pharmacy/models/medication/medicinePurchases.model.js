@@ -2,6 +2,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Medication = require('./medication.model');
+const Users = require('../user/user.model');
+const Hospital_store = require('../hospital/hospitalStores.model');
+const Medication_purchase_type = require('./medicationPurchaseType.model');
+const Suppliers = require('../supplier/suppliers.model');
 
 const Medicine_purchase = sequelize.define('medicine_purchases', {
   purchase_id: {
@@ -75,5 +79,9 @@ const Medicine_purchase = sequelize.define('medicine_purchases', {
 // })
 
 Medicine_purchase.belongsTo(Medication, { foreignKey: 'medication_id' });
+Medicine_purchase.belongsTo(Users, { foreignKey: 'user_id' });
+Medicine_purchase.belongsTo(Hospital_store, { foreignKey: 'hospital_store_id' });
+Medicine_purchase.belongsTo(Medication_purchase_type, { foreignKey: 'medication_purchase_type_id' });
+Medicine_purchase.belongsTo(Suppliers, { foreignKey: 'supplier_id' });
 
 module.exports = Medicine_purchase;

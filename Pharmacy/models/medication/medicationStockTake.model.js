@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Medication_category = require('./medicationCategory.models');
 
 const Medication_stock_take = sequelize.define('medication_stock_take', {
   medication_stock_take_id: {
@@ -60,5 +61,8 @@ const Medication_stock_take = sequelize.define('medication_stock_take', {
 // }).catch(error=>{
 //     console.error('Unable to create table :', error)
 // })
+
+Medication_stock_take.belongsTo(Medication_category, { foreignKey: 'medication_category_id' });
+
 
 module.exports = Medication_stock_take;
