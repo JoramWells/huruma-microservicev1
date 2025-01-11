@@ -4,13 +4,13 @@
 // const { Kafka } = require('kafkajs');
 const { Op } = require('sequelize');
 const sequelize = require('../db/connect');
-const Appointments2 = require('../models/_appointment/appointments2.models');
 // const Insurance_detail = require('../../root/models/insurance/insurance.model');
 const Patient = require('../models/patient/patients.model');
 const InsuranceDetail = require('../models/insurance/insuranceDetail.model');
 const Users = require('../models/user/user.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
-const PatientDetails = require('../models/patient/patientDetails.model');
+const AppointmentDiagnoses = require('../models/_appointment/AppointmentDiagnosis.model');
+const Appointments2 = require('../models/_appointment/appointments2.models');
 const Appointments = require('../models/_appointment/appointments.model');
 // const Patient = require('../../Patients/models/patient2.models');
 
@@ -21,7 +21,7 @@ const Appointments = require('../models/_appointment/appointments.model');
 
 // const consumer = kafka.consumer({ groupId: 'appointment-create-group' });
 
-const addAppointments = async (req, res, next) => {
+const addAppointmentDiagnoses = async (req, res, next) => {
   // await consumer.connect();
   // await consumer.subscribe({ topic: 'register-patient' });
 
@@ -34,14 +34,14 @@ const addAppointments = async (req, res, next) => {
   // });
 };
 
-// const addAppointments = async (req, res, next) => {
+// const addAppointmentDiagnoses = async (req, res, next) => {
 //   const {
 //     patientId, temperature, pulse_rate, respiratoryRate,
 //     systolic, diastolic, weight, height, bmi, sp02,
 //   } = req.body;
 
 //   try {
-//     const isAppointed = await Appointments2.findOne({
+//     const isAppointed = await AppointmentDiagnoses.findOne({
 //       where: {
 //         patient_id: patientId,
 //       },
@@ -61,7 +61,7 @@ const addAppointments = async (req, res, next) => {
 //       next();
 //       return isAppointed.save();
 //     }
-//     const newAppointment = await Appointments2.create(req.body);
+//     const newAppointment = await AppointmentDiagnoses.create(req.body);
 //     res.json(newAppointment);
 
 //     next();
@@ -71,7 +71,7 @@ const addAppointments = async (req, res, next) => {
 // };
 
 // get all priceListItems
-const getAllAppointments = async (req, res, next) => {
+const getAllAppointmentDiagnoses = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query;
   let where = {};
 
@@ -89,25 +89,27 @@ const getAllAppointments = async (req, res, next) => {
       };
     }
 
-    const { rows, count } = await Appointments.findAndCountAll({
+    const { rows, count } = await AppointmentDiagnoses.findAndCountAll({
       page,
       pageSize,
       limit,
       offset,
       include: [
+        //   {
+        //     model: InsuranceDetail,
+        //     attributes: ['insurance_name'],
+        //   },
         {
-          model: PatientDetails,
-          attributes: ['first_name', 'middle_name', 'last_name', 'patient_gender'],
-          where,
+          model: Appointments,
+          attributes: ['appointment_status', 'appointment_date'],
+          include: [
+            {
+              model: Patient,
+              attributes: ['first_name', 'middle_name', 'last_name', 'patient_gender'],
+              where,
+            },
+          ],
         },
-        {
-          model: InsuranceDetail,
-          attributes: ['insurance_name'],
-        },
-        // {
-        //   model: Users,
-        //   attributes: ['full_name'],
-        // },
       ],
     });
 
@@ -128,10 +130,10 @@ const getAllAppointments = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllAppointmentsById = async (req, res, next) => {
+const getAllAppointmentDiagnosesById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const appointmentResults = await Appointments2.findAll({
+    const appointmentResults = await AppointmentDiagnoses.findAll({
       where: {
         patient_id: id,
       },
@@ -154,10 +156,10 @@ const getAllAppointmentsById = async (req, res, next) => {
   }
 };
 
-// const getAppointmentDetail = async (req, res, next) => {
+// const getAppointmentDetailDiagnoses = async (req, res, next) => {
 //   const { id } = req.params;
 //   await sequelize.sync().then(() => {
-//     Appointments2.findOne({
+//     AppointmentDiagnoses.findOne({
 //       where: {
 //         appointment_id: id,
 //       },
@@ -173,10 +175,10 @@ const getAllAppointmentsById = async (req, res, next) => {
 //   });
 // };
 
-const getAppointmentDetail = async (req, res, next) => {
+const getAppointmentDetailDiagnoses = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await Appointments2.findOne({
+    const result = await AppointmentDiagnoses.findOne({
       where: {
         appointment_id: id,
       },
@@ -196,10 +198,10 @@ const getAppointmentDetail = async (req, res, next) => {
   }
 };
 
-const editAppointmentDetail = async (req, res, next) => {
+const editAppointmentDetailDiagnoses = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    Appointments2.findOne({
+    AppointmentDiagnoses.findOne({
       where: {
         id,
       },
@@ -218,7 +220,7 @@ const editAppointmentDetail = async (req, res, next) => {
 const add = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    Appointments2.findOne({
+    AppointmentDiagnoses.findOne({
       where: {
         id,
       },
@@ -231,10 +233,10 @@ const add = async (req, res, next) => {
       .catch((error) => console.error(error));
   });
 };
-const deleteAppointment = async (req, res, next) => {
+const deleteAppointmentDiagnoses = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    Appointments2.destroy({
+    AppointmentDiagnoses.destroy({
       where: {
         id,
       },
@@ -245,10 +247,10 @@ const deleteAppointment = async (req, res, next) => {
 };
 
 module.exports = {
-  addAppointments,
-  getAllAppointments,
-  getAppointmentDetail,
-  editAppointmentDetail,
-  deleteAppointment,
-  getAllAppointmentsById,
+  addAppointmentDiagnoses,
+  getAllAppointmentDiagnoses,
+  getAppointmentDetailDiagnoses,
+  editAppointmentDetailDiagnoses,
+  deleteAppointmentDiagnoses,
+  getAllAppointmentDiagnosesById,
 };

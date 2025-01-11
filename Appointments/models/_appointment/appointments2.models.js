@@ -16,7 +16,7 @@ const Appointments2 = sequelize.define('appointments2', {
     type: DataTypes.INTEGER,
   },
   patient_id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     references: {
       model: 'patient',
       key: 'patient_id',
@@ -108,7 +108,7 @@ const Appointments2 = sequelize.define('appointments2', {
 }, { timestamps: false });
 
 Appointments2.belongsTo(Patient, { foreignKey: 'patient_id' });
-Appointments2.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
+// Appointments2.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
 // Patient.hasMany(Appointments2, { foreignKey: 'patient_id' });
 Appointments2.belongsTo(InsuranceDetail, { foreignKey: 'reference_account_id', targetKey: 'insurance_id' });
 

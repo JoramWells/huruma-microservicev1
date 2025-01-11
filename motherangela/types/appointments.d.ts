@@ -37,7 +37,10 @@ export interface AppointmentInterface {
   user: string | null;
 }
 
-export interface AppointmentDiagnosis{
+export interface AppointmentDiagnosisInterface{
+  appointment?: AppointmentInterface & {
+    patient_detail?: PatientInterface
+  }
   appointment_diagnosis: string
   appointment_id: string
   diagnosis_id: string
