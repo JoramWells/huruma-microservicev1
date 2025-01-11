@@ -111,7 +111,7 @@ const getInternalPharmacyRequest = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.sendStatus(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
