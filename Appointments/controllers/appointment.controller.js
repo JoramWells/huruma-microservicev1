@@ -90,6 +90,7 @@ const getAllAppointments = async (req, res, next) => {
     }
 
     const { rows, count } = await Appointments.findAndCountAll({
+      order: [['appointment_date', 'DESC']],
       page,
       pageSize,
       limit,
@@ -104,10 +105,10 @@ const getAllAppointments = async (req, res, next) => {
           model: InsuranceDetail,
           attributes: ['insurance_name'],
         },
-        // {
-        //   model: Users,
-        //   attributes: ['full_name'],
-        // },
+        {
+          model: Users,
+          attributes: ['full_name'],
+        },
       ],
     });
 
@@ -141,6 +142,7 @@ const getAllAppointmentsById = async (req, res, next) => {
           model: Patient,
           attributes: ['first_name', 'middle_name'],
         },
+
         {
           model: InsuranceDetail,
           attributes: ['insurance_name'],
@@ -176,7 +178,7 @@ const getAllAppointmentsById = async (req, res, next) => {
 const getAppointmentDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await Appointments2.findOne({
+    const result = await Appointments.findOne({
       where: {
         appointment_id: id,
       },

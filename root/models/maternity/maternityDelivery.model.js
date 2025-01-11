@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Maternity_profile = require('./maternityProfile.model');
 
 const Maternity_delivery = sequelize.define('maternity_delivery', {
   maternity_delivery_id: {
@@ -41,13 +42,13 @@ const Maternity_delivery = sequelize.define('maternity_delivery', {
   oxytocin: {
     type: DataTypes.STRING,
   },
-  azt_single_done: {
+  azt_single_dose: {
     type: DataTypes.STRING,
   },
   vitamin_a: {
     type: DataTypes.STRING,
   },
-  nvp_single_done: {
+  nvp_single_dose: {
     type: DataTypes.STRING,
   },
   vitamin_k: {
@@ -64,6 +65,9 @@ const Maternity_delivery = sequelize.define('maternity_delivery', {
   },
 
 });
+
+Maternity_delivery.belongsTo(Maternity_profile, { foreignKey: 'maternity_profile_id' });
+
 
 module.exports = Maternity_delivery;
 

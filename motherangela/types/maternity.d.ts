@@ -42,3 +42,26 @@ export interface AntenatalProfileInterface{
   tb_screening: string | null
   urinalysis: string | null
 }
+
+export interface MaternityDeliveryInterface{
+  maternity_delivery_id: number
+  maternity_profile_id: string
+  maternity_profile?: MaternityProfileInterface
+  duration_of_pregnancy: string
+  mode_of_delivery: string
+  date_of_delivery: string
+  blood_loss: string
+  condition_of_mother: string
+  agpar_score_1_min: string
+  agpar_score_5_min: string
+  agpar_score_10_min: string
+  rescuscitation_done: string
+  oxytocin: string
+  azt_single_done: string
+  vitamin_a: string
+  nvp_single_done: string
+  vitamin_k: string
+  teo: string
+  place_of_delivery: string
+  conducted_by: string
+}

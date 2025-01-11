@@ -2,16 +2,16 @@
 /* eslint-disable no-unused-vars */
 const { Sequelize, Op } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Maternity_profile = require('../../models/maternity/maternityProfile.model');
 const Patient = require('../../models/patient/patient.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
+const Maternity_delivery = require('../../models/maternity/maternityDelivery.model');
+const Maternity_profile = require('../../models/maternity/maternityProfile.model');
 // const Patient_details = require('../../models/patient/patients.models');
 // const Appointments2 = require('../../models/appointment/appointments2.models');
-// const Maternity_profile = require('../models/maternityProfile.model');
 
-const addMaternityProfile = async (req, res, next) => {
+const addMaternityDelivery = async (req, res, next) => {
   try {
-    const newProfile = Maternity_profile.create(req.body);
+    const newProfile = Maternity_delivery.create(req.body);
     res.status(201).json(newProfile);
     next();
   } catch (error) {
@@ -19,7 +19,7 @@ const addMaternityProfile = async (req, res, next) => {
   }
 };
 
-const getAllMaternityProfile = async (req, res, next) => {
+const getAllMaternityDeliveries = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query;
   let where = {};
 
@@ -35,10 +35,10 @@ const getAllMaternityProfile = async (req, res, next) => {
       };
     }
 
-    const { rows, count } = await Maternity_profile.findAndCountAll({
-      order: [
-        [Sequelize.literal("CAST(TO_DATE(edd, 'DD/MM/YYYY') AS DATE)"), 'DESC']
-      ],
+    const { rows, count } = await Maternity_delivery.findAndCountAll({
+      // order: [
+      //   [Sequelize.literal("CAST(TO_DATE(edd, 'DD/MM/YYYY') AS DATE)"), 'DESC']
+      // ],
       page,
       pageSize,
       limit,
@@ -48,12 +48,13 @@ const getAllMaternityProfile = async (req, res, next) => {
         // edd: {
         //   [Op.ne]: ''
         // }
-      }
-      // include:[
-      //   {
-      //     model: Patient
-      //   }
-      // ]
+      },
+      include: [
+        {
+          model: Maternity_profile,
+          attributes: ['name_of_client']
+        }
+      ]
     });
     res.json({
       data: rows,
@@ -64,16 +65,17 @@ const getAllMaternityProfile = async (req, res, next) => {
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
+    console.log(error)
     next(error);
   }
 };
 
-const getMaternityProfileDetail = async (req, res, next) => {
+const getMaternityDeliveryDetail = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const admission = await Maternity_profile.findOne({
+    const admission = await Maternity_delivery.findOne({
       where: {
-        maternity_profile_id: id,
+        id,
       },
       // include: [
       //   {
@@ -93,10 +95,10 @@ const getMaternityProfileDetail = async (req, res, next) => {
   }
 };
 
-const editMaternityProfile = async (req, res, next) => {
+const editMaternityDelivery = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const user = await Maternity_profile.findOne({
+    const user = await Maternity_delivery.findOne({
       where: {
         id,
       },
@@ -110,10 +112,10 @@ const editMaternityProfile = async (req, res, next) => {
   }
 };
 
-const deleteMaternityProfile = async (req, res, next) => {
+const deleteMaternityDelivery = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Maternity_profile.destroy({
+    const results = await Maternity_delivery.destroy({
       where: {
         admission_id: id,
       },
@@ -128,9 +130,9 @@ const deleteMaternityProfile = async (req, res, next) => {
 };
 
 module.exports = {
-  addMaternityProfile,
-  getAllMaternityProfile,
-  getMaternityProfileDetail,
-  editMaternityProfile,
-  deleteMaternityProfile,
+  addMaternityDelivery,
+  getAllMaternityDeliveries,
+  getMaternityDeliveryDetail,
+  editMaternityDelivery,
+  deleteMaternityDelivery,
 };

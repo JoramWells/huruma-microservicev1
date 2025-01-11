@@ -1,4 +1,4 @@
-import { PatientInterface } from "./patients";
+import { PatientInterface, UserInterface } from "./patients";
 
 export interface AppointmentInterface {
   account_type_id: number;
@@ -26,7 +26,7 @@ export interface AppointmentInterface {
   nhif_claim_number: string | null;
   nhif_rebate_amount: string | null;
   nhif_rebate_amount_of_applicable_days: string | null;
-  patient: PatientInterface;
+  patient_detail: PatientInterface;
   patient_id: string;
   patient_monitoring_notes: string | null;
   patient_registration_charge: string | null;
@@ -34,7 +34,7 @@ export interface AppointmentInterface {
   reference_account_id: number;
   referral_type_id: string | null;
   total_appointment_discount: string | null;
-  user: string | null;
+  user: UserInterface | null;
 }
 
 export interface AppointmentDiagnosisInterface{

@@ -1,9 +1,10 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Maternity_antenatal_profile = require('../../models/maternity/maternityAntenatalProfile.model');
 const Maternity_profile = require('../../models/maternity/maternityProfile.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 const addMaternityAntenatalProfile = async (req, res, next) => {
   sequelize.sync().then(() => {
@@ -17,25 +18,39 @@ const addMaternityAntenatalProfile = async (req, res, next) => {
 };
 
 const getAllMaternityAntenatalProfile = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    await sequelize.sync().then(() => {
-      Maternity_antenatal_profile.findAll({
-        include: [
-          {
-            model: Maternity_profile,
-            attributes: ['name_of_client'],
-          },
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { name_of_client: { [Op.iLike]: `%${searchQuery}%` } },
         ],
-      })
-        .then((response) => {
-          res.status(200).json(response);
-          // res.sendStatus(200)
-          next();
-        })
-        .catch((error) => {
-          next(error);
-        });
+      };
+    }
+    const { rows, count } = await Maternity_antenatal_profile.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      include: [
+        {
+          model: Maternity_profile,
+          attributes: ['name_of_client'],
+        },
+      ],
+    })
+    res.json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
     });
+    next()
   } catch (error) {
     next(error);
   }

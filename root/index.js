@@ -33,6 +33,7 @@ const inPatientCaseTypeRoutes = require('./routes/inPatientCaseTypes.routes');
 const hospitalStoreRoutes = require('./routes/hospitalStore.routes');
 const maternityAntenatalProfileRoutes = require('./routes/maternityAntenatalProfile.routes');
 const maternityProfileRoutes = require('./routes/maternityProfile.routes');
+const maternityDeliveryRoutes = require('./routes/maternity/maternityDelivery.routes');
 const wardTypeRoutes = require('./routes/ward/wardType.routes');
 
 const creditPaymentRoutes = require('./routes/creditPayment.routes');
@@ -92,6 +93,7 @@ app.use('/in-patient-case-type', inPatientCaseTypeRoutes);
 app.use('/hospital-store', hospitalStoreRoutes);
 app.use('/maternity-antenatal-profile', maternityAntenatalProfileRoutes);
 app.use('/maternity-profile', maternityProfileRoutes);
+app.use('/maternity-deliveries', maternityDeliveryRoutes);
 app.use('/ward-types', wardTypeRoutes);
 app.use('/credit-payment', creditPaymentRoutes);
 app.use('/company', companyRoutes);
