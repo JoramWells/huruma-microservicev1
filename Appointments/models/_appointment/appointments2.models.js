@@ -31,6 +31,7 @@ const Appointments2 = sequelize.define('appointments2', {
   },
   appointment_status: {
     type: DataTypes.STRING,
+    allowNull: true,
   },
   consultation_type: {
     type: DataTypes.INTEGER,

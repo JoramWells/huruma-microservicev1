@@ -2,16 +2,17 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const { Sequelize } = require('sequelize');
+const { Op } = require('sequelize');
 const sequelize = require('../db/connect');
 const Inpatient_case_types = require(
-    '../models/inpatient/inpatientCaseTypes.model',
+  '../models/inpatient/inpatientCaseTypes.model',
 );
 const Admissions2 = require('../models/_admission/admission2.model');
 const WardBed = require('../models/ward/wardBed.model');
 const Admission_category = require('../models/_admission/admissionCategory');
 const Wards = require('../models/ward/ward.model');
 const Patient_details = require('../models/patient/patients.model');
-
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 const addAdmission = async (req, res, next) => {
   try {
@@ -27,14 +28,33 @@ const addAdmission = async (req, res, next) => {
 };
 
 const getAllAdmission = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const admissions = await Admissions2.findAll({
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Admissions2.findAndCountAll({
       order: [['admission_date', 'DESC']],
-      limit: 100,
+      page,
+      pageSize,
+      limit,
+      offset,
       include: [
         {
           model: Patient_details,
           attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
+          where,
         },
         {
           model: WardBed,
@@ -46,7 +66,12 @@ const getAllAdmission = async (req, res, next) => {
         },
       ],
     });
-    res.json(admissions);
+    res.json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     console.log(error);
@@ -54,7 +79,6 @@ const getAllAdmission = async (req, res, next) => {
     next(error);
   }
 };
-
 
 const getAdmissionDetail = async (req, res, next) => {
   try {

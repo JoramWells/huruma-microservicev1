@@ -4,6 +4,7 @@ import { PatientInterface, UserInterface } from "./patients";
 export interface MedicineInterface{
   medication_id: string
   medication_name: string
+  medication_category?: MedicineCategory;
   medication_category_id: string
   hospital_id: string
   price: string
@@ -122,6 +123,7 @@ export interface MedicationStockTakeInterface {
   unit_price: string
   user_id: string
   variance_total_price: string
+  latest_stock_take_date: Date | string
 }
 
 export interface InternalPharmacyRequestInterface{

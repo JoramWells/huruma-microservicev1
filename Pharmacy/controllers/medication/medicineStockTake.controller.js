@@ -61,7 +61,7 @@ const getAllMedicationStockTake = async (req, res, next) => {
           }
         ],
         attributes: [
-          [fn("MAX", col('date_of_stock_take')), 'latestStockTakeDate'],
+          [fn("MAX", col('date_of_stock_take')), 'latest_stock_take_date'],
           "medication_id",
           "medication_name",
           "medication_packaging_type_description",

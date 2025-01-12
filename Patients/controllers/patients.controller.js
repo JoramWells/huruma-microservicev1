@@ -4,6 +4,7 @@
 /* eslint-disable no-unused-vars */
 const moment = require('moment/moment');
 const express = require('express');
+const { Op } = require('sequelize');
 
 const http = require('http');
 const { Server } = require('socket.io');
@@ -22,6 +23,7 @@ const sequelize = require('../db/connect');
 const InsuranceServiceCostMapping = require('../models/insurance/insuranceServiceCostMapping.model');
 const Appointments2 = require('../models/appointment/appointments.model');
 const Patient_details = require('../models/patients.models');
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 const app = express();
 const server = http.createServer(app);
@@ -107,9 +109,35 @@ const addPatients = async (req, res, next) => {
 
 // get all priceListItems
 const getAllPatients = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const patients = await Patient_details.findAll({ limit: 100 });
-    res.json(patients);
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Patient_details.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      where
+    });
+    res.json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     console.log(error);

@@ -1,3 +1,8 @@
+export interface PayrollEmployeeCategoryInterface{
+    employee_category_id: number
+    employee_category_description: string
+}
+
 export interface PayrollPeriodsInterface{
     payroll_id: string
     pay_period_id: string
@@ -10,6 +15,7 @@ export interface PayrollPeriodsInterface{
     deduct_nhif: string
     hospital_id: string
     employee_category_id: string
+    payroll_employee_category?: PayrollEmployeeCategoryInterface
 }
 
 export interface PayrollEmployeeRecordsInterface{

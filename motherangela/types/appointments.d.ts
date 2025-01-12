@@ -6,6 +6,7 @@ export interface AppointmentInterface {
   appointment_time: string;
   appointment_id: string;
   appointment_date: string | Date;
+  appointment_status: string
   charges: number;
   claim_number: string | null;
   clinic_id: null | string;
