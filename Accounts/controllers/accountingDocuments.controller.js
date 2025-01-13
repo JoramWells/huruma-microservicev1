@@ -10,6 +10,7 @@ const AccountingStores = require('../models/_accounts/accountingStore.model');
 const Accounting_item = require('../models/_accounts/accountingItems.model');
 const AccountingDocumentStatus = require('../models/_accounts/accountingDocumentStatus.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
+const AccountingDepartment = require('../models/_accounts/accountingDepartment.model');
 
 const addAccountingDocument = async (req, res, next) => {
   try {
@@ -69,6 +70,10 @@ const getAllAccountingDocuments = async (req, res, next) => {
         {
           model: AccountingDocumentStatus,
           attributes: ['document_status_description'],
+        },
+        {
+          model: AccountingDepartment,
+          attributes: ['department_name'],
         },
       ],
     });

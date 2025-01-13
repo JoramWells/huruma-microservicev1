@@ -35,6 +35,7 @@ const getAllAccountingAssets = async (req, res, next) => {
       };
     }
     const { rows, count } = await AccountingAssets.findAndCountAll({
+      order: [['date_of_last_physical_check', 'DESC']],
       page,
       pageSize,
       limit,

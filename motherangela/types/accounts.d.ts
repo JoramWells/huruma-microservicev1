@@ -64,6 +64,22 @@ export interface AccountingAssetsLocationsInterface{
     asset_location_description: string
 }
 
+export interface AccountingDepartmentInterface{
+    department_id: number
+    department_name: string
+    associated_hospital_store_id: string
+    hospital_store?: HospitalStoreInterface
+
+}
+
+export interface AccountingCostCentreInterface{
+    accounting_department?: AccountingDepartmentInterface
+    cost_centre_id: number
+    cost_centre_description: string
+    department_id: number
+
+}
+
 export interface AccountingGroupInterface{
     account_group_id: number
     account_group_description: string
@@ -71,12 +87,15 @@ export interface AccountingGroupInterface{
 }
 
 
+
+
 export interface AccountDetailsInterface{
     account_code: string
     account_group_id: string
     account_id: number
     account_name: string
-    account_group?: AccountingGroupInterface
+    accounting_department?: AccountingDepartmentInterface
+    accounting_group?: AccountingGroupInterface
     department_id: string
     is_deletable: string
     is_level_one_parent_account: string
@@ -160,12 +179,13 @@ export interface AccountingDocumentsInterface{
     sub_item_id: string
     sub_document_type_id: string
     account_id: string
+    accounting_department?: AccountingDepartmentInterface
     accounting_account_detail?: AccountDetailsInterface
     accounting_client?: AccountingClientInterface
     accounting_document_status?: AccountingDocumentStatusInterface
     accounting_document_type?: AccountingDocumentTypeInterface
-    accounting_items?: AccountingItemInterface
-    accounting_stores?: AccountingStoresInterface
+    accounting_item?: AccountingItemInterface
+    accounting_store?: AccountingStoresInterface
     client_name: string
     document_number_source: string
     cash_given: string

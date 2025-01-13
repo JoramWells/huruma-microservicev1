@@ -1,33 +1,61 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const sequelize = require('../db/connect');
 const AccountingDepartment = require('../models/_accounts/accountingDepartment.model');
-
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
+const HospitalStores = require('../models/hospital/hospitalStores.model');
 
 const addAccountingDepartment = async (req, res, next) => {
-try {
-  const results = await AccountingDepartment.create(req.body)
-  res.json(results)
-  next()
-
-} catch (error) {
-  next(error)
-  console.log(error)
-}      
-};
-
-const getAllAccountingDepartment = async (req, res, next) => {
   try {
-    const results = await AccountingDepartment.findAll({});
-    res.status(200).json(results);
+    const results = await AccountingDepartment.create(req.body);
+    res.json(results);
     next();
   } catch (error) {
-    console.log(error)
     next(error);
+    console.log(error);
   }
 };
 
+const getAllAccountingDepartment = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
+  try {
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { department_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await AccountingDepartment.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      include: [
+        {
+          model: HospitalStores,
+          attributes: ['hospital_store_description'],
+        },
+      ],
+    });
+    res.status(200).json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
+    next();
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
 
 const getAccountingDepartmentDetail = async (req, res, next) => {
   const { id } = req.params;

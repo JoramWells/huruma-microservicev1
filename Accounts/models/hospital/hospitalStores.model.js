@@ -21,9 +21,8 @@ const HospitalStores = sequelize.define('hospital_stores', {
     },
 });
 
-HospitalStores.belongsTo(HospitalClinics, { foreignKey: 'clinic_id' })
-HospitalStores.belongsTo(HospitalStoreTypes, { foreignKey:'hospital_store_type_id'})
-
+HospitalStores.belongsTo(HospitalClinics, { foreignKey: 'clinic_id' });
+HospitalStores.belongsTo(HospitalStoreTypes, { foreignKey: 'hospital_store_type_id' });
 
 module.exports = HospitalStores;
 

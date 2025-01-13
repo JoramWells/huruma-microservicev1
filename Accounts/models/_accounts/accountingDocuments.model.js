@@ -8,6 +8,7 @@ const AccountingClients = require('./accountingClients.model');
 const AccountingStores = require('./accountingStore.model');
 const Accounting_item = require('./accountingItems.model');
 const AccountingDocumentStatus = require('./accountingDocumentStatus.model');
+const AccountingDepartment = require('./accountingDepartment.model');
 
 const AccountingDocuments = sequelize.define('accounting_documents', {
   document_id: {
@@ -263,6 +264,7 @@ AccountingDocuments.belongsTo(AccountingClients, { foreignKey: 'client_id' });
 AccountingDocuments.belongsTo(AccountingStores, { foreignKey: 'store_id' });
 AccountingDocuments.belongsTo(Accounting_item, { foreignKey: 'item_id' });
 AccountingDocuments.belongsTo(AccountingDocumentStatus, { foreignKey: 'document_status_id' });
+AccountingDocuments.belongsTo(AccountingDepartment, { foreignKey: 'department_id' });
 
 module.exports = AccountingDocuments;
 

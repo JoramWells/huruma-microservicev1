@@ -14,7 +14,6 @@ const HospitalStoreTypes = sequelize.define('hospital_store_types', {
 
 });
 
-
 module.exports = HospitalStoreTypes;
 
 // has no classification and status

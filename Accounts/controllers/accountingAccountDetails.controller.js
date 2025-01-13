@@ -5,6 +5,7 @@ const sequelize = require('../db/connect');
 const AccountingAccountDetails = require('../models/_accounts/accountingAccountDetails.model');
 const AccountingGroups = require('../models/_accounts/accountingGroup.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
+const AccountingDepartment = require('../models/_accounts/accountingDepartment.model');
 
 const addAccountingAccountDetail = async (req, res, next) => {
   try {
@@ -42,6 +43,10 @@ const getAllAccountingAccountDetails = async (req, res, next) => {
         {
           model: AccountingGroups,
           attributes: ['account_group_description'],
+        },
+        {
+          model: AccountingDepartment,
+          attributes: ['department_name'],
         },
       ],
     });

@@ -17,7 +17,7 @@ const AccountingCostCentres = sequelize.define('accounting_cost_centres', {
   },
 });
 
-AccountingCostCentres.belongsTo(AccountingDepartment,{foreignKey:'department_id'})
+AccountingCostCentres.belongsTo(AccountingDepartment, { foreignKey: 'department_id' });
 
 module.exports = AccountingCostCentres;
 

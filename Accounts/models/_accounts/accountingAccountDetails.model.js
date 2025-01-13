@@ -3,6 +3,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const AccountingGroups = require('./accountingGroup.model');
+const AccountingDepartment = require('./accountingDepartment.model');
 
 const AccountingAccountDetails = sequelize.define('accounting_account_details', {
   account_id: {
@@ -33,6 +34,7 @@ const AccountingAccountDetails = sequelize.define('accounting_account_details', 
 });
 
 AccountingAccountDetails.belongsTo(AccountingGroups, { foreignKey: 'account_group_id' });
+AccountingAccountDetails.belongsTo(AccountingDepartment, { foreignKey: 'department_id' });
 
 module.exports = AccountingAccountDetails;
 
