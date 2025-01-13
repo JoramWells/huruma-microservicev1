@@ -79,9 +79,9 @@ const AccountingAssets = sequelize.define('accounting_assets', {
   },
 });
 
-AccountingAssets.belongsTo(AccountingAssetCategory, { foreignKey: 'asset_category_id' })
-AccountingAssets.belongsTo(AccountingAssetLocation, { foreignKey: 'asset_location_id' })
-AccountingAssets.belongsTo(AccountingAssetStatus, { foreignKey: 'asset_status_id' })
+AccountingAssets.belongsTo(AccountingAssetCategory, { foreignKey: 'asset_category_id' });
+AccountingAssets.belongsTo(AccountingAssetLocation, { foreignKey: 'asset_location_id' });
+AccountingAssets.belongsTo(AccountingAssetStatus, { foreignKey: 'asset_status_id' });
 
 module.exports = AccountingAssets;
 

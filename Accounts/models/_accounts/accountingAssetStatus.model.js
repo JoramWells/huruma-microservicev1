@@ -13,8 +13,6 @@ const AccountingAssetStatus = sequelize.define('accounting_asset_status', {
   },
 });
 
-
-
 module.exports = AccountingAssetStatus;
 
 // has no classification and status

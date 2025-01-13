@@ -2,11 +2,14 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
-const AccountingAssetCategory = require('./accountingAssetCategory.model');
-const AccountingAssetLocation = require('./accountingAssetLocation.model');
-const AccountingAssetStatus = require('./accountingAssetStatus.model');
+const AccountingAccountDetails = require('./accountingAccountDetails.model');
+const AccountingDocumentTypes = require('./accountingDocumentTypes.model');
+const AccountingClients = require('./accountingClients.model');
+const AccountingStores = require('./accountingStore.model');
+const Accounting_item = require('./accountingItems.model');
+const AccountingDocumentStatus = require('./accountingDocumentStatus.model');
 
-const AccountingDocuments = sequelize.define('accounting_assets', {
+const AccountingDocuments = sequelize.define('accounting_documents', {
   document_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -44,9 +47,7 @@ const AccountingDocuments = sequelize.define('accounting_assets', {
   item_description: {
     type: DataTypes.STRING,
   },
-  quantity: {
-    type: DataTypes.INTEGER,
-  },
+
   unit_price: {
     type: DataTypes.INTEGER,
   },
@@ -62,9 +63,9 @@ const AccountingDocuments = sequelize.define('accounting_assets', {
   serial: {
     type: DataTypes.STRING,
   },
-  amount_inclusive_of_tax: {
+  amounts_inclusive_of_tax: {
     type: DataTypes.STRING,
-    defaultValue: 'NO'
+    defaultValue: 'NO',
   },
   user_id: {
     type: DataTypes.INTEGER,
@@ -123,7 +124,7 @@ const AccountingDocuments = sequelize.define('accounting_assets', {
   cleared_by: {
     type: DataTypes.INTEGER,
   },
-  discount_id_reference: {
+  document_id_reference: {
     type: DataTypes.STRING,
   },
   serial_reference: {
@@ -233,11 +234,11 @@ const AccountingDocuments = sequelize.define('accounting_assets', {
   },
   item_serial_number: {
     type: DataTypes.STRING,
-  }, 
+  },
   transaction_complete: {
     type: DataTypes.STRING,
-    defaultValue: 'NO'
-  }, 
+    defaultValue: 'NO',
+  },
   user_shift_id: {
     type: DataTypes.INTEGER,
   },
@@ -254,12 +255,14 @@ const AccountingDocuments = sequelize.define('accounting_assets', {
     type: DataTypes.STRING,
   },
 
-
 });
 
-AccountingDocuments.belongsTo(AccountingAssetCategory, { foreignKey: 'asset_category_id' })
-AccountingDocuments.belongsTo(AccountingAssetLocation, { foreignKey: 'asset_location_id' })
-AccountingDocuments.belongsTo(AccountingAssetStatus, { foreignKey: 'asset_status_id' })
+AccountingDocuments.belongsTo(AccountingAccountDetails, { foreignKey: 'account_id' });
+AccountingDocuments.belongsTo(AccountingDocumentTypes, { foreignKey: 'document_type_id' });
+AccountingDocuments.belongsTo(AccountingClients, { foreignKey: 'client_id' });
+AccountingDocuments.belongsTo(AccountingStores, { foreignKey: 'store_id' });
+AccountingDocuments.belongsTo(Accounting_item, { foreignKey: 'item_id' });
+AccountingDocuments.belongsTo(AccountingDocumentStatus, { foreignKey: 'document_status_id' });
 
 module.exports = AccountingDocuments;
 

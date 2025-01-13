@@ -32,7 +32,7 @@ const AccountingAccountDetails = sequelize.define('accounting_account_details', 
   },
 });
 
-AccountingAccountDetails.belongsTo(AccountingGroups,{foreignKey:'account_group_id'})
+AccountingAccountDetails.belongsTo(AccountingGroups, { foreignKey: 'account_group_id' });
 
 module.exports = AccountingAccountDetails;
 

@@ -1,6 +1,9 @@
 /* eslint-disable import/no-unresolved */
 const express = require('express');
-const { addAccountingAccountDetail, getAllAccountingAccountDetails, getAccountingAccountDetail, editAccountingAccountDetail, deleteAccountingAccountDetail } = require('../controllers/accountingAccountDetails.model');
+const {
+    addAccountingAccountDetail, getAllAccountingAccountDetails,
+    getAccountingAccountDetail, editAccountingAccountDetail, deleteAccountingAccountDetail,
+} = require('../controllers/accountingAccountDetails.controller');
 
 const router = express.Router();
 

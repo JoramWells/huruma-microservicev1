@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 
 const AccountingDocumentTypes = sequelize.define('accounting_document_types', {
-  document_id: {
+  document_type_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
@@ -15,7 +15,6 @@ const AccountingDocumentTypes = sequelize.define('accounting_document_types', {
     type: DataTypes.INTEGER,
   },
 });
-
 
 module.exports = AccountingDocumentTypes;
 

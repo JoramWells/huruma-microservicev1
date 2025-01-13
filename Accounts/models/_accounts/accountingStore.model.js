@@ -21,9 +21,8 @@ const AccountingStores = sequelize.define('accounting_stores', {
   },
 });
 
-AccountingStores.belongsTo(HospitalStores, { foreignKey: 'hospital_store_id' })
-AccountingStores.belongsTo(AccountingStoreTypes, { foreignKey:'store_type_id'})
-
+AccountingStores.belongsTo(HospitalStores, { foreignKey: 'hospital_store_id' });
+AccountingStores.belongsTo(AccountingStoreTypes, { foreignKey: 'store_type_id' });
 
 module.exports = AccountingStores;
 
