@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/add', addAppointments);
 router.get('/fetchAll', getAllAppointments);
 router.get('/detail/:id', getAppointmentDetail);
-router.get('/detailAll/:id', getAllAppointmentsById);
+router.get('/details/:id', getAllAppointmentsById);
 router.put('/edit', editAppointmentDetail);
 router.delete('/delete/:id', deleteAppointment);
 

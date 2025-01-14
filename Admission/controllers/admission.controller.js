@@ -83,7 +83,7 @@ const getAllAdmission = async (req, res, next) => {
 const getAdmissionDetail = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const admission = await Admissions2.findAll({
+    const admission = await Admissions2.findOne({
       limit: 100,
       where: {
         admission_id: id,
@@ -105,6 +105,64 @@ const getAdmissionDetail = async (req, res, next) => {
       ],
     });
     res.json(admission);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
+  }
+};
+
+const getAdmissionDetailByPatientID = async (req, res, next) => {
+  const { id } = req.params;
+
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
+  try {
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Admissions2.findAndCountAll({
+      order: [['admission_date', 'DESC']],
+      where: {
+        patient_id: id,
+      },
+      page,
+      pageSize,
+      limit,
+      offset,
+      include: [
+        {
+          model: Patient_details,
+          attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
+          where,
+        },
+        {
+          model: WardBed,
+          attributes: ['bed_number'],
+        },
+        {
+          model: Wards,
+          attributes: ['ward_description'],
+        },
+      ],
+    });
+    res.json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     console.log(error);
@@ -151,4 +209,5 @@ module.exports = {
   getAdmissionDetail,
   editAdmissionDetail,
   deleteAdmission,
+  getAdmissionDetailByPatientID,
 };

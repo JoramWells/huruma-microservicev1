@@ -221,3 +221,15 @@ export interface AccountingDocumentsInterface{
     time_created: string
 
 }
+
+export interface CashPaymentModesInterface{
+    cash_payment_mode_id: number
+    cash_payment_mode_description: string
+}
+
+export interface AccountingBankAccountsInterface{
+    bank_id: number
+    bank_name: string
+    account_id: string
+    transaction_charges_percentage: string
+}

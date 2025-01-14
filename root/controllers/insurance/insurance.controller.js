@@ -5,6 +5,9 @@ const Insurance_detail = require('../../models/insurance/insurance.model');
 const Insurance_limit_type = require('../../models/insurance/insuranceLimitTypes.model');
 const InsuranceType = require('../../models/insurance/insuranceType.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
+const { Sequelize, Op } = require('sequelize');
+
+
 
 const addInsurance = async (req, res, next) => {
   const {

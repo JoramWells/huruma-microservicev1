@@ -131,26 +131,55 @@ const getAllAppointments = async (req, res, next) => {
 // get all priceListItems
 const getAllAppointmentsById = async (req, res, next) => {
   const { id } = req.params;
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const appointmentResults = await Appointments2.findAll({
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+
+    const { rows, count } = await Appointments.findAndCountAll({
+      order: [['appointment_date', 'DESC']],
+      page,
+      pageSize,
+      limit,
+      offset,
       where: {
         patient_id: id,
       },
-      limit: 100,
       include: [
         {
-          model: Patient,
-          attributes: ['first_name', 'middle_name'],
+          model: PatientDetails,
+          attributes: ['first_name', 'middle_name', 'last_name', 'patient_gender'],
+          // where,
         },
-
         {
           model: InsuranceDetail,
           attributes: ['insurance_name'],
         },
+        {
+          model: Users,
+          attributes: ['full_name'],
+        },
       ],
     });
 
-    res.status(200).json(appointmentResults);
+    res.status(200).json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
   } catch (error) {
     next(error);
   }
