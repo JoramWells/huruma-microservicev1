@@ -5,6 +5,7 @@ const sequelize = require('../../db/connect');
 const Maternity_antenatal_profile = require('../../models/maternity/maternityAntenatalProfile.model');
 const Maternity_profile = require('../../models/maternity/maternityProfile.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
+const Patient_details = require('../../models/patient/patientDetails.models');
 
 const addMaternityAntenatalProfile = async (req, res, next) => {
   sequelize.sync().then(() => {
@@ -98,6 +99,28 @@ const getMaternityAntenatalProfileDetail = async (req, res, next) => {
   });
 };
 
+const getMaternityAntenatalProfileByMaternityID = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const admission = await Maternity_antenatal_profile.findOne({
+      where: {
+        maternity_profile_id: id,
+      },
+      // include: [
+      //   {
+      //     model: Patient_details,
+      //     attributes: ['first_name', 'middle_name', 'patient_gender', 'dob', 'cell_phone'],
+
+      //   }
+      // ]
+    });
+    res.json(admission);
+    next();
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 const editMaternityAntenatalProfile = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
@@ -135,4 +158,5 @@ module.exports = {
   getMaternityAntenatalProfileDetail,
   editMaternityAntenatalProfile,
   deleteMaternityAntenatalProfile,
+  getMaternityAntenatalProfileByMaternityID
 };

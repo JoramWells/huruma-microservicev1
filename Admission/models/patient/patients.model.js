@@ -107,5 +107,4 @@ const Patient_details = sequelize.define('patient_details', {
   },
 });
 
-
 module.exports = Patient_details;

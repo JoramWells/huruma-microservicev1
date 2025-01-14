@@ -23,6 +23,7 @@ export interface MaternityProfileInterface {
   next_of_kin_relationship: string | null;
   occupation: string | null;
   parity: string | null;
+  patient_detail: PatientInterface;
   patient_id: string | null;
   surgical_operations_history: string | null;
   telephone: string | null;

@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Patient_details = require('../patient/patientDetails.models');
 // const Patient_details = require('../patient/patients.models');
 // const Appointments = require('../appointment/appointments.models');
 
@@ -94,7 +95,7 @@ const Maternity_profile = sequelize.define('maternity_profile', {
 
 });
 
-// Maternity_profile.belongsTo(Patient_details, { foreignKey: 'patient_id' });
+Maternity_profile.belongsTo(Patient_details, { foreignKey: 'patient_id' });
 // Maternity_profile.belongsTo(Appointments, { foreignKey: 'appointment_id' });
 
 // sequelize.sync().then(() => {

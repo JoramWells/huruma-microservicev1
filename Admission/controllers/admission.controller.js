@@ -13,6 +13,9 @@ const Admission_category = require('../models/_admission/admissionCategory');
 const Wards = require('../models/ward/ward.model');
 const Patient_details = require('../models/patient/patients.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
+const Users = require('../models/user/user.model');
+const AdmissionType = require('../models/_admission/admissionType.model');
+const AdmissionBedBillingTypes = require('../models/_admission/admissionBedBillingTypes.model');
 
 const addAdmission = async (req, res, next) => {
   try {
@@ -64,6 +67,10 @@ const getAllAdmission = async (req, res, next) => {
           model: Wards,
           attributes: ['ward_description'],
         },
+        {
+          model: Users,
+          attributes: ['full_name'],
+        },
       ],
     });
     res.json({
@@ -84,16 +91,15 @@ const getAdmissionDetail = async (req, res, next) => {
   try {
     const { id } = req.params;
     const admission = await Admissions2.findOne({
-      limit: 100,
       where: {
         admission_id: id,
       },
       include: [
-        // {
-        //   model: Patient,
-        //   attributes: ['first_name', 'middle_name'],
+        {
+          model: Patient_details,
+          attributes: ['first_name', 'middle_name', 'patient_gender', 'dob', 'cell_phone'],
 
-        // },
+        },
         {
           model: Admission_category,
           attributes: ['admission_category_description'],
@@ -101,6 +107,30 @@ const getAdmissionDetail = async (req, res, next) => {
         {
           model: Inpatient_case_types,
           attributes: ['inpatient_case_type_description'],
+        },
+        {
+          model: WardBed,
+          attributes: ['bed_number'],
+        },
+        {
+          model: Wards,
+          attributes: ['ward_description'],
+        },
+        {
+          model: Users,
+          attributes: ['full_name'],
+        },
+        {
+          model: AdmissionType,
+          attributes: ['admission_type_description'],
+        },
+        {
+          model: AdmissionBedBillingTypes,
+          attributes: ['bed_billing_type_description'],
+        },
+        {
+          model: AdmissionBedBillingTypes,
+          attributes: ['bed_billing_type_description'],
         },
       ],
     });

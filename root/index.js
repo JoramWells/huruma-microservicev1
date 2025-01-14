@@ -31,8 +31,8 @@ const supplierClassificationRoutes = require('./routes/supplierClassification.ro
 const outPatientServicesCHRoutes = require('./routes/outpatientServicesChildHealth.routes');
 const inPatientCaseTypeRoutes = require('./routes/inPatientCaseTypes.routes');
 const hospitalStoreRoutes = require('./routes/hospitalStore.routes');
-const maternityAntenatalProfileRoutes = require('./routes/maternityAntenatalProfile.routes');
-const maternityProfileRoutes = require('./routes/maternityProfile.routes');
+const maternityAntenatalProfileRoutes = require('./routes/maternity/maternityAntenatalProfile.routes');
+const maternityProfileRoutes = require('./routes/maternity/maternityProfile.routes');
 const maternityDeliveryRoutes = require('./routes/maternity/maternityDelivery.routes');
 const wardTypeRoutes = require('./routes/ward/wardType.routes');
 

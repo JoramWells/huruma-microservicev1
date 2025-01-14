@@ -3,7 +3,7 @@ const express = require('express');
 const {
   addMaternityProfile, getAllMaternityProfile, getMaternityProfileDetail,
   editMaternityProfile, deleteMaternityProfile,
-} = require('../controllers/maternity/maternityProfile.controller');
+} = require('../../controllers/maternity/maternityProfile.controller');
 
 const router = express.Router();
 

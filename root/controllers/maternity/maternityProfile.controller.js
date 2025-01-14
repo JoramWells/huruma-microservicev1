@@ -5,6 +5,7 @@ const sequelize = require('../../db/connect');
 const Maternity_profile = require('../../models/maternity/maternityProfile.model');
 const Patient = require('../../models/patient/patient.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
+const Patient_details = require('../../models/patient/patientDetails.models');
 // const Patient_details = require('../../models/patient/patients.models');
 // const Appointments2 = require('../../models/appointment/appointments2.models');
 // const Maternity_profile = require('../models/maternityProfile.model');
@@ -48,12 +49,7 @@ const getAllMaternityProfile = async (req, res, next) => {
         // edd: {
         //   [Op.ne]: ''
         // }
-      }
-      // include:[
-      //   {
-      //     model: Patient
-      //   }
-      // ]
+      },
     });
     res.json({
       data: rows,
@@ -75,16 +71,13 @@ const getMaternityProfileDetail = async (req, res, next) => {
       where: {
         maternity_profile_id: id,
       },
-      // include: [
-      //   {
-      //     model: Appointments2,
-      //     attributes: ['appointment_date'],
-      //   },
-      //   {
-      //     model: Patient_details,
-      //     attributes: ['first_name'],
-      //   },
-      // ],
+      include: [
+        {
+          model: Patient_details,
+          attributes: ['first_name', 'middle_name', 'patient_gender', 'dob', 'cell_phone'],
+
+        }
+      ]
     });
     res.json(admission);
     next();

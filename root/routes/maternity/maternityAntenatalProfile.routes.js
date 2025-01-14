@@ -4,13 +4,15 @@ const {
   addMaternityAntenatalProfile, getAllMaternityAntenatalProfile,
   getMaternityAntenatalProfileDetail, editMaternityAntenatalProfile,
   deleteMaternityAntenatalProfile,
-} = require('../controllers/maternity/maternityAntenatalProfile.controller');
+  getMaternityAntenatalProfileByMaternityID,
+} = require('../../controllers/maternity/maternityAntenatalProfile.controller');
 
 const router = express.Router();
 
 router.post('/add', addMaternityAntenatalProfile);
 router.get('/fetchAll', getAllMaternityAntenatalProfile);
 router.get('/detail/:id', getMaternityAntenatalProfileDetail);
+router.get('/by-maternity-id/:id', getMaternityAntenatalProfileByMaternityID);
 router.put('/edit', editMaternityAntenatalProfile);
 router.delete('/delete/:id', deleteMaternityAntenatalProfile);
 

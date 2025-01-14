@@ -35,12 +35,26 @@ export interface PatientInterface{
 
 }
 
+export interface AdmissionTypeInterface{
+  admission_type_id: number;
+  admission_type_description: string;
+
+}
+
+export interface AdmissionBedBillingTypesInterface{
+  bed_billing_type_id: number;
+  bed_billing_type_description: string;
+
+}
+
 export interface AdmissionInterface {
+  admission_bed_billing_types?: AdmissionBedBillingTypesInterface
   admission_category_id: string;
   admission_charge: string | number;
   admission_date: string | Date;
   admission_id: string;
   admission_time: string;
+  admission_type?: AdmissionTypeInterface
   admission_type_id: string | number;
   appointment_id: string;
   bed_billing_type_id: string;
@@ -69,6 +83,7 @@ export interface AdmissionInterface {
   patient_id: string
   pay_status: number
   review_date: string
+  user?: UserInterface
   ward:{
     ward_description: string
   }
