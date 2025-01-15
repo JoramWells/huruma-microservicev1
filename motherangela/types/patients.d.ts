@@ -47,8 +47,14 @@ export interface AdmissionBedBillingTypesInterface{
 
 }
 
+export interface AdmissionCategoryInterface{
+  admission_category_id: number;
+  admission_category_description: number;
+}
+
 export interface AdmissionInterface {
-  admission_bed_billing_types?: AdmissionBedBillingTypesInterface
+  admission_bed_billing_type?: AdmissionBedBillingTypesInterface
+  admission_category?: AdmissionCategoryInterface;
   admission_category_id: string;
   admission_charge: string | number;
   admission_date: string | Date;

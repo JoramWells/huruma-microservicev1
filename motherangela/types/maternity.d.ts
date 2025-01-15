@@ -23,7 +23,7 @@ export interface MaternityProfileInterface {
   next_of_kin_relationship: string | null;
   occupation: string | null;
   parity: string | null;
-  patient_detail: PatientInterface;
+  patient_detail?: PatientInterface;
   patient_id: string | null;
   surgical_operations_history: string | null;
   telephone: string | null;
@@ -58,9 +58,9 @@ export interface MaternityDeliveryInterface{
   agpar_score_10_min: string
   rescuscitation_done: string
   oxytocin: string
-  azt_single_done: string
+  azt_single_dose: string
   vitamin_a: string
-  nvp_single_done: string
+  nvp_single_dose: string
   vitamin_k: string
   teo: string
   place_of_delivery: string

@@ -71,7 +71,7 @@ const getAllInternalPharmacyRequests = async (req, res, next) => {
         },
         {
           model: Medication,
-          attributes: ['medication_name']
+          attributes: ['medication_name', 'price']
         }
       ],
     });
@@ -93,18 +93,26 @@ const getAllInternalPharmacyRequests = async (req, res, next) => {
 const getInternalPharmacyRequest = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await Internal_pharmacy_request2.findAll({
+    const result = await Internal_pharmacy_request2.findOne({
       where: {
-        patient_id: id,
+        pharmacy_request_id: id,
       },
       include: [
         {
-          model: Patient,
-          attributes: ['first_name', 'middle_name', 'dob', 'patient_gender', 'patient_id'],
+          model: PatientDetails,
+          attributes: ['first_name', 'middle_name', 'dob', 'patient_gender', 'cell_phone'],
         },
         {
           model: Medication,
-          attributes: ['medication_name'],
+          attributes: ['medication_name', 'price']
+        },
+        {
+          model: Appointments,
+          attributes: ['appointment_date'],
+        },
+        {
+          model: Users,
+          attributes: ['full_name']
         },
       ],
     });

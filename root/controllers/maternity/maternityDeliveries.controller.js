@@ -6,6 +6,7 @@ const Patient = require('../../models/patient/patient.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Maternity_delivery = require('../../models/maternity/maternityDelivery.model');
 const Maternity_profile = require('../../models/maternity/maternityProfile.model');
+const Patient_details = require('../../models/patient/patientDetails.models');
 // const Patient_details = require('../../models/patient/patients.models');
 // const Appointments2 = require('../../models/appointment/appointments2.models');
 
@@ -75,7 +76,39 @@ const getMaternityDeliveryDetail = async (req, res, next) => {
     const { id } = req.params;
     const admission = await Maternity_delivery.findOne({
       where: {
-        id,
+        maternity_delivery_id: id,
+      },
+      include: [
+        {
+          model: Maternity_profile,
+          attributes: ['name_of_client'],
+          include: [{
+            model: Patient_details,
+            attributes: ['first_name', 'middle_name', 'cell_phone', 'patient_gender', 'dob'],
+
+
+          }]
+        },
+        //   {
+        //     model: Patient_details,
+        //     attributes: ['first_name'],
+        //   },
+      ],
+    });
+    res.json(admission);
+    next();
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// 
+const getMaternityDeliveryDetailByMaternityID = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const admission = await Maternity_delivery.findOne({
+      where: {
+        maternity_profile_id: id,
       },
       // include: [
       //   {
@@ -135,4 +168,5 @@ module.exports = {
   getMaternityDeliveryDetail,
   editMaternityDelivery,
   deleteMaternityDelivery,
+  getMaternityDeliveryDetailByMaternityID
 };
