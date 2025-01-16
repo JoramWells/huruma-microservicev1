@@ -3,21 +3,21 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 // const Payroll_taxable_state = require('./payrollTaxableStatus.model');
 
-const Payroll_employee_other_income_entry = sequelize.define('payroll_employee_nssf_other_income_entries', {
-  other_income_entry_id: {
+const PayrollOtherIncomeAndAllowances = sequelize.define('payroll_other_income_and_allowances', {
+  other_income_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
-  other_income_entry_type_id: {
-    type: DataTypes.INTEGER,
+  other_income_description: {
+    type: DataTypes.STRING,
   },
 
-  amount: {
+  taxable_state_id: {
     type: DataTypes.INTEGER,
   },
-  hospital_id: {
+  benefit_type_id: {
     type: DataTypes.INTEGER,
   },
 }, { timestamps: false });
 
-module.exports = Payroll_employee_other_income_entry;
+module.exports = PayrollOtherIncomeAndAllowances;

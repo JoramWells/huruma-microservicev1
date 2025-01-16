@@ -62,6 +62,14 @@ export interface PayrollEmployeeRecordsInterface{
     user_id: string | null
 }
 
+export interface PayrollOtherIncomeAndAllowancesInterface{
+    other_income_id: number
+    other_income_description: string
+    taxable_state_id: string
+    benefit_type_id: string
+
+}
+
 export interface PayrollEmployeeBenefitsFileInterface{
     amount: string | number | null
     employee_benefits_file_id: number
@@ -69,7 +77,8 @@ export interface PayrollEmployeeBenefitsFileInterface{
     other_income_type_id: string | null
     payroll_employee_record?: PayrollEmployeeRecordsInterface
     payroll_id: string | null
-    payroll_periods?: PayrollPeriodsInterface
+    payroll_period?: PayrollPeriodsInterface
+    payroll_other_income_and_allowance?: PayrollOtherIncomeAndAllowancesInterface
 }
 
 export interface PayrollDeductionInterface{
@@ -128,6 +137,7 @@ export interface PayrollEmployeeMonthlyDeductionFileInterface{
     deduction_id: string
     amount: string
     payroll_employee_record?: PayrollEmployeeRecordsInterface
+    payroll_deduction?: PayrollDeduction
 
 }
 
@@ -147,5 +157,78 @@ export interface PayrollTaxStatusInterface{
     taxable_state_description: string
     personal_exemption: number
     additional_exemption: number
+
+}
+
+export interface PayrollPeriodEmployeePayCalculationsInterface{
+    payroll_period_employee_pay_calculation_id: number
+    payroll_id: string
+    employee_id: string
+    department_id: string
+    job_title_id: string
+    employment_status_id: string
+    job_number: string
+    regular_hours: string
+    absent_hours: string
+    late_hours: string
+    period_rate: string
+    hourly_rate: string
+    basic_pay: string
+    other_income_total_amount: string
+    earnings_total_amount: string
+    absent_total_amount: string
+    late_total_amount: string
+    overtime_total_amount: string
+    gross_pay: string
+    gross_taxable: string
+    nssf_amount: string
+    taxable_pay: string
+    tax_amount: string
+    gross_pay_after_tax: string
+    advance_pay: string
+    loan_deduction_amount: string
+    fringe_benefit_tax_amount: string
+    net_pay: string
+    employee_category_id: string
+    monthly_deductions_total_amount_taxable: string
+    monthly_deductions_total_amount_non_taxable: string
+    deductions_total_amount_taxable: string
+    deductions_total_amount_non_taxable: string
+    pension_amount_taxable: string
+    pension_amount_non_taxable: string
+    quarters_value_amount: string
+    kudheiha_amount: string
+    long_service_pay_amount: string
+    payroll_employee_record?: PayrollEmployeeRecordsInterface
+    personal_relief: string
+    directorate_of_industrial_training_amount: string
+    bank_id: string
+    bank_branch: string
+    branch_code: string
+    bank_account_number: string
+    insurance_relief: string
+    tax_category_id: string
+    nhif_relief: string
+
+}
+
+export interface PayrollEmployeeLoadDeductionsInterface{
+    loan_deduction_id: number
+    payroll_id: string
+    employee_id: string
+    loan_id: string
+    amount: string
+    amount_plus_interest: string
+    payroll_employee_record?: PayrollEmployeeRecordsInterface
+    payroll_periods?: PayrollPeriodsInterface
+    payroll_employee_loan_record?: PayrollEmployeeLoanRecordsInterface
+
+}
+
+export interface PayrollOtherIncomeAndAllowancesInterface{
+    other_income_id: number
+    other_income_description: string
+    taxable_state_id: string
+    benefit_type_id: string
 
 }

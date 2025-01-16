@@ -4,13 +4,12 @@
 
 const Payroll_deduction = require('../models/_payroll/payrollDeductions.model');
 const Payroll_employee_monthly_deductions_file = require('../models/_payroll/payrollEmployeeMonthlyDeductionFile.model');
-const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
 
-const addPayrollMonthlyDeduction = async (req, res, next) => {
+const addPayrollEmployeeMonthlyDeductionFile = async (req, res, next) => {
   try {
     const results = Payroll_employee_monthly_deductions_file.create(req.body);
     res.status(201).json(results);
@@ -20,7 +19,7 @@ const addPayrollMonthlyDeduction = async (req, res, next) => {
   }
 };
 
-const getAllPayrollMonthlyDeductions = async (req, res, next) => {
+const getAllPayrollEmployeeMonthlyDeductionFiles = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query
 
   let where = {}
@@ -68,7 +67,7 @@ const getAllPayrollMonthlyDeductions = async (req, res, next) => {
   }
 };
 
-const getPayrollMonthlyDeduction = async (req, res, next) => {
+const getPayrollEmployeeMonthlyDeductionFile = async (req, res, next) => {
   try {
     const { id } = req.params;
     const results = await Payroll_employee_monthly_deductions_file.findOne({
@@ -84,8 +83,8 @@ const getPayrollMonthlyDeduction = async (req, res, next) => {
 };
 
 // 
-const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
-  const { page, pageSize, searchQuery } = req.query
+const getPayrollEmployeeMonthlyDeductionFileByPayrollID = async (req, res, next) => {
+  const { page, pageSize, searchQuery, employee_id } = req.query
 
   let where = {}
 
@@ -108,13 +107,14 @@ const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
       offset,
       where: {
         payroll_id: id,
+        employee_id
       },
       include: [
-        {
-          model: Payroll_employee_record,
-          attributes: ['full_name'],
-          where
-        },
+        // {
+        //   model: Payroll_employee_record,
+        //   attributes: ['full_name'],
+        //   where
+        // },
         {
           model: Payroll_deduction,
           attributes: ['deduction_description']
@@ -134,7 +134,7 @@ const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
   }
 };
 
-const editPayrollMonthlyDeduction = async (req, res, next) => {
+const editPayrollEmployeeMonthlyDeductionFile = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
     const results = await Payroll_employee_monthly_deductions_file.findOne({
@@ -149,7 +149,7 @@ const editPayrollMonthlyDeduction = async (req, res, next) => {
   }
 };
 
-const deletePayrollMonthlyDeduction = async (req, res, next) => {
+const deletePayrollEmployeeMonthlyDeductionFile = async (req, res, next) => {
   try {
     const { id } = req.params;
     const results = await Payroll_employee_monthly_deductions_file.destroy({
@@ -167,10 +167,10 @@ const deletePayrollMonthlyDeduction = async (req, res, next) => {
 };
 
 module.exports = {
-  addPayrollMonthlyDeduction,
-  getAllPayrollMonthlyDeductions,
-  getPayrollMonthlyDeduction,
-  editPayrollMonthlyDeduction,
-  deletePayrollMonthlyDeduction,
-  getPayrollMonthlyDeductionByPayrollID
+  addPayrollEmployeeMonthlyDeductionFile,
+  getAllPayrollEmployeeMonthlyDeductionFiles,
+  getPayrollEmployeeMonthlyDeductionFile,
+  editPayrollEmployeeMonthlyDeductionFile,
+  deletePayrollEmployeeMonthlyDeductionFile,
+  getPayrollEmployeeMonthlyDeductionFileByPayrollID
 };

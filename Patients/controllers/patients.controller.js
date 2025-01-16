@@ -45,7 +45,6 @@ const addPatients = async (req, res, next) => {
     // the reference account_id is the id of the insurance-service-cost-mapping
     const reference_account_id = insuranceAccount?.value;
 
-    console.log(req.body);
     // await producer.send({
     //   topic: 'register-patient',
     //   messages: [
@@ -146,6 +145,39 @@ const getAllPatients = async (req, res, next) => {
   }
 };
 
+const searchPatients = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
+  try {
+    // const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const results = await Patient_details.findAll({
+      // page,
+      // pageSize,
+      // limit,
+      // offset,
+      where
+    });
+    res.json(results);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ error: 'Internal Server error' });
+    next(error);
+  }
+};
+
 const getPatientDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
@@ -207,5 +239,5 @@ const deletePatient = async (req, res, next) => {
 };
 
 module.exports = {
-  addPatients, getAllPatients, getPatientDetail, editPatient, deletePatient,
+  addPatients, getAllPatients, getPatientDetail, editPatient, deletePatient, searchPatients
 };

@@ -3,16 +3,17 @@
 /* eslint-disable no-unused-vars */
 
 const Payroll_deduction = require('../models/_payroll/payrollDeductions.model');
-const Payroll_employee_monthly_deductions_file = require('../models/_payroll/payrollEmployeeMonthlyDeductionFile.model');
-const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model');
+const Payroll_employee_loan_deduction = require('../models/_payroll/payrollEmployeeLoanDeduction');
+const Payroll_employee_loan_record = require('../models/_payroll/payrollEmployeeLoanRecord.model.js');
+const Payroll_periods = require('../models/_payroll/payrollPeriods.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
 
-const addPayrollMonthlyDeduction = async (req, res, next) => {
+const addPayrollEmployeeLoanDeductions = async (req, res, next) => {
   try {
-    const results = Payroll_employee_monthly_deductions_file.create(req.body);
+    const results = Payroll_employee_loan_deduction.create(req.body);
     res.status(201).json(results);
     next();
   } catch (error) {
@@ -20,7 +21,7 @@ const addPayrollMonthlyDeduction = async (req, res, next) => {
   }
 };
 
-const getAllPayrollMonthlyDeductions = async (req, res, next) => {
+const getAllPayrollEmployeeLoanDeductions = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query
 
   let where = {}
@@ -37,7 +38,7 @@ const getAllPayrollMonthlyDeductions = async (req, res, next) => {
       };
     }
 
-    const { rows, count } = await Payroll_employee_monthly_deductions_file.findAndCountAll({
+    const { rows, count } = await Payroll_employee_loan_deduction.findAndCountAll({
       page,
       pageSize,
       limit,
@@ -68,10 +69,10 @@ const getAllPayrollMonthlyDeductions = async (req, res, next) => {
   }
 };
 
-const getPayrollMonthlyDeduction = async (req, res, next) => {
+const getPayrollEmployeeLoanDeductions = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Payroll_employee_monthly_deductions_file.findOne({
+    const results = await Payroll_employee_loan_deduction.findOne({
       where: {
         credit_payment_id: id,
       },
@@ -84,8 +85,8 @@ const getPayrollMonthlyDeduction = async (req, res, next) => {
 };
 
 // 
-const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
-  const { page, pageSize, searchQuery } = req.query
+const getPayrollEmployeeLoanDeductionsByPayrollID = async (req, res, next) => {
+  const { page, pageSize, searchQuery, employee_id } = req.query
 
   let where = {}
 
@@ -101,23 +102,24 @@ const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
       };
     }
     const { id } = req.params;
-    const { rows, count } = await Payroll_employee_monthly_deductions_file.findAndCountAll({
+    const { rows, count } = await Payroll_employee_loan_deduction.findAndCountAll({
       page,
       pageSize,
       limit,
       offset,
       where: {
         payroll_id: id,
+        employee_id
       },
       include: [
+        // {
+        //   model: Payroll_employee_record,
+        //   attributes: ['full_name'],
+        //   where
+        // },
         {
-          model: Payroll_employee_record,
-          attributes: ['full_name'],
-          where
-        },
-        {
-          model: Payroll_deduction,
-          attributes: ['deduction_description']
+          model: Payroll_employee_loan_record,
+          attributes: ['loan_description']
         }
       ]
     });
@@ -134,10 +136,10 @@ const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
   }
 };
 
-const editPayrollMonthlyDeduction = async (req, res, next) => {
+const editPayrollEmployeeLoanDeductions = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const results = await Payroll_employee_monthly_deductions_file.findOne({
+    const results = await Payroll_employee_loan_deduction.findOne({
       where: {
         id,
       },
@@ -149,10 +151,10 @@ const editPayrollMonthlyDeduction = async (req, res, next) => {
   }
 };
 
-const deletePayrollMonthlyDeduction = async (req, res, next) => {
+const deletePayrollEmployeeLoanDeductions = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Payroll_employee_monthly_deductions_file.destroy({
+    const results = await Payroll_employee_loan_deduction.destroy({
       where: {
         admission_id: id,
       },
@@ -167,10 +169,10 @@ const deletePayrollMonthlyDeduction = async (req, res, next) => {
 };
 
 module.exports = {
-  addPayrollMonthlyDeduction,
-  getAllPayrollMonthlyDeductions,
-  getPayrollMonthlyDeduction,
-  editPayrollMonthlyDeduction,
-  deletePayrollMonthlyDeduction,
-  getPayrollMonthlyDeductionByPayrollID
+  addPayrollEmployeeLoanDeductions,
+  getAllPayrollEmployeeLoanDeductions,
+  getPayrollEmployeeLoanDeductions,
+  editPayrollEmployeeLoanDeductions,
+  deletePayrollEmployeeLoanDeductions,
+  getPayrollEmployeeLoanDeductionsByPayrollID
 };

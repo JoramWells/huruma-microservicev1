@@ -2,17 +2,18 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const Payroll_deduction = require('../models/_payroll/payrollDeductions.model');
-const Payroll_employee_monthly_deductions_file = require('../models/_payroll/payrollEmployeeMonthlyDeductionFile.model');
-const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model');
-const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
+const Payroll_employee_record = require("../models/_payroll/payrollEmployeeRecords.model");
+const PayrollPeriodEmployeePayCalculations = require("../models/_payroll/payrollPeriodEmployeePayCalculations.model");
+const { calculateLimitAndOffset } = require("../utils/calculateLimitAndOffset");
+
+
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
 
-const addPayrollMonthlyDeduction = async (req, res, next) => {
+const addPayrollPeriodEmployeePayCalculations = async (req, res, next) => {
   try {
-    const results = Payroll_employee_monthly_deductions_file.create(req.body);
+    const results = PayrollPeriodEmployeePayCalculations.create(req.body);
     res.status(201).json(results);
     next();
   } catch (error) {
@@ -20,9 +21,8 @@ const addPayrollMonthlyDeduction = async (req, res, next) => {
   }
 };
 
-const getAllPayrollMonthlyDeductions = async (req, res, next) => {
+const getAllPayrollPeriodEmployeePayCalculations = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query
-
   let where = {}
 
   try {
@@ -36,24 +36,18 @@ const getAllPayrollMonthlyDeductions = async (req, res, next) => {
         ],
       };
     }
-
-    const { rows, count } = await Payroll_employee_monthly_deductions_file.findAndCountAll({
+    const { rows, count } = await PayrollPeriodEmployeePayCalculations.findAndCountAll({
       page,
       pageSize,
       limit,
       offset,
+
       // include: [
       //   {
-      //     model: Payroll_employee_record,
-      //     attributes: ['full_name'],
-      //     where,
-
+      //     model: Payroll_taxable_state,
+      //     attributes: ['taxable_state_description'],
       //   },
-      //   {
-      //     model: Payroll_deduction,
-      //     attributes: ['deduction_description']
-      //   }
-      // ]
+      // ],
     });
     res.json({
       data: rows,
@@ -68,23 +62,8 @@ const getAllPayrollMonthlyDeductions = async (req, res, next) => {
   }
 };
 
-const getPayrollMonthlyDeduction = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const results = await Payroll_employee_monthly_deductions_file.findOne({
-      where: {
-        credit_payment_id: id,
-      },
-    });
-    res.json(results);
-    next();
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
 // 
-const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
+const getPayrollEmployeePayCalculationsByPayrollID = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query
 
   let where = {}
@@ -101,7 +80,7 @@ const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
       };
     }
     const { id } = req.params;
-    const { rows, count } = await Payroll_employee_monthly_deductions_file.findAndCountAll({
+    const { rows, count } = await PayrollPeriodEmployeePayCalculations.findAndCountAll({
       page,
       pageSize,
       limit,
@@ -115,10 +94,10 @@ const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
           attributes: ['full_name'],
           where
         },
-        {
-          model: Payroll_deduction,
-          attributes: ['deduction_description']
-        }
+        // {
+        //   model: Payroll_deduction,
+        //   attributes: ['deduction_description']
+        // }
       ]
     });
     res.json({
@@ -134,10 +113,37 @@ const getPayrollMonthlyDeductionByPayrollID = async (req, res, next) => {
   }
 };
 
-const editPayrollMonthlyDeduction = async (req, res, next) => {
+const getPayrollPeriodEmployeePayCalculations = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const results = await PayrollPeriodEmployeePayCalculations.findOne({
+      where: {
+        payroll_period_employee_pay_calculation_id: id,
+      },
+      include: [
+        {
+          model: Payroll_employee_record,
+          attributes: ['full_name'],
+          // where
+        },
+        // {
+        //   model: Payroll_deduction,
+        //   attributes: ['deduction_description']
+        // }
+      ]
+    });
+    res.json(results);
+    next();
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+const editPayrollPeriodEmployeePayCalculations = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const results = await Payroll_employee_monthly_deductions_file.findOne({
+    const results = await PayrollPeriodEmployeePayCalculations.findOne({
       where: {
         id,
       },
@@ -149,10 +155,10 @@ const editPayrollMonthlyDeduction = async (req, res, next) => {
   }
 };
 
-const deletePayrollMonthlyDeduction = async (req, res, next) => {
+const deletePayrollPeriodEmployeePayCalculations = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await Payroll_employee_monthly_deductions_file.destroy({
+    const results = await PayrollPeriodEmployeePayCalculations.destroy({
       where: {
         admission_id: id,
       },
@@ -167,10 +173,10 @@ const deletePayrollMonthlyDeduction = async (req, res, next) => {
 };
 
 module.exports = {
-  addPayrollMonthlyDeduction,
-  getAllPayrollMonthlyDeductions,
-  getPayrollMonthlyDeduction,
-  editPayrollMonthlyDeduction,
-  deletePayrollMonthlyDeduction,
-  getPayrollMonthlyDeductionByPayrollID
+  addPayrollPeriodEmployeePayCalculations,
+  getAllPayrollPeriodEmployeePayCalculations,
+  getPayrollPeriodEmployeePayCalculations,
+  editPayrollPeriodEmployeePayCalculations,
+  deletePayrollPeriodEmployeePayCalculations,
+  getPayrollEmployeePayCalculationsByPayrollID
 };

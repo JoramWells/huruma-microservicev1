@@ -6,6 +6,7 @@ const { Op } = require('sequelize');
 const Payroll_employee_benefits_file = require('../models/_payroll/payrollEmployeeBenefitsFile.model');
 const Payroll_employee_record = require('../models/_payroll/payrollEmployeeRecords.model.js');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset.js');
+const PayrollOtherIncomeAndAllowances = require('../models/_payroll/payrollOtherIncomeAndAllowances.model.js');
 
 // Admissions.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Admissions.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
@@ -47,6 +48,10 @@ const getAllPayrollEmployeeBenefits = async (req, res, next) => {
           require: true,
           where
         },
+        {
+          model: PayrollOtherIncomeAndAllowances,
+          attributes: ['other_income_description']
+        }
       ],
     });
     res.json({
@@ -60,6 +65,59 @@ const getAllPayrollEmployeeBenefits = async (req, res, next) => {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
     next(error);
+  }
+};
+
+// 
+const getPayrollEmployeeBenefitsByPayrollID = async (req, res, next) => {
+  const { page, pageSize, searchQuery, employee_id } = req.query
+
+  let where = {}
+
+  try {
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { full_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { id } = req.params;
+    const { rows, count } = await Payroll_employee_benefits_file.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      where: {
+        payroll_id: id,
+        employee_id
+      },
+      include: [
+        // {
+        //   model: Payroll_employee_record,
+        //   attributes: ['full_name'],
+        //   require: true,
+        //   where
+        // },
+        {
+          model: PayrollOtherIncomeAndAllowances,
+          attributes: ['other_income_description']
+        }
+      ],
+    });
+    res.json({
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    });
+    next();
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -116,4 +174,5 @@ module.exports = {
   getPayrollEmployeeEmployeeBenefit,
   editPayrollEmployeeEmployeeBenefit,
   deletePayrollEmployeeEmployeeBenefit,
+  getPayrollEmployeeBenefitsByPayrollID
 };
