@@ -12,6 +12,8 @@ const Users = require('../models/user/user.model');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 const PatientDetails = require('../models/patient/patientDetails.model');
 const Appointments = require('../models/_appointment/appointments.model');
+const ConsultationType = require('../models/consultation/consultationType.model');
+const ConsultationTypesGroup = require('../models/consultation/consultationTypeGroups.model');
 // const Patient = require('../../Patients/models/patient2.models');
 
 // const kafka = new Kafka({
@@ -216,6 +218,18 @@ const getAppointmentDetail = async (req, res, next) => {
           model: Patient,
           attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
 
+        },
+        {
+          model: InsuranceDetail,
+          attributes: ['insurance_name'],
+        },
+        {
+          model: Users,
+          attributes: ['full_name'],
+        },
+        {
+          model: ConsultationTypesGroup,
+          attributes: ['consultation_type_group_description'],
         },
       ],
     });

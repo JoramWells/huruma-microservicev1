@@ -12,6 +12,7 @@ const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 const AppointmentDiagnoses = require('../models/_appointment/AppointmentDiagnosis.model');
 const Appointments2 = require('../models/_appointment/appointments2.models');
 const Appointments = require('../models/_appointment/appointments.model');
+const DoctorNotes = require('../models/doctor/doctorNotes.model');
 // const Patient = require('../../Patients/models/patient2.models');
 
 // const kafka = new Kafka({
@@ -95,13 +96,15 @@ const getAllAppointmentDiagnoses = async (req, res, next) => {
       limit,
       offset,
       include: [
-        //   {
-        //     model: InsuranceDetail,
-        //     attributes: ['insurance_name'],
-        //   },
+        {
+          model: DoctorNotes,
+          attributes: ['diagnosis'],
+        },
         {
           model: Appointments,
-          attributes: ['appointment_status', 'appointment_date'],
+          attributes: ['appointment_status', 'appointment_date', 'patient_id'],
+          order: [['appointment_date', 'DESC']],
+
           include: [
             {
               model: Patient,
@@ -133,25 +136,26 @@ const getAllAppointmentDiagnoses = async (req, res, next) => {
 const getAllAppointmentDiagnosesById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const appointmentResults = await AppointmentDiagnoses.findAll({
+    const appointmentResults = await AppointmentDiagnoses.findOne({
       where: {
-        patient_id: id,
+        appointment_diagnosis_id: id,
       },
-      limit: 100,
       include: [
         {
-          model: Patient,
-          attributes: ['first_name', 'middle_name'],
+          model: DoctorNotes,
+          attributes: ['diagnosis'],
         },
         {
-          model: InsuranceDetail,
-          attributes: ['insurance_name'],
+          model: Appointments,
+          attributes: ['appointment_status', 'appointment_date', 'patient_id'],
         },
       ],
     });
 
-    res.status(200).json(appointmentResults);
+    res.json(appointmentResults);
+    next();
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
@@ -178,19 +182,29 @@ const getAllAppointmentDiagnosesById = async (req, res, next) => {
 const getAppointmentDetailDiagnoses = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await AppointmentDiagnoses.findOne({
+    const appointmentResults = await AppointmentDiagnoses.findOne({
       where: {
-        appointment_id: id,
+        appointment_diagnosis_id: id,
       },
       include: [
         {
-          model: Patient,
-          attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
-
+          model: DoctorNotes,
+          attributes: ['diagnosis'],
+        },
+        {
+          model: Appointments,
+          attributes: ['appointment_status', 'appointment_date', 'patient_id'],
+          include: [
+            {
+              model: Users,
+              attributes: ['full_name'],
+            },
+          ],
         },
       ],
     });
-    res.json(result);
+
+    res.json(appointmentResults);
     next();
   } catch (error) {
     res.sendStatus(500).json({ message: 'Internal Server Error' });

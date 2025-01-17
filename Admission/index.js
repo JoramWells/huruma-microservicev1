@@ -17,6 +17,7 @@ const admissionMiscellaneousChargesRoutes = require(
 );
 const admissionCategoryRoutes = require('./routes/admissionCategory.routes');
 const admissionTypeRoutes = require('./routes/admissionType.routes');
+const inpatientRoutes = require('./routes/inpatient/inpatientTreatmentChart.routes');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use('/admission-category', admissionCategoryRoutes);
 app.use('/admission-type', admissionTypeRoutes);
 app.use('/adm-maternity-services', admissionMaternityServices);
 app.use('/adm-miscellaneous-charge', admissionMiscellaneousChargesRoutes);
+app.use('/inpatient-treatment-chart', inpatientRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

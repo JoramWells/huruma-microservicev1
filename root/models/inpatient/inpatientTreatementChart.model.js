@@ -2,57 +2,51 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 
-const Inpatient_treatement_chart = sequelize.define('inpatient_treatement_charts', {
-  insurance_id: {
+const InpatientTreatmentChart = sequelize.define('inpatient_treatment_charts', {
+  inpatient_treatment_chart: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
-  insurance_name: {
+  appointment_id: {
     type: DataTypes.STRING,
   },
-  box_address: {
+  admission_id: {
     type: DataTypes.STRING,
   },
-  phone_no: {
+  patient_id: {
     type: DataTypes.STRING,
   },
-  email_address: {
+  drug: {
     type: DataTypes.STRING,
   },
-  payment_percentage_out_patient: {
-    type: DataTypes.INTEGER,
-  },
-  payment_percentage_in_patient: {
-    type: DataTypes.INTEGER,
-  },
-  nhif_rebate: {
-    type: DataTypes.INTEGER,
-  },
-  withholding_tax_application: {
+  dose: {
     type: DataTypes.STRING,
   },
-  discount_percentage: {
-    type: DataTypes.INTEGER,
-  },
-  full_discount_on_all_services: {
+  route: {
     type: DataTypes.STRING,
   },
-  insurance_type_id: {
-    type: DataTypes.INTEGER,
+  frq: {
+    type: DataTypes.STRING,
   },
-  insurance_limit_type_id: {
-    type: DataTypes.INTEGER,
+  extra_details: {
+    type: DataTypes.STRING,
   },
-  maximum_billable_amount: {
-    type: DataTypes.INTEGER,
+  hospital_id: {
+    type: DataTypes.STRING,
   },
-  status: {
-    type: DataTypes.INTEGER,
+  user_id: {
+    type: DataTypes.STRING,
   },
-  revenue_expected: {
-    type: DataTypes.INTEGER,
+  date_of_treatment: {
+    type: DataTypes.STRING,
   },
-  requires_claim_number: {
+  duration: {
+    type: DataTypes.STRING,
+  },
+  nurse_id: {
+    type: DataTypes.STRING,
+  },
+  time_of_treatment: {
     type: DataTypes.STRING,
   },
 });
@@ -64,4 +58,4 @@ const Inpatient_treatement_chart = sequelize.define('inpatient_treatement_charts
 //     console.error('Unable to create table :', error)
 // })
 
-module.exports = Inpatient_treatement_chart;
+module.exports = InpatientTreatmentChart;

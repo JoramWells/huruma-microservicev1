@@ -3,6 +3,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Appointments = require('./appointments.model');
+const DoctorNotes = require('../doctor/doctorNotes.model');
 // const Patient_details = require('../patient/patients.models');
 // const Account_type = require('../accountTypes.model');
 
@@ -26,6 +27,7 @@ const AppointmentDiagnoses = sequelize.define('appointment_diagnoses', {
 
 AppointmentDiagnoses.belongsTo(Appointments, { foreignKey: 'appointment_id' });
 // Appointments.belongsTo(Account_type, { foreignKey: 'account_type_id' });
+AppointmentDiagnoses.belongsTo(DoctorNotes, { foreignKey: 'diagnosis_id', targetKey: 'note_id' });
 
 // sequelize.sync().then(() => {
 //   console.log('Book table created');

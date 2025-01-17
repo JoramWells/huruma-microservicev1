@@ -5,6 +5,7 @@ const sequelize = require('../../db/connect');
 const Patient = require('../patient/patients.model');
 const InsuranceDetail = require('../insurance/insuranceDetail.model');
 const Users = require('../user/user.model');
+const ConsultationTypesGroup = require('../consultation/consultationTypeGroups.model');
 // const Patient_details = require('../patient/patients.models');
 // const Account_type = require('../accountTypes.model');
 
@@ -163,6 +164,7 @@ const Appointments = sequelize.define('appointments', {
 }, { timestamps: false });
 
 Appointments.belongsTo(Patient, { foreignKey: 'patient_id' });
+Appointments.belongsTo(ConsultationTypesGroup, { foreignKey: 'consultation_group_id', targetKey: 'consultation_type_group_id' });
 Appointments.belongsTo(InsuranceDetail, { foreignKey: 'reference_account_id', targetKey: 'insurance_id' });
 Appointments.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
 

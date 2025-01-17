@@ -1,3 +1,4 @@
+import { ConsultationTypesGroupInterface } from "./consultation";
 import { PatientInterface, UserInterface } from "./patients";
 
 export interface AppointmentInterface {
@@ -14,6 +15,7 @@ export interface AppointmentInterface {
   consultation_group_id: string | null;
   consultation_type: string | null;
   consultation_type_sub_group_id: string | null;
+  consultation_types_group?: ConsultationTypesGroupInterface
   doctor_id: string | null;
   hospital_id: string | null;
   insurance_detail: {

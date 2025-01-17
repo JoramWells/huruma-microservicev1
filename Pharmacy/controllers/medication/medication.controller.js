@@ -64,6 +64,47 @@ const getAllMedication = async (req, res, next) => {
   }
 };
 
+const searchMedication = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query
+  let where = {}
+
+  try {
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+
+    if (searchQuery && searchQuery.length > 0) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { medication_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const result = await Medication.findAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      where,
+      include: [
+        {
+          model: Medication_category,
+          attributes: ['category_name'],
+        },
+        {
+          model: Medication_packaging_type,
+          attributes: ['package_description'],
+        },
+      ],
+    });
+    res.json(result);
+    next();
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
+  }
+};
+
 const getMedicationDetail = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -117,4 +158,5 @@ module.exports = {
   getMedicationDetail,
   editMedicationDetail,
   deleteMedication,
+  searchMedication
 };
