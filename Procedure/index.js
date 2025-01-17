@@ -16,6 +16,7 @@ const diseaseRoutes = require('./routes/diseases/disease.routes');
 const diseaseDuplicatesRoutes = require('./routes/diseases/diseaseDuplicates.routes');
 const diseaseMinistryRoutes = require('./routes/diseases/diseaseMinistry.routes');
 const internalPharmacyRequestRoutes = require('./routes/internalPharmacyRequest.routes');
+const doctorNotesRoutes = require('./routes/doctor/doctorNotesRoutes.routes');
 const clusterMiddleware = require('./middleware/clusterMiddleware');
 
 const app = express();
@@ -38,42 +39,43 @@ if (cluster.isMaster) {
         // You may choose to respawn the worker here if necessary
     });
 } else {
-app.use(express.json());
-app.use(express.urlencoded({
-    extended: true,
-}));
+    app.use(express.json());
+    app.use(express.urlencoded({
+        extended: true,
+    }));
 
-// enable cors
-app.use(cors());
+    // enable cors
+    app.use(cors());
 
-app.use('/procedure', procedureRoutes);
-app.use('/procedure-group', procedureGroupRoutes);
-app.use('/procedure-details', procedureDetailsRoutes);
-app.use('/procedure-items', procedureItemsRoutes);
+    app.use('/procedure', procedureRoutes);
+    app.use('/procedure-group', procedureGroupRoutes);
+    app.use('/procedure-details', procedureDetailsRoutes);
+    app.use('/procedure-items', procedureItemsRoutes);
 
-app.use('/disease', diseaseRoutes);
-app.use('/disease-ministry', diseaseMinistryRoutes);
-app.use('/diseases-duplicates', diseaseDuplicatesRoutes);
+    app.use('/disease', diseaseRoutes);
+    app.use('/disease-ministry', diseaseMinistryRoutes);
+    app.use('/diseases-duplicates', diseaseDuplicatesRoutes);
 
-app.use('/internal-pharmacy-request', internalPharmacyRequestRoutes);
+    app.use('/internal-pharmacy-request', internalPharmacyRequestRoutes);
+    app.use('/doctor-notes', doctorNotesRoutes);
 
-// app.use((err, req, res, next) => {
-//   const errStatus = err.status || 500;
-//   const errMessage = err.message || 'Something went wrong';
-//   return res.status(errStatus).json(errMessage);
-// });
+    // app.use((err, req, res, next) => {
+    //   const errStatus = err.status || 500;
+    //   const errMessage = err.message || 'Something went wrong';
+    //   return res.status(errStatus).json(errMessage);
+    // });
 
-const testConnection = async () => {
-    await sequelize.authenticate().then(() => {
-        console.log('Connected to database successfully');
-    }).catch((error) => {
-        console.error('Unable to connect to database: ', error);
+    const testConnection = async () => {
+        await sequelize.authenticate().then(() => {
+            console.log('Connected to database successfully');
+        }).catch((error) => {
+            console.error('Unable to connect to database: ', error);
+        });
+    };
+
+    testConnection();
+
+    app.listen(PORT, () => {
+        console.log(`App running on http://localhost:${PORT}`);
     });
-};
-
-testConnection();
-
-app.listen(PORT, () => {
-    console.log(`App running on http://localhost:${PORT}`);
-});
 }

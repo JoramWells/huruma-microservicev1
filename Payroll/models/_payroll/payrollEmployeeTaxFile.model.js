@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Payroll_employee_record = require('./payrollEmployeeRecords.model');
+const Payroll_periods = require('./payrollPeriods.model');
 // const Payroll_taxable_state = require('./payrollTaxableStatus.model');
 
-const Payroll_employee_tax_file = sequelize.define('payroll_employee_tax_file', {
+const PayrollEmployeeTaxFile = sequelize.define('payrollEmployeeTaxFile', {
   tax_file_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -29,4 +31,8 @@ const Payroll_employee_tax_file = sequelize.define('payroll_employee_tax_file', 
   },
 }, { timestamps: false });
 
-module.exports = Payroll_employee_tax_file;
+PayrollEmployeeTaxFile.belongsTo(Payroll_employee_record, { foreignKey: 'employee_id' });
+PayrollEmployeeTaxFile.belongsTo(Payroll_periods, { foreignKey: 'payroll_id' });
+
+
+module.exports = PayrollEmployeeTaxFile;

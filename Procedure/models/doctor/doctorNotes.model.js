@@ -1,9 +1,13 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Appointments = require('../appointment/appointments2.models');
+const Users = require('../user/user.model');
+const Patient = require('../patient/patient.model');
+const PatientDetails = require('../patient/patientDetails.model');
 
-const DoctorNotes = sequelize.define('medication', {
-  node_id: {
+const DoctorNotes = sequelize.define('doctor_notes', {
+  note_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
@@ -156,11 +160,9 @@ const DoctorNotes = sequelize.define('medication', {
   },
 });
 
-// create the pricelists model
-// sequelize.sync().then(()=>{
-//     console.log('Book table created')
-// }).catch(error=>{
-//     console.error('Unable to create table :', error)
-// })
+DoctorNotes.belongsTo(Appointments, { foreignKey: 'appointment_id' });
+DoctorNotes.belongsTo(PatientDetails, { foreignKey: 'patient_id' });
+DoctorNotes.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
+
 
 module.exports = DoctorNotes;

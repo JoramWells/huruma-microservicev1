@@ -1,5 +1,6 @@
 export * from './types/accounts'
 export * from './types/appointments'
+export * from './types/doctor'
 export * from './types/hospital'
 export * from './types/generics'
 export * from './types/patients'
