@@ -18,6 +18,9 @@ const admissionMiscellaneousChargesRoutes = require(
 const admissionCategoryRoutes = require('./routes/admissionCategory.routes');
 const admissionTypeRoutes = require('./routes/admissionType.routes');
 const inpatientRoutes = require('./routes/inpatient/inpatientTreatmentChart.routes');
+const inpatientDoctorVisitRoutes = require('./routes/inpatient/inpatientDoctorVisits.routes');
+const inpatientNurseVisitsRoutes = require('./routes/inpatient/inpatientNurseVisits.routes');
+const inpatientPhysiotherapyVisitsRoutes = require('./routes/inpatient/inpatientPhysiotherapyVisits.routes');
 
 const app = express();
 
@@ -41,6 +44,9 @@ app.use('/admission-type', admissionTypeRoutes);
 app.use('/adm-maternity-services', admissionMaternityServices);
 app.use('/adm-miscellaneous-charge', admissionMiscellaneousChargesRoutes);
 app.use('/inpatient-treatment-chart', inpatientRoutes);
+app.use('/inpatient-doctor-visits', inpatientDoctorVisitRoutes);
+app.use('/inpatient-nurse-visits', inpatientNurseVisitsRoutes);
+app.use('/inpatient-physiotherapy-visits', inpatientPhysiotherapyVisitsRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

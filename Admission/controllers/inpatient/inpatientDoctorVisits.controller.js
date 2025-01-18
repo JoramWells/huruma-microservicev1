@@ -4,18 +4,18 @@
 const { Sequelize } = require('sequelize');
 const { Op } = require('sequelize');
 const sequelize = require('../../db/connect');
-const InpatientTreatmentChart = require('../../models/inpatient/inpatientTreatementChart.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Patient_details = require('../../models/patient/patients.model');
 const Appointments = require('../../models/appointment/appointments2.models');
 const Users = require('../../models/user/user.model');
+const InpatientDoctorVisits = require('../../models/inpatient/inpatientDoctorVisits.model');
 
-const addInpatientTreatmentChart = async (req, res, next) => {
+const addInpatientDoctorVisits = async (req, res, next) => {
   try {
-    const results = await InpatientTreatmentChart.create(req.body);
+    const results = await InpatientDoctorVisits.create(req.body);
     res.json(results);
     next();
-    console.log('saving InpatientTreatmentChart..');
+    console.log('saving InpatientDoctorVisits..');
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -23,7 +23,7 @@ const addInpatientTreatmentChart = async (req, res, next) => {
   }
 };
 
-const getAllInpatientTreatmentChart = async (req, res, next) => {
+const getAllInpatientDoctorVisits = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query;
   let where = {};
 
@@ -40,8 +40,8 @@ const getAllInpatientTreatmentChart = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await InpatientTreatmentChart.findAndCountAll({
-      order: [['date_of_treatment', 'DESC']],
+    const { rows, count } = await InpatientDoctorVisits.findAndCountAll({
+      order: [['date_of_visit', 'DESC']],
       page,
       pageSize,
       limit,
@@ -60,10 +60,10 @@ const getAllInpatientTreatmentChart = async (req, res, next) => {
         //     model: Wards,
         //     attributes: ['ward_description'],
         //   },
-        {
-          model: Users,
-          attributes: ['full_name'],
-        },
+        // {
+        //   model: Users,
+        //   attributes: ['full_name'],
+        // },
       ],
     });
     res.json({
@@ -80,10 +80,10 @@ const getAllInpatientTreatmentChart = async (req, res, next) => {
   }
 };
 
-const getInpatientTreatmentChartDetail = async (req, res, next) => {
+const getInpatientDoctorVisitsDetail = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await InpatientTreatmentChart.findOne({
+    const results = await InpatientDoctorVisits.findOne({
       // where: {
       //   inpatient_treatmentChart_id: id,
       // },
@@ -94,8 +94,8 @@ const getInpatientTreatmentChartDetail = async (req, res, next) => {
 
       //   },
       //   {
-      //     model: InpatientTreatmentChart_category,
-      //     attributes: ['InpatientTreatmentChart_category_description'],
+      //     model: InpatientDoctorVisits_category,
+      //     attributes: ['InpatientDoctorVisits_category_description'],
       //   },
       //   {
       //     model: Inpatient_case_types,
@@ -114,20 +114,20 @@ const getInpatientTreatmentChartDetail = async (req, res, next) => {
       //     attributes: ['full_name'],
       //   },
       //   {
-      //     model: InpatientTreatmentChartType,
-      //     attributes: ['InpatientTreatmentChart_type_description'],
+      //     model: InpatientDoctorVisitsType,
+      //     attributes: ['InpatientDoctorVisits_type_description'],
       //   },
       //   {
-      //     model: InpatientTreatmentChartBedBillingTypes,
+      //     model: InpatientDoctorVisitsBedBillingTypes,
       //     attributes: ['bed_billing_type_description'],
       //   },
       //   {
-      //     model: InpatientTreatmentChartBedBillingTypes,
+      //     model: InpatientDoctorVisitsBedBillingTypes,
       //     attributes: ['bed_billing_type_description'],
       //   },
       // ],
     });
-    res.json(InpatientTreatmentChart);
+    res.json(InpatientDoctorVisits);
     next();
   } catch (error) {
     console.log(error);
@@ -136,7 +136,7 @@ const getInpatientTreatmentChartDetail = async (req, res, next) => {
   }
 };
 
-const getInpatientTreatmentChartDetailByPatientID = async (req, res, next) => {
+const getInpatientDoctorVisitsDetailByPatientID = async (req, res, next) => {
   const { id } = req.params;
 
   const {
@@ -157,11 +157,11 @@ const getInpatientTreatmentChartDetailByPatientID = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await InpatientTreatmentChart.findAndCountAll({
-      // order: [['InpatientTreatmentChart_date', 'DESC']],
+    const { rows, count } = await InpatientDoctorVisits.findAndCountAll({
+      // order: [['InpatientDoctorVisits_date', 'DESC']],
       where: {
         patient_id,
-        admission_id: id,
+        // admission_id: id,
       },
       page,
       pageSize,
@@ -197,10 +197,10 @@ const getInpatientTreatmentChartDetailByPatientID = async (req, res, next) => {
   }
 };
 
-const editInpatientTreatmentChartDetail = async (req, res, next) => {
+const editInpatientDoctorVisitsDetail = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const user = await InpatientTreatmentChart.findOne({
+    const user = await InpatientDoctorVisits.findOne({
       where: {
         id,
       },
@@ -212,12 +212,12 @@ const editInpatientTreatmentChartDetail = async (req, res, next) => {
   }
 };
 
-const deleteInpatientTreatmentChart = async (req, res, next) => {
+const deleteInpatientDoctorVisits = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await InpatientTreatmentChart.destroy({
+    const results = await InpatientDoctorVisits.destroy({
       where: {
-        InpatientTreatmentChart_id: id,
+        InpatientDoctorVisits_id: id,
       },
     });
     if (results) {
@@ -230,10 +230,10 @@ const deleteInpatientTreatmentChart = async (req, res, next) => {
 };
 
 module.exports = {
-  addInpatientTreatmentChart,
-  getAllInpatientTreatmentChart,
-  getInpatientTreatmentChartDetail,
-  editInpatientTreatmentChartDetail,
-  deleteInpatientTreatmentChart,
-  getInpatientTreatmentChartDetailByPatientID,
+  addInpatientDoctorVisits,
+  getAllInpatientDoctorVisits,
+  getInpatientDoctorVisitsDetail,
+  editInpatientDoctorVisitsDetail,
+  deleteInpatientDoctorVisits,
+  getInpatientDoctorVisitsDetailByPatientID,
 };

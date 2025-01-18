@@ -4,18 +4,18 @@
 const { Sequelize } = require('sequelize');
 const { Op } = require('sequelize');
 const sequelize = require('../../db/connect');
-const InpatientTreatmentChart = require('../../models/inpatient/inpatientTreatementChart.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Patient_details = require('../../models/patient/patients.model');
 const Appointments = require('../../models/appointment/appointments2.models');
 const Users = require('../../models/user/user.model');
+const InpatientNurseVisits = require('../../models/inpatient/inpatientNurseVisits.model');
 
-const addInpatientTreatmentChart = async (req, res, next) => {
+const addInpatientNurseVisits = async (req, res, next) => {
   try {
-    const results = await InpatientTreatmentChart.create(req.body);
+    const results = await InpatientNurseVisits.create(req.body);
     res.json(results);
     next();
-    console.log('saving InpatientTreatmentChart..');
+    console.log('saving InpatientNurseVisits..');
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -23,7 +23,7 @@ const addInpatientTreatmentChart = async (req, res, next) => {
   }
 };
 
-const getAllInpatientTreatmentChart = async (req, res, next) => {
+const getAllInpatientNurseVisits = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query;
   let where = {};
 
@@ -40,7 +40,7 @@ const getAllInpatientTreatmentChart = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await InpatientTreatmentChart.findAndCountAll({
+    const { rows, count } = await InpatientNurseVisits.findAndCountAll({
       order: [['date_of_treatment', 'DESC']],
       page,
       pageSize,
@@ -80,10 +80,10 @@ const getAllInpatientTreatmentChart = async (req, res, next) => {
   }
 };
 
-const getInpatientTreatmentChartDetail = async (req, res, next) => {
+const getInpatientNurseVisitsDetail = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await InpatientTreatmentChart.findOne({
+    const results = await InpatientNurseVisits.findOne({
       // where: {
       //   inpatient_treatmentChart_id: id,
       // },
@@ -94,8 +94,8 @@ const getInpatientTreatmentChartDetail = async (req, res, next) => {
 
       //   },
       //   {
-      //     model: InpatientTreatmentChart_category,
-      //     attributes: ['InpatientTreatmentChart_category_description'],
+      //     model: InpatientNurseVisits_category,
+      //     attributes: ['InpatientNurseVisits_category_description'],
       //   },
       //   {
       //     model: Inpatient_case_types,
@@ -114,20 +114,20 @@ const getInpatientTreatmentChartDetail = async (req, res, next) => {
       //     attributes: ['full_name'],
       //   },
       //   {
-      //     model: InpatientTreatmentChartType,
-      //     attributes: ['InpatientTreatmentChart_type_description'],
+      //     model: InpatientNurseVisitsType,
+      //     attributes: ['InpatientNurseVisits_type_description'],
       //   },
       //   {
-      //     model: InpatientTreatmentChartBedBillingTypes,
+      //     model: InpatientNurseVisitsBedBillingTypes,
       //     attributes: ['bed_billing_type_description'],
       //   },
       //   {
-      //     model: InpatientTreatmentChartBedBillingTypes,
+      //     model: InpatientNurseVisitsBedBillingTypes,
       //     attributes: ['bed_billing_type_description'],
       //   },
       // ],
     });
-    res.json(InpatientTreatmentChart);
+    res.json(InpatientNurseVisits);
     next();
   } catch (error) {
     console.log(error);
@@ -136,7 +136,7 @@ const getInpatientTreatmentChartDetail = async (req, res, next) => {
   }
 };
 
-const getInpatientTreatmentChartDetailByPatientID = async (req, res, next) => {
+const getInpatientNurseVisitsDetailByPatientID = async (req, res, next) => {
   const { id } = req.params;
 
   const {
@@ -157,8 +157,8 @@ const getInpatientTreatmentChartDetailByPatientID = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await InpatientTreatmentChart.findAndCountAll({
-      // order: [['InpatientTreatmentChart_date', 'DESC']],
+    const { rows, count } = await InpatientNurseVisits.findAndCountAll({
+      // order: [['InpatientNurseVisits_date', 'DESC']],
       where: {
         patient_id,
         admission_id: id,
@@ -197,10 +197,10 @@ const getInpatientTreatmentChartDetailByPatientID = async (req, res, next) => {
   }
 };
 
-const editInpatientTreatmentChartDetail = async (req, res, next) => {
+const editInpatientNurseVisitsDetail = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const user = await InpatientTreatmentChart.findOne({
+    const user = await InpatientNurseVisits.findOne({
       where: {
         id,
       },
@@ -212,12 +212,12 @@ const editInpatientTreatmentChartDetail = async (req, res, next) => {
   }
 };
 
-const deleteInpatientTreatmentChart = async (req, res, next) => {
+const deleteInpatientNurseVisits = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await InpatientTreatmentChart.destroy({
+    const results = await InpatientNurseVisits.destroy({
       where: {
-        InpatientTreatmentChart_id: id,
+        InpatientNurseVisits_id: id,
       },
     });
     if (results) {
@@ -230,10 +230,10 @@ const deleteInpatientTreatmentChart = async (req, res, next) => {
 };
 
 module.exports = {
-  addInpatientTreatmentChart,
-  getAllInpatientTreatmentChart,
-  getInpatientTreatmentChartDetail,
-  editInpatientTreatmentChartDetail,
-  deleteInpatientTreatmentChart,
-  getInpatientTreatmentChartDetailByPatientID,
+  addInpatientNurseVisits,
+  getAllInpatientNurseVisits,
+  getInpatientNurseVisitsDetail,
+  editInpatientNurseVisitsDetail,
+  deleteInpatientNurseVisits,
+  getInpatientNurseVisitsDetailByPatientID,
 };
