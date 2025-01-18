@@ -7,6 +7,8 @@ const sequelize = require('../../db/connect');
 const InpatientTreatmentChart = require('../../models/inpatient/inpatientTreatementChart.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Patient_details = require('../../models/patient/patients.model');
+const Appointments = require('../../models/appointment/appointments2.models');
+const Users = require('../../models/user/user.model');
 
 const addInpatientTreatmentChart = async (req, res, next) => {
   try {
@@ -39,7 +41,7 @@ const getAllInpatientTreatmentChart = async (req, res, next) => {
       };
     }
     const { rows, count } = await InpatientTreatmentChart.findAndCountAll({
-      // order: [['InpatientTreatmentChart_date', 'DESC']],
+      order: [['date_of_treatment', 'DESC']],
       page,
       pageSize,
       limit,
@@ -50,18 +52,18 @@ const getAllInpatientTreatmentChart = async (req, res, next) => {
           attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
           where,
         },
-        //   {
-        //     model: WardBed,
-        //     attributes: ['bed_number'],
-        //   },
+        {
+          model: Appointments,
+          attributes: ['appointment_date'],
+        },
         //   {
         //     model: Wards,
         //     attributes: ['ward_description'],
         //   },
-        //   {
-        //     model: Users,
-        //     attributes: ['full_name'],
-        //   },
+        {
+          model: Users,
+          attributes: ['full_name'],
+        },
       ],
     });
     res.json({
@@ -137,7 +139,9 @@ const getInpatientTreatmentChartDetail = async (req, res, next) => {
 const getInpatientTreatmentChartDetailByPatientID = async (req, res, next) => {
   const { id } = req.params;
 
-  const { page, pageSize, searchQuery } = req.query;
+  const {
+    page, pageSize, searchQuery, patient_id,
+  } = req.query;
   let where = {};
 
   try {
@@ -156,7 +160,8 @@ const getInpatientTreatmentChartDetailByPatientID = async (req, res, next) => {
     const { rows, count } = await InpatientTreatmentChart.findAndCountAll({
       // order: [['InpatientTreatmentChart_date', 'DESC']],
       where: {
-        patient_id: id,
+        patient_id,
+        // admission_id: id,
       },
       page,
       pageSize,

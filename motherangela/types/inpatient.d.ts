@@ -1,5 +1,9 @@
+import { AppointmentInterface } from "./appointments"
+import { PatientInterface, UserInterface } from "./patients"
+
 export interface InpatientTreatmentChartInterface{
     inpatient_treatment_chart: number
+    appointment?: AppointmentInterface
     appointment_id: number
     admission_id: number
     patient_id: number
@@ -10,8 +14,10 @@ export interface InpatientTreatmentChartInterface{
     extra_details: string
     hospital_id: string
     user_id: string
+    user?: UserInterface
     date_of_treatment: string
     duration: string
     nurse_id: string
+    patient_detail?: PatientInterface
     time_of_treatment: string
 }

@@ -11,7 +11,7 @@ const router = express.Router();
 router.post('/add', addInpatientTreatmentChart);
 router.get('/fetchAll', getAllInpatientTreatmentChart);
 router.get('/detail/:id', getInpatientTreatmentChartDetail);
-router.get('/details/:id', getInpatientTreatmentChartDetailByPatientID);
+router.get('/by-patient-id/:id', getInpatientTreatmentChartDetailByPatientID);
 router.put('/edit', editInpatientTreatmentChartDetail);
 router.delete('/delete/:id', deleteInpatientTreatmentChart);
 

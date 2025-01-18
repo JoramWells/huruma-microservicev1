@@ -6,7 +6,7 @@ const Appointments = require('../appointment/appointments2.models');
 const Users = require('../user/user.model');
 
 const InpatientTreatmentChart = sequelize.define('inpatient_treatment_chart', {
-  inpatient_treatment_chart: {
+  inpatient_treatment_chart_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
   },
