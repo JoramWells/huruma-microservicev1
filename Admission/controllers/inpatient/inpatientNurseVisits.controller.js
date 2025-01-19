@@ -41,7 +41,7 @@ const getAllInpatientNurseVisits = async (req, res, next) => {
       };
     }
     const { rows, count } = await InpatientNurseVisits.findAndCountAll({
-      order: [['date_of_treatment', 'DESC']],
+      order: [['date_of_visit', 'DESC']],
       page,
       pageSize,
       limit,
@@ -50,7 +50,7 @@ const getAllInpatientNurseVisits = async (req, res, next) => {
         {
           model: Patient_details,
           attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
-          where,
+          // where,
         },
         {
           model: Appointments,

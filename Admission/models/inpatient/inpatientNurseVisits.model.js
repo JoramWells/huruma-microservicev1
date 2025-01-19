@@ -39,5 +39,6 @@ const InpatientNurseVisits = sequelize.define('inpatient_nurse_visits', {
 InpatientNurseVisits.belongsTo(Patient_details, { foreignKey: 'patient_id' });
 InpatientNurseVisits.belongsTo(Appointments, { foreignKey: 'appointment_id' });
 // InpatientNurseVisits.belongsTo(Users, { foreignKey: 'user_id' });
+InpatientNurseVisits.belongsTo(Users, { foreignKey: 'nurse_id', targetKey: 'user_id' });
 
 module.exports = InpatientNurseVisits;

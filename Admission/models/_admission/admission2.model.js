@@ -14,7 +14,7 @@ const AdmissionBedBillingTypes = require('./admissionBedBillingTypes.model');
 
 const Admissions2 = sequelize.define('admissions', {
   admission_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
     primaryKey: true,
     // defaultValue: UUIDV4,
     autoIncrement: true,
@@ -26,7 +26,6 @@ const Admissions2 = sequelize.define('admissions', {
       key: 'appointment_id',
     },
     onDelete: 'CASCADE',
-
   },
   doctor_id: {
     type: DataTypes.INTEGER,
@@ -55,7 +54,13 @@ const Admissions2 = sequelize.define('admissions', {
     type: DataTypes.INTEGER,
   },
   ward_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
+    references: {
+      model: 'Wards',
+      key: 'ward_id',
+    },
+    onDelete: 'CASCADE',
+    allowNull: false,
   },
   bed_id: {
     type: DataTypes.INTEGER,
@@ -94,7 +99,7 @@ const Admissions2 = sequelize.define('admissions', {
     type: DataTypes.INTEGER,
   },
   inpatient_case_type_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
   },
   daily_bed_rate: {
     type: DataTypes.INTEGER,
@@ -132,7 +137,9 @@ const Admissions2 = sequelize.define('admissions', {
   },
 });
 
-Admissions2.belongsTo(Wards, { foreignKey: 'ward_id' });
+Admissions2.belongsTo(Wards, { foreignKey: 'ward_id', targetKey: 'ward_id' });
+// Wards.hasMany(Admissions2, { foreignKey: 'ward_id' });
+
 Admissions2.belongsTo(WardBed, { foreignKey: 'bed_id' });
 Admissions2.belongsTo(Patient, { foreignKey: 'patient_id' });
 Admissions2.belongsTo(AdmissionType, { foreignKey: 'admission_type_id' });

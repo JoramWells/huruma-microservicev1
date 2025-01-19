@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const { Sequelize } = require('sequelize');
+const { Sequelize, fn, col } = require('sequelize');
 const { Op } = require('sequelize');
 const sequelize = require('../db/connect');
 const Inpatient_case_types = require(
@@ -16,6 +16,7 @@ const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 const Users = require('../models/user/user.model');
 const AdmissionType = require('../models/_admission/admissionType.model');
 const AdmissionBedBillingTypes = require('../models/_admission/admissionBedBillingTypes.model');
+const InpatientCaseType = require('../models/inpatient/inpatientCaseTypes.model');
 
 const addAdmission = async (req, res, next) => {
   try {
@@ -143,6 +144,42 @@ const getAdmissionDetail = async (req, res, next) => {
   }
 };
 
+const wardCategories = async (req, res, next) => {
+  try {
+    const results = await Admissions2.findAll({
+      limit: 100,
+      include: [
+        {
+          model: Wards,
+          attributes: [],
+
+        },
+        {
+          model: InpatientCaseType,
+          attributes: [],
+
+        },
+      ],
+      attributes: [
+        [col('ward.ward_description'), 'ward_name'],
+        [col('inpatient_case_type.inpatient_case_type_description'), 'case_types'],
+        'admission_date',
+        // [fn('COUNT', col('ward.ward_description')), 'count'],
+      ],
+      // group: ['Wards.ward_description'],
+      group: ['ward.ward_description', 'admission_date', 'inpatient_case_type.inpatient_case_type_description'],
+
+      logging: console.log, // Enable SQL logging
+    });
+
+    res.json(results);
+    next();
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 const getAdmissionDetailByPatientID = async (req, res, next) => {
   const { id } = req.params;
 
@@ -240,4 +277,5 @@ module.exports = {
   editAdmissionDetail,
   deleteAdmission,
   getAdmissionDetailByPatientID,
+  wardCategories,
 };

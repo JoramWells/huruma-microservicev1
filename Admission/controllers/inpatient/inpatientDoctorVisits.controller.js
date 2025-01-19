@@ -9,6 +9,7 @@ const Patient_details = require('../../models/patient/patients.model');
 const Appointments = require('../../models/appointment/appointments2.models');
 const Users = require('../../models/user/user.model');
 const InpatientDoctorVisits = require('../../models/inpatient/inpatientDoctorVisits.model');
+const Admissions2 = require('../../models/_admission/admission2.model');
 
 const addInpatientDoctorVisits = async (req, res, next) => {
   try {
@@ -56,14 +57,14 @@ const getAllInpatientDoctorVisits = async (req, res, next) => {
           model: Appointments,
           attributes: ['appointment_date'],
         },
-        //   {
-        //     model: Wards,
-        //     attributes: ['ward_description'],
-        //   },
-        // {
-        //   model: Users,
-        //   attributes: ['full_name'],
-        // },
+        {
+          model: Admissions2,
+          attributes: ['admission_date'],
+        },
+        {
+          model: Users,
+          attributes: ['full_name'],
+        },
       ],
     });
     res.json({

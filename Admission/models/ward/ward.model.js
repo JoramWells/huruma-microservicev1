@@ -3,7 +3,7 @@ const sequelize = require('../../db/connect');
 
 const Wards = sequelize.define('wards', {
   ward_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.BIGINT,
     primaryKey: true,
     // defaultValue: UUIDV4,
     autoIncrement: true,
