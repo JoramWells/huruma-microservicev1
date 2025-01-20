@@ -8,6 +8,7 @@ const cluster = require('cluster');
 const cpus = require('os').cpus().length;
 const patientRoutes = require('./routes/patient.routes');
 const personalAccountChargeRoutes = require('./routes/charges/personalAccountCharges.routes');
+const personalChargesPaymentRoutes = require('./routes/charges/personalChargesPayment.routes');
 const sequelize = require('./db/connect');
 
 const app = express();
@@ -40,6 +41,7 @@ if (cluster.isMaster) {
 
   app.use('/patient', patientRoutes);
   app.use('/personal-account-charge', personalAccountChargeRoutes);
+  app.use('/personal-charges-payment', personalChargesPaymentRoutes);
 
   // app.use((err, req, res, next) => {
   //   const errStatus = err.status || 500;

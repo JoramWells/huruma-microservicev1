@@ -3,17 +3,17 @@
 /* eslint-disable no-unused-vars */
 
 const Sequelize = require('sequelize');
-const PersonalAccountCharge = require('../../models/charges/personalAccountCharges.model');
 const PatientDetails = require('../../models/patientDetails.models');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Appointments2 = require('../../models/appointment/appointments.model');
+const PersonalChargesPayment = require('../../models/charges/personalChargesPayment.model');
 // const Patient = require('../../models/charges/patient2.models');
 
-// const Personal_account_charge = require('../models/personalAccountCharges.model');
+// const Personal_account_charge = require('../models/PersonalChargesPayments.model');
 
-const addPersonalAccountCharge = async (req, res, next) => {
+const addPersonalChargesPayment = async (req, res, next) => {
   try {
-    const results = await PersonalAccountCharge.create(req.body);
+    const results = await PersonalChargesPayment.create(req.body);
     // const results = await Personal_account_charge.findAll({
     //   where: {
     //     patient_id: userID,
@@ -27,7 +27,7 @@ const addPersonalAccountCharge = async (req, res, next) => {
   }
 };
 
-// const addPersonalAccountCharge = async (req, res, next) => {
+// const addPersonalChargesPayment = async (req, res, next) => {
 //   console.log(req.body);
 //   try {
 //     const { id } = req.params;
@@ -48,9 +48,9 @@ const addPersonalAccountCharge = async (req, res, next) => {
 //   }
 // };
 
-// const getAllPersonalAccountCharges = async (req, res, next) => {
+// const getAllPersonalChargesPayments = async (req, res, next) => {
 //   try {
-//     const results = await PersonalAccountCharge.findAll({
+//     const results = await PersonalChargesPayment.findAll({
 //       attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('personal_account_charges.patient_id_pac')), 'patient_id_pac'],
 //       [Sequelize.fn('COUNT', Sequelize.col('personal_account_charges.patient_id_pac')), 'patient_count']],
 //       group: [
@@ -74,7 +74,7 @@ const addPersonalAccountCharge = async (req, res, next) => {
 //   }
 // };
 
-const getAllPersonalAccountCharges = async (req, res, next) => {
+const getAllPersonalChargesPayments = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query;
   let where = {};
 
@@ -89,8 +89,8 @@ const getAllPersonalAccountCharges = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await PersonalAccountCharge.findAndCountAll({
-      order: [['date_of_charge', 'DESC']],
+    const { rows, count } = await PersonalChargesPayment.findAndCountAll({
+      order: [['date_of_payment', 'DESC']],
       page,
       pageSize,
       limit,
@@ -121,10 +121,10 @@ const getAllPersonalAccountCharges = async (req, res, next) => {
   }
 };
 
-const getPersonalAccountCharge = async (req, res, next) => {
+const getPersonalChargesPayment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await PersonalAccountCharge.findOne({
+    const result = await PersonalChargesPayment.findOne({
       where: {
         personal_account_charge_id: id,
       },
@@ -138,10 +138,10 @@ const getPersonalAccountCharge = async (req, res, next) => {
   }
 };
 
-const getUserPersonalAccountCharge = async (req, res, next) => {
+const getUserPersonalChargesPayment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const result = await PersonalAccountCharge.findAll({
+    const result = await PersonalChargesPayment.findAll({
       where: {
         patient_id_pac: id,
       },
@@ -160,10 +160,10 @@ const getUserPersonalAccountCharge = async (req, res, next) => {
   }
 };
 
-const editPersonalAccountCharge = async (req, res, next) => {
+const editPersonalChargesPayment = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const result = await PersonalAccountCharge.findOne({
+    const result = await PersonalChargesPayment.findOne({
       where: {
         id,
       },
@@ -175,10 +175,10 @@ const editPersonalAccountCharge = async (req, res, next) => {
   }
 };
 
-const deletePersonalAccountCharge = async (req, res, next) => {
+const deletePersonalChargesPayment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const results = await PersonalAccountCharge.destroy({
+    const results = await PersonalChargesPayment.destroy({
       where: {
         personal_account_charge_id: id,
       },
@@ -195,10 +195,10 @@ const deletePersonalAccountCharge = async (req, res, next) => {
 };
 
 module.exports = {
-  addPersonalAccountCharge,
-  getAllPersonalAccountCharges,
-  getPersonalAccountCharge,
-  editPersonalAccountCharge,
-  deletePersonalAccountCharge,
-  getUserPersonalAccountCharge,
+  addPersonalChargesPayment,
+  getAllPersonalChargesPayments,
+  getPersonalChargesPayment,
+  editPersonalChargesPayment,
+  deletePersonalChargesPayment,
+  getUserPersonalChargesPayment,
 };

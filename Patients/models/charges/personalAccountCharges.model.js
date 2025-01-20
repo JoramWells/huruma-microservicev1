@@ -2,6 +2,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const PatientDetails = require('../patientDetails.models');
+const Appointments2 = require('../appointment/appointments.model');
 
 const PersonalAccountCharge = sequelize.define('personal_account_charges', {
   personal_account_charge_id: {
@@ -88,5 +89,6 @@ const PersonalAccountCharge = sequelize.define('personal_account_charges', {
 }, { timestamps: false });
 
 PersonalAccountCharge.belongsTo(PatientDetails, { foreignKey: 'patient_id_pac', targetKey: 'patient_id' })
+PersonalAccountCharge.belongsTo(Appointments2, { foreignKey: 'appointment_id' })
 
 module.exports = PersonalAccountCharge;

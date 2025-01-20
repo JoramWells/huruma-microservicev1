@@ -1,3 +1,4 @@
+import { AppointmentInterface } from "./appointments"
 import { ServiceTypeInterface } from "./insurances"
 
 export interface AccountingAssetStatusInterface{
@@ -266,6 +267,7 @@ export interface InvoicePaymentInterface{
 }
 
 export interface PersonalAccountChargeInterface{
+    appointment?: AppointmentInterface
     personal_account_charge_id: number
     charge_no: number
     amount: number
@@ -277,6 +279,7 @@ export interface PersonalAccountChargeInterface{
     hospital_id: number
     service_id: number
     service_type_id: number
+    service_type?: ServiceTypeInterface
     quantity: number
     percentage_discount: number
     amount_before_discount: number
@@ -286,10 +289,10 @@ export interface PersonalAccountChargeInterface{
     total_amount_paid: string
     patient_full_name_pac: string
     admission_status: string
-    patient_id_pac: string
+    patient_id_pac: number
     seen_by_consultant: string
     doctor_name: string
-    clinic_id: string
+    clinic_id: number
     clinic_name: string
 
 }
