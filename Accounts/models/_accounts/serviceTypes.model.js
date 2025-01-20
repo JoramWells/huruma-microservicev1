@@ -33,6 +33,6 @@ const ServiceType = sequelize.define('service_types', {
 //     console.error('Unable to create table :', error)
 // })
 
-ServiceType.belongsTo(AccountingAccountDetails, {foreignKey:'credit_account_id', targetKey:'account_id'})
+ServiceType.belongsTo(AccountingAccountDetails, { foreignKey: 'credit_account_id', targetKey: 'account_id' });
 
 module.exports = ServiceType;

@@ -22,7 +22,7 @@ const sequelize = require('../db/connect');
 // const Appointments2 = require('../../Appointments/models/appointments2.models');
 const InsuranceServiceCostMapping = require('../models/insurance/insuranceServiceCostMapping.model');
 const Appointments2 = require('../models/appointment/appointments.model');
-const Patient_details = require('../models/patients.models');
+const Patient_details = require('../models/patientDetails.models');
 const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 const app = express();

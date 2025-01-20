@@ -2,11 +2,11 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db/connect');
 
-const Patient_details = sequelize.define('patient_details', {
+const PatientDetails = sequelize.define('patient_details', {
   patient_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement:true
+    autoIncrement: true
     // defaultValue: UUIDV4,
   },
   in_patient_file_no: {
@@ -114,4 +114,4 @@ const Patient_details = sequelize.define('patient_details', {
 //   .catch((error) => {
 //     console.error('Error modifying column data type:', error);
 //   });
-module.exports = Patient_details;
+module.exports = PatientDetails;

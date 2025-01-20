@@ -1,3 +1,5 @@
+import { ServiceTypeInterface } from "./insurances"
+
 export interface AccountingAssetStatusInterface{
     asset_status_id:number
     asset_status_description: string
@@ -232,4 +234,62 @@ export interface AccountingBankAccountsInterface{
     bank_name: string
     account_id: string
     transaction_charges_percentage: string
+}
+
+export interface InvoicePaymentInterface{
+    invoice_payment_id: number
+    invoice_no: string
+    amount: number
+    cheque_no: number
+    date_of_payment: string
+    time_of_payment: string
+    hospital_id: number
+    user_id: number
+    service_type_id: number
+    service_type?: ServiceTypeInterface
+    service_id: number
+    service_desc: string
+    bank_account_id: number
+    cash_payment_mode_id: number
+    cash_payment_mode?: CashPaymentModesInterface
+    invoice_payment_receipt_no: number
+    insurance_id: number
+    withholding_tax_percentage: number
+    withholding_tax_amount: number
+    transaction_charges_payment: number
+    transaction_charges_amount: number
+    cleared: string
+    cleared_by: number
+    total_amount_allocated_to_invoices: number
+    insurance_name_invoice_payments: number
+
+}
+
+export interface PersonalAccountChargeInterface{
+    personal_account_charge_id: number
+    charge_no: number
+    amount: number
+    service_desc: string
+    appointment_id: number
+    date_of_charge: string
+    time_of_charge: string
+    status: number
+    hospital_id: number
+    service_id: number
+    service_type_id: number
+    quantity: number
+    percentage_discount: number
+    amount_before_discount: number
+    discount_reason: string
+    is_copay: string
+    total_charge_amount: string
+    total_amount_paid: string
+    patient_full_name_pac: string
+    admission_status: string
+    patient_id_pac: string
+    seen_by_consultant: string
+    doctor_name: string
+    clinic_id: string
+    clinic_name: string
+
 }

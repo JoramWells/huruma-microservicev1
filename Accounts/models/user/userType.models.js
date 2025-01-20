@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db/connect');
+const sequelize = require('../../db/connect');
 
 const User_types = sequelize.define('user_types', {
   user_type_id: {
