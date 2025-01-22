@@ -1,28 +1,53 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const sequelize = require('../db/connect');
 const Account_type = require('../models/_accounts/accountTypes.model');
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 // Account_type.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Account_type.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
 
 const addAccountType = async (req, res, next) => {
-try {
-  const results = await Account_type.create(req.body)
-  res.json(results)
-  next()
-
-} catch (error) {
-  next(error)
-  console.log(error)
-}      
+  try {
+    const results = await Account_type.create(req.body);
+    res.json(results);
+    next();
+  } catch (error) {
+    next(error);
+    console.log(error);
+  }
 };
 
 const getAllAccountTypes = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const accountType = await Account_type.findAll();
-    res.status(200).json(accountType);
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Account_type.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+    });
+    res.status(200).json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     next(error);

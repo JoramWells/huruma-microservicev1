@@ -1,8 +1,7 @@
 /* eslint-disable import/no-unresolved */
 const express = require('express');
-const {
-  addCompany, getAllCompanies, getCompanyDetail, editCompany, deleteCompany,
-} = require('../controllers/companyDetails.controller');
+const { addCompany, getAllCompanies, getCompanyDetail, editCompany, deleteCompany } = require('../../controllers/insurance/companyDetails.controller');
+
 
 const router = express.Router();
 

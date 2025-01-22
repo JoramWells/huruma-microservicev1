@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
+const { Op } = require('sequelize');
 
 const ConsultationType = require('../../models/consultation/consultationType.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 const addConsultationType = async (req, res, next) => {
   try {
@@ -15,9 +17,35 @@ const addConsultationType = async (req, res, next) => {
 };
 
 const getAllConsultationTypes = async (req, res, next) => {
+  const { id } = req.params;
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const results = await ConsultationType.findAll({});
-    res.json(results);
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await ConsultationType.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+    });
+    res.status(200).json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     console.log(error);

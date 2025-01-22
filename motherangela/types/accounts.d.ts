@@ -1,5 +1,13 @@
 import { AppointmentInterface } from "./appointments"
 import { ServiceTypeInterface } from "./insurances"
+import { PatientInterface, UserInterface } from "./patients"
+
+
+export interface AccountTypeInterface{
+    account_type_id:number
+    account_type_description:string
+
+}
 
 export interface AccountingAssetStatusInterface{
     asset_status_id:number
@@ -273,7 +281,7 @@ export interface PersonalAccountChargeInterface{
     amount: number
     service_desc: string
     appointment_id: number
-    date_of_charge: string
+    date_of_charge: string | Date
     time_of_charge: string
     status: number
     hospital_id: number
@@ -290,9 +298,60 @@ export interface PersonalAccountChargeInterface{
     patient_full_name_pac: string
     admission_status: string
     patient_id_pac: number
+    patient_detail: PatientInterface;
     seen_by_consultant: string
     doctor_name: string
     clinic_id: number
     clinic_name: string
+
+}
+
+export interface PersonalChargesPaymentsInterface{
+    appointment?: AppointmentInterface
+    charge_payment_id: number
+    charge_no: number
+    amount: number
+    date_of_payment: string | Date
+    time_of_payment: string
+    hospital_id: number
+    user_id: number
+    user: UserInterface | null;
+    service_id: number
+    service_type_id: number
+    service_type?: ServiceTypeInterface
+    receipt_no: string
+    service_desc: string
+    cash_payment_mode_id: number
+    reference: string
+    bank_account_id: number
+    transaction_charges_percentage: number
+    transaction_charges_amount: number
+    cleared: string
+    cleared_by: number
+    admission_status: string
+    is_copay_personal_charge_payments: string
+    appointment_id_personal_charge_payments: number
+    patient_full_name_pcp: string
+    seen_by_consultant: string
+    doctor_name: string
+    clinic_id: number
+    clinic_name: string
+    account_id: string
+    date_of_application_to_inpatient_bill: string
+    linked_insurance_id: number
+    unit_cost_of_sale: number
+    quantity_cost_of_sale: number
+    cost_of_sale_account_id: number
+    stock_account_id: number
+    user_shift_id: number
+    account_group_id: number
+    refund_bank_account_id: number
+    refund_reference_number: number
+    refund_amount: number
+    date_of_refund: string | Date
+    refund_payment_mode_id: number
+    admission_status: string
+    patient_id_personal_charge_payments: number
+    patient_detail: PatientInterface;
 
 }

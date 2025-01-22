@@ -52,3 +52,14 @@ export interface InsuranceMedicineMappingInterface{
   visible: string
 
 }
+
+export interface CompanyDetailsInterface{
+  company_id: number
+  company_name: string
+  insurance_limit_type_id: number
+  maximum_billable_amount: number
+  payment_percentage_out_patient: number
+  payment_percentage_in_patient: number
+  revenue_expected: number
+
+}

@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
-
-const AccountingAccountDetails = require("../../models/_accounts/accountingAccountDetails.model");
-const ConsultationGroupsWithCreditAccount = require("../../models/consultation/consultationGroupWithCreditAccount.model");
-
+const { Op } = require('sequelize');
+const AccountingAccountDetails = require('../../models/_accounts/accountingAccountDetails.model');
+const ConsultationGroupsWithCreditAccount = require('../../models/consultation/consultationGroupWithCreditAccount.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 const addConsultationGroupWithCreditAccounts = async (req, res, next) => {
   try {
@@ -17,16 +17,43 @@ const addConsultationGroupWithCreditAccounts = async (req, res, next) => {
 };
 
 const getAllConsultationGroupWithCreditAccounts = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const results = await ConsultationGroupsWithCreditAccount.findAll({
-      include:[
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+
+    const { rows, count } = await ConsultationGroupsWithCreditAccount.findAndCountAll({
+      // order: [['appointment_date', 'DESC']],
+      page,
+      pageSize,
+      limit,
+      offset,
+      include: [
         {
-          model:AccountingAccountDetails,
-          attributes:['account_name']
-        }
-      ]
+          model: AccountingAccountDetails,
+          attributes: ['account_name'],
+        },
+      ],
     });
-    res.json(results);
+
+    res.status(200).json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     console.log(error);

@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
-const Company_detail = require('../models/companyDetails.models');
+const { Op } = require('sequelize');
+const Company_detail = require('../../models/insurance/companyDetails.models');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 // Company_detail.belongsTo(Patient_details, { foreignKey: 'patient_id', as: 'patient_details' });
 // Company_detail.hasMany(Patient_details, { as: 'patients', foreignKey: 'patient_id' });
@@ -17,11 +19,36 @@ const addCompany = async (req, res, next) => {
 };
 
 const getAllCompanies = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query
+  let where = {}
+
   try {
-    const results = await Company_detail.findAll({});
-    res.json(results);
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize)
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { insurance_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Company_detail.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      where,
+    });
+    res.json({
+      data: rows,
+      total: count,
+      page: page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Internal Server Error' });
     next(error);
   }

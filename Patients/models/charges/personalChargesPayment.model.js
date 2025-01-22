@@ -3,6 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const PatientDetails = require('../patientDetails.models');
 const Appointments2 = require('../appointment/appointments.model');
+const Users = require('../user/user.model');
 
 const PersonalChargesPayment = sequelize.define('personal_charges_payments', {
   charge_payment_id: {
@@ -132,7 +133,7 @@ const PersonalChargesPayment = sequelize.define('personal_charges_payments', {
     type: DataTypes.INTEGER,
   },
   date_of_refund: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
   },
   refund_payment_mode_id: {
     type: DataTypes.INTEGER,
@@ -141,5 +142,6 @@ const PersonalChargesPayment = sequelize.define('personal_charges_payments', {
 
 PersonalChargesPayment.belongsTo(PatientDetails, { foreignKey: 'patient_id_personal_charge_payments', targetKey: 'patient_id' })
 PersonalChargesPayment.belongsTo(Appointments2, { foreignKey: 'appointment_id_personal_charge_payments', targetKey: 'appointment_id' })
+PersonalChargesPayment.belongsTo(Users, { foreignKey: 'user_id' })
 
 module.exports = PersonalChargesPayment;

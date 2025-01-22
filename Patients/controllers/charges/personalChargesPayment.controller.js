@@ -7,6 +7,7 @@ const PatientDetails = require('../../models/patientDetails.models');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Appointments2 = require('../../models/appointment/appointments.model');
 const PersonalChargesPayment = require('../../models/charges/personalChargesPayment.model');
+const Users = require('../../models/user/user.model');
 // const Patient = require('../../models/charges/patient2.models');
 
 // const Personal_account_charge = require('../models/PersonalChargesPayments.model');
@@ -75,7 +76,7 @@ const addPersonalChargesPayment = async (req, res, next) => {
 // };
 
 const getAllPersonalChargesPayments = async (req, res, next) => {
-  const { page, pageSize, searchQuery } = req.query;
+  const { page, pageSize, searchQuery, status } = req.query;
   let where = {};
 
   try {
@@ -89,6 +90,19 @@ const getAllPersonalChargesPayments = async (req, res, next) => {
         ],
       };
     }
+
+    if (status && status?.length > 0 && status === 'not cleared') {
+      where = {
+        ...where,
+        cleared: 'NO'
+      }
+    } else if (status && status?.length > 0 && status === 'cleared') {
+      where = {
+        ...where,
+        cleared: 'YES'
+      }
+    }
+
     const { rows, count } = await PersonalChargesPayment.findAndCountAll({
       order: [['date_of_payment', 'DESC']],
       page,
@@ -104,6 +118,10 @@ const getAllPersonalChargesPayments = async (req, res, next) => {
         {
           model: Appointments2,
           attributes: ['appointment_date']
+        },
+        {
+          model: Users,
+          attributes: ['full_name']
         }
       ],
     });

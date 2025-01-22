@@ -37,7 +37,7 @@ const maternityDeliveryRoutes = require('./routes/maternity/maternityDelivery.ro
 const wardTypeRoutes = require('./routes/ward/wardType.routes');
 
 const creditPaymentRoutes = require('./routes/creditPayment.routes');
-const companyRoutes = require('./routes/companyDetails.routes');
+const companyRoutes = require('./routes/insurance/companyDetails.routes');
 const insuranceMedicationMapping = require('./routes/insurance/insuranceMedicationMapping.routes');
 const insuranceServiceCostMapping = require('./routes/insurance/insuranceServiceCostMapping.routes');
 const personalAccountChargeRoutes = require('./routes/charges/personalAccountCharges.routes');

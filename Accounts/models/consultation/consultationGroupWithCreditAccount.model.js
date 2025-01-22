@@ -17,7 +17,7 @@ const ConsultationGroupsWithCreditAccount = sequelize.define('consultation_group
   },
 });
 
-ConsultationGroupsWithCreditAccount.belongsTo(AccountingAccountDetails, { foreignKey:'credit_account_id', primaryKey:'account_id'})
+ConsultationGroupsWithCreditAccount.belongsTo(AccountingAccountDetails, { foreignKey: 'credit_account_id', primaryKey: 'account_id' });
 
 module.exports = ConsultationGroupsWithCreditAccount;
 
