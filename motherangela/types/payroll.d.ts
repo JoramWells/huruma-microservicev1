@@ -212,7 +212,7 @@ export interface PayrollPeriodEmployeePayCalculationsInterface{
 
 }
 
-export interface PayrollEmployeeLoadDeductionsInterface{
+export interface PayrollEmployeeLoanDeductionsInterface{
     loan_deduction_id: number
     payroll_id: string
     employee_id: string

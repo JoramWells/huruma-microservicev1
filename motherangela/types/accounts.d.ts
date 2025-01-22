@@ -254,6 +254,7 @@ export interface InvoicePaymentInterface{
     time_of_payment: string
     hospital_id: number
     user_id: number
+    user: UserInterface | null;
     service_type_id: number
     service_type?: ServiceTypeInterface
     service_id: number

@@ -65,6 +65,7 @@ export interface InpatientNurseVisitsInterface{
     time_of_visit: string
     cost_of_visit: number
     nurse_notes: string
+    user?: UserInterface
 }
 
 export interface InpatientDoctorVisitsDoctor{
@@ -84,4 +85,5 @@ export interface InpatientDoctorVisitsDoctor{
     time_of_visit: string
     cost_of_visit: number
     doctor_notes: string
+    user?: UserInterface
 }
