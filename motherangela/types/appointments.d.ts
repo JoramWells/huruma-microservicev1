@@ -1,6 +1,13 @@
 import { ConsultationTypesGroupInterface } from "./consultation";
 import { PatientInterface, UserInterface } from "./patients";
 
+
+export interface ReferralTypesInterface{
+  referral_type_id: number;
+  referral_type_description: string;
+
+}
+
 export interface AppointmentInterface {
   account_type_id: number;
   admission_status: string | null;
@@ -36,6 +43,7 @@ export interface AppointmentInterface {
   payment_status: string | null;
   reference_account_id: number;
   referral_type_id: string | null;
+  referral_type?: ReferralTypesInterface;
   total_appointment_discount: string | null;
   user: UserInterface | null;
 }

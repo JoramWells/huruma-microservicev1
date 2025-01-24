@@ -7,6 +7,7 @@ const cors = require('cors');
 const sequelize = require('./db/connect');
 const appointmentRoutes = require('./routes/appointment.routes');
 const appointmentDiagnosesRoutes = require('./routes/appointmentDiagnoses.routes');
+const referralTypeRoutes = require('./routes/referralType.routes');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(cors());
 
 app.use('/appointment', appointmentRoutes);
 app.use('/appointment-diagnoses', appointmentDiagnosesRoutes);
+app.use('/referral-types', referralTypeRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

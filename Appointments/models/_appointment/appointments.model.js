@@ -13,6 +13,7 @@ const Appointments = sequelize.define('appointments', {
     appointment_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
     },
     doctor_id: {
         type: DataTypes.INTEGER,

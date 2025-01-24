@@ -2,7 +2,7 @@ import { AppointmentInterface } from "./appointments"
 import { AdmissionInterface, PatientInterface, UserInterface } from "./patients"
 
 export interface InpatientTreatmentChartInterface{
-    inpatient_treatment_chart: number
+    inpatient_treatment_chart_id: number
     appointment?: AppointmentInterface & {
         patient_detail?: PatientInterface
     }

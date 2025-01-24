@@ -10,6 +10,7 @@ const medicationRoutes = require('./routes/medication/medication.routes');
 const medicationCategoryRoutes = require('./routes/medication/medicationCategory.routes');
 const medicinePurchaseRoutes = require('./routes/medication/medicinePurchases.routes');
 const medicationStockTakeRoutes = require('./routes/medication/medicationStockTake.routes');
+const medicinePackagingRoutes = require('./routes/medication/medicinePackaging.routes');
 
 
 const app = express();
@@ -32,6 +33,7 @@ app.use('/medication', medicationRoutes);
 app.use('/medication-category', medicationCategoryRoutes);
 app.use('/medication-purchase', medicinePurchaseRoutes);
 app.use('/medication-stock-take', medicationStockTakeRoutes);
+app.use('/medicine-packaging', medicinePackagingRoutes);
 
 // app.use((err, req, res, next) => {
 //   const errStatus = err.status || 500;

@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 // const { Kafka } = require('kafkajs');
 const { Op } = require('sequelize');
+const moment = require('moment');
 const sequelize = require('../db/connect');
 const Appointments2 = require('../models/_appointment/appointments2.models');
 // const Insurance_detail = require('../../root/models/insurance/insurance.model');
@@ -23,54 +24,55 @@ const ConsultationTypesGroup = require('../models/consultation/consultationTypeG
 
 // const consumer = kafka.consumer({ groupId: 'appointment-create-group' });
 
-const addAppointments = async (req, res, next) => {
-  // await consumer.connect();
-  // await consumer.subscribe({ topic: 'register-patient' });
-
-  // await consumer.run({
-  //   eachMessage: async ({ topic, partition, message }) => {
-  //     console.log({
-  //       partition,
-  //     });
-  //   },
-  // });
-};
-
 // const addAppointments = async (req, res, next) => {
-//   const {
-//     patientId, temperature, pulse_rate, respiratoryRate,
-//     systolic, diastolic, weight, height, bmi, sp02,
-//   } = req.body;
+// await consumer.connect();
+// await consumer.subscribe({ topic: 'register-patient' });
 
-//   try {
-//     const isAppointed = await Appointments2.findOne({
-//       where: {
-//         patient_id: patientId,
-//       },
+// await consumer.run({
+//   eachMessage: async ({ topic, partition, message }) => {
+//     console.log({
+//       partition,
 //     });
-
-//     if (isAppointed) {
-//       isAppointed.patient_id = patientId;
-//       isAppointed.temperature = temperature;
-//       isAppointed.pulse_rate = pulse_rate;
-//       isAppointed.respiratory_rate = respiratoryRate;
-//       isAppointed.systolic = systolic;
-//       isAppointed.diastolic = diastolic;
-//       isAppointed.weight = weight;
-//       isAppointed.height = height;
-//       isAppointed.body_mass_index = bmi;
-//       isAppointed.sp02 = sp02;
-//       next();
-//       return isAppointed.save();
-//     }
-//     const newAppointment = await Appointments2.create(req.body);
-//     res.json(newAppointment);
-
-//     next();
-//   } catch (error) {
-//     res.sendStatus(500);
-//   }
+//   },
+// });
 // };
+
+const addAppointments = async (req, res, next) => {
+  // const {
+  //   patientId, temperature, pulse_rate, respiratoryRate,
+  //   systolic, diastolic, weight, height, bmi, sp02,
+  // } = req.body;
+
+  try {
+    // const isAppointed = await Appointments2.findOne({
+    //   where: {
+    //     patient_id: patientId,
+    //   },
+    // });
+
+    // if (isAppointed) {
+    //   isAppointed.patient_id = patientId;
+    //   isAppointed.temperature = temperature;
+    //   isAppointed.pulse_rate = pulse_rate;
+    //   isAppointed.respiratory_rate = respiratoryRate;
+    //   isAppointed.systolic = systolic;
+    //   isAppointed.diastolic = diastolic;
+    //   isAppointed.weight = weight;
+    //   isAppointed.height = height;
+    //   isAppointed.body_mass_index = bmi;
+    //   isAppointed.sp02 = sp02;
+    //   next();
+    //   return isAppointed.save();
+    // }
+    const newAppointment = await Appointments.create(req.body);
+    res.json(newAppointment);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+    next(error);
+  }
+};
 
 // get all priceListItems
 const getAllAppointments = async (req, res, next) => {
@@ -97,6 +99,72 @@ const getAllAppointments = async (req, res, next) => {
       pageSize,
       limit,
       offset,
+      include: [
+        {
+          model: PatientDetails,
+          attributes: ['first_name', 'middle_name', 'last_name', 'patient_gender'],
+          where,
+        },
+        {
+          model: InsuranceDetail,
+          attributes: ['insurance_name'],
+        },
+        {
+          model: Users,
+          attributes: ['full_name'],
+        },
+      ],
+    });
+
+    res.status(200).json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
+    // console.log(appointmentResults);
+
+    console.log('fetching data..');
+    next();
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+//
+const getAppointmentPatientQueue = async (req, res, next) => {
+  const {
+    page, pageSize, searchQuery, appointment_date,
+  } = req.query;
+
+  const appointmentWhere = {
+    appointment_date: appointment_date?.length > 0 ? appointment_date : moment().format('YYYY-MM-DD'),
+  };
+
+  let where = {};
+
+  try {
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+
+    const { rows, count } = await Appointments.findAndCountAll({
+      order: [['appointment_date', 'DESC']],
+      page,
+      pageSize,
+      limit,
+      offset,
+      where: appointmentWhere,
       include: [
         {
           model: PatientDetails,
@@ -296,4 +364,5 @@ module.exports = {
   editAppointmentDetail,
   deleteAppointment,
   getAllAppointmentsById,
+  getAppointmentPatientQueue,
 };

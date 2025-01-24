@@ -3,6 +3,7 @@ const express = require('express');
 const {
   addAppointments, getAllAppointments,
   getAppointmentDetail, editAppointmentDetail, deleteAppointment, getAllAppointmentsById,
+  getAppointmentPatientQueue,
 } = require('../controllers/appointment.controller');
 
 const router = express.Router();
@@ -11,6 +12,7 @@ const router = express.Router();
 
 router.post('/add', addAppointments);
 router.get('/fetchAll', getAllAppointments);
+router.get('/queue', getAppointmentPatientQueue);
 router.get('/detail/:id', getAppointmentDetail);
 router.get('/details/:id', getAllAppointmentsById);
 router.put('/edit', editAppointmentDetail);
