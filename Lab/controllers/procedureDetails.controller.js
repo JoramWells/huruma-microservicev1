@@ -1,9 +1,11 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../db/connect');
+const { DataTypes, Sequelize, Op } = require('sequelize');
+
 const ProcedureCategory = require('../models/_procedure/procedureCategory.model');
 const Procedure_detail = require('../models/_procedure/procedureDetails.model');
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 const addProcedureDetail = async (req, res, next) => {
   // create user
@@ -16,8 +18,27 @@ const addProcedureDetail = async (req, res, next) => {
 };
 
 const getAllProcedureDetails = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const procedures = await Procedure_detail.findAll({
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Procedure_detail.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
       include: [
         {
           model: ProcedureCategory,
@@ -25,10 +46,46 @@ const getAllProcedureDetails = async (req, res, next) => {
         },
       ],
     });
-    res.json(procedures);
+    res.status(200).json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
+    next(error);
+  }
+};
+
+const searchProcedureDetail = async (req, res, next) => {
+  const { searchQuery } = req.query;
+  let where = {};
+
+  try {
+    // const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { procedure_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const results = await Procedure_detail.findAll({
+      // page,
+      // pageSize,
+      // limit,
+      // offset,
+      where
+    });
+    res.json(results);
+    next();
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500).json({ error: 'Internal Server error' });
     next(error);
   }
 };
@@ -87,4 +144,5 @@ module.exports = {
   getProcedureDetailsById,
   editProcedureDetail,
   deleteProcedureDetail,
+  searchProcedureDetail
 };

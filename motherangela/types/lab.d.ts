@@ -1,6 +1,19 @@
 import { AppointmentInterface } from "./appointments"
 import { PatientInterface, UserInterface } from "./patients"
 
+
+export interface SpecimenTypeInterface{
+    specimen_type_id: number,
+    specimen_type_description: string,
+
+}
+
+export interface ResultStatusInterface{
+    results_status_id: number,
+    results_status_description: string,
+
+}
+
 export interface ProcedureInterface{
     procedure_id: number,
     procedure_name: string,

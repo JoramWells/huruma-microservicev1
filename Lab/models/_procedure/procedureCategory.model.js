@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const ServiceType = require('../services/serviceType.model');
 
 const ProcedureCategory = sequelize.define('procedure_categories', {
   category_id: {
@@ -19,5 +20,7 @@ const ProcedureCategory = sequelize.define('procedure_categories', {
     type: DataTypes.INTEGER,
   },
 });
+
+ProcedureCategory.belongsTo(ServiceType, { foreignKey: 'service_type_id' })
 
 module.exports = ProcedureCategory;

@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
 const express = require('express');
 const { addInternalLabRequest, getAllInternalLabRequests, getInternalLabRequest,
-  editInternalLabRequest, deleteInternalLabRequest } = require('../../controllers/_lab/internalLabRequests.controller');
+  editInternalLabRequest, deleteInternalLabRequest,
+  getRecentInternalLabRequests } = require('../../controllers/_lab/internalLabRequests.controller');
 
 
 const router = express.Router();
@@ -10,6 +11,7 @@ const router = express.Router();
 
 router.post('/add', addInternalLabRequest);
 router.get('/fetchAll', getAllInternalLabRequests);
+router.get('/requests', getRecentInternalLabRequests);
 router.get('/detail/:id', getInternalLabRequest);
 router.put('/edit', editInternalLabRequest);
 router.delete('/delete/:id', deleteInternalLabRequest);

@@ -2,7 +2,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-const { DataTypes, Sequelize } = require('sequelize');
+const { DataTypes, Sequelize, Op } = require('sequelize');
 const sequelize = require('../../db/connect');
 const ProcedureCategory = require('./procedureCategory.model');
 

@@ -2,14 +2,14 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const sequelize = require('../../db/connect');
-const SpecimenTypes = require('../../models/_lab/specimenTypes.model');
+const ResultStatus = require('../../models/_lab/resultStatus.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 
 
-const addSpecimenType = async (req, res, next) => {
+const addResultStatus = async (req, res, next) => {
   try {
-    const results = await SpecimenTypes.create(req.body);
+    const results = await ResultStatus.create(req.body);
     res.json(results);
 
     next();
@@ -20,7 +20,7 @@ const addSpecimenType = async (req, res, next) => {
 };
 
 // get all priceListItems
-const getAllSpecimenTypes = async (req, res, next) => {
+const getAllResultStatus = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query;
   let where = {};
 
@@ -37,8 +37,8 @@ const getAllSpecimenTypes = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await SpecimenTypes.findAndCountAll({
-      order: [['specimen_type_description', 'ASC']],
+    const { rows, count } = await ResultStatus.findAndCountAll({
+      order: [['results_status_description', 'ASC']],
       page,
       pageSize,
       limit,
@@ -58,10 +58,10 @@ const getAllSpecimenTypes = async (req, res, next) => {
   }
 };
 
-const getSpecimenTypeDetail = async (req, res, next) => {
+const getResultStatusDetail = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const result = await SpecimenTypes.findAll({
+    const result = await ResultStatus.findAll({
       where: {
         lab_request_id: id,
       },
@@ -75,10 +75,10 @@ const getSpecimenTypeDetail = async (req, res, next) => {
   }
 };
 
-const editSpecimenType = async (req, res, next) => {
+const editResultStatus = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    SpecimenTypes.findOne({
+    ResultStatus.findOne({
       where: {
         id,
       },
@@ -92,10 +92,10 @@ const editSpecimenType = async (req, res, next) => {
   });
 };
 
-const deleteSpecimenType = async (req, res, next) => {
+const deleteResultStatus = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    SpecimenTypes.destroy({
+    ResultStatus.destroy({
       where: {
         id,
       },
@@ -107,9 +107,9 @@ const deleteSpecimenType = async (req, res, next) => {
 };
 
 module.exports = {
-  addSpecimenType,
-  getAllSpecimenTypes,
-  getSpecimenTypeDetail,
-  editSpecimenType,
-  deleteSpecimenType,
+  addResultStatus,
+  getAllResultStatus,
+  getResultStatusDetail,
+  editResultStatus,
+  deleteResultStatus,
 };

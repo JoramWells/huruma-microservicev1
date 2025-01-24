@@ -22,12 +22,13 @@ const internalLabRequestRoutes = require('./routes/_lab/internalLabRequest.route
 const aLabRoutes = require('./routes/_lab/aLab.routes');
 const labTestSummarySubSectionRoutes = require('./routes/_lab/labTestSummarySubSection.routes');
 const specimenTypeRoutes = require('./routes/_lab/specimenType.routes');
+const resultStatusRoutes = require('./routes/_lab/resultStatus.routes');
 
 const clusterMiddleware = require('./middleware/clusterMiddleware');
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5005;
 const corsOption = {
     origin: ['*'],
 };
@@ -69,6 +70,7 @@ if (cluster.isMaster) {
 
     app.use('/internal-pharmacy-request', internalPharmacyRequestRoutes);
     app.use('/doctor-notes', doctorNotesRoutes);
+    app.use('/result-status', resultStatusRoutes);
 
     // app.use((err, req, res, next) => {
     //   const errStatus = err.status || 500;
