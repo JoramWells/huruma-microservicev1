@@ -1,27 +1,23 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable indent */
 /* eslint-disable camelcase */
-const { DataTypes, UUIDV4 } = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Patient = require('../patient/patients.models');
-const InsuranceDetail = require('../insurance/insuranceDetail.model');
+// const InsuranceDetail = require('../insurance/insuranceDetail.model');
 const Users = require('../user/user.model');
+const PatientDetails = require('../patient/patientDetails.model');
+// const Patient_details = require('../patient/patients.models');
+// const Account_type = require('../accountTypes.model');
 
-const Appointments2 = sequelize.define('appointments', {
+const Appointments = sequelize.define('appointments', {
   appointment_id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: true,
-    defaultValue: UUIDV4,
   },
   doctor_id: {
     type: DataTypes.INTEGER,
   },
   patient_id: {
-    type: DataTypes.UUID,
-    references: {
-      model: 'patient',
-      key: 'patient_id',
-    },
-    onDelete: 'CASCADE',
+    type: DataTypes.INTEGER,
   },
   appointment_date: {
     type: DataTypes.STRING,
@@ -164,10 +160,11 @@ const Appointments2 = sequelize.define('appointments', {
 
 }, { timestamps: false });
 
-Appointments2.belongsTo(Patient, { foreignKey: 'patient_id' });
-Appointments2.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
-// Patient.hasMany(Appointments2, { foreignKey: 'patient_id' });
-Appointments2.belongsTo(InsuranceDetail, { foreignKey: 'reference_account_id', targetKey: 'insurance_id' });
+Appointments.belongsTo(PatientDetails, { foreignKey: 'patient_id' });
+// Appointments.belongsTo(InsuranceDetail, { foreignKey: 'reference_account_id', targetKey: 'insurance_id' });
+Appointments.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
+
+// Appointments.belongsTo(Account_type, { foreignKey: 'account_type_id' });
 
 // sequelize.sync().then(() => {
 //   console.log('Book table created');
@@ -175,4 +172,4 @@ Appointments2.belongsTo(InsuranceDetail, { foreignKey: 'reference_account_id', t
 //   console.error('Unable to create table :', error);
 // });
 
-module.exports = Appointments2;
+module.exports = Appointments;

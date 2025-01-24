@@ -1,7 +1,8 @@
+
 function calculateLimitAndOffset(
     page,
-    pageSize,
-) {
+    pageSize
+){
     //
     if (!Number.isInteger(page) && !Number.isInteger(pageSize)) {
         page = Number(page);
@@ -26,11 +27,11 @@ function calculateMaxAge(age) {
     return new Date(
         currentDate.getFullYear() - age,
         currentDate.getMonth(),
-        currentDate.getDate(),
+        currentDate.getDate()
     );
 }
 
-module.exports = {
+module.exports={
     calculateLimitAndOffset,
-    calculateMaxAge,
-};
+    calculateMaxAge
+}

@@ -58,10 +58,10 @@ const InsuranceDetail = sequelize.define('insurance_details', {
 });
 
 // create the pricelists model
-// sequelize.sync().then(()=>{
-//     console.log('Book table created')
-// }).catch(error=>{
-//     console.error('Unable to create table :', error)
-// })
+sequelize.sync().then(()=>{
+    console.log('Book table created')
+}).catch(error=>{
+    console.error('Unable to create table :', error)
+})
 
 module.exports = InsuranceDetail;

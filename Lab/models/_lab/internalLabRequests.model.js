@@ -3,10 +3,11 @@
 
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const Appointments = require('../appointment/appointments2.models');
 const Patient_details = require('../patient/patients.models');
-const Procedure_detail = require('../procedure/procedureDetails.model');
+const Procedure_detail = require('../_procedure/procedureDetails.model');
 const Users = require('../user/user.model');
-const Appointments = require('../appointment/appointments.model');
+
 
 const InternalLabRequests = sequelize.define('internal_lab_requests', {
   lab_request_id: {
