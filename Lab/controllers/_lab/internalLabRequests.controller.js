@@ -233,6 +233,32 @@ const editInternalLabRequest = async (req, res, next) => {
   });
 };
 
+const updateCollectedSample = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const { specimen_type_id, results_status_id, results, date_of_result, status } = req.body;
+    const test = await InternalLabRequests.findByPk(id)
+
+    if (test) {
+      test.specimen_type_id = specimen_type_id;
+      test.results_status_id = results_status_id;
+      test.status = status;
+      test.date_of_result = date_of_result;
+      test.results = results;
+      await test.save();
+      res.status(200).json(test)
+      next()
+    }
+    else {
+      res.status(400)
+      next()
+    }
+  } catch (error) {
+    console.log(error)
+  }
+
+};
+
 // add vitals
 
 const add = async (req, res, next) => {
@@ -271,5 +297,6 @@ module.exports = {
   getInternalLabRequest,
   editInternalLabRequest,
   deleteInternalLabRequest,
-  getRecentInternalLabRequests
+  getRecentInternalLabRequests,
+  updateCollectedSample
 };
