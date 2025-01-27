@@ -9,7 +9,6 @@ const { Op } = require('sequelize');
 const http = require('http');
 const { Server } = require('socket.io');
 // const { Kafka } = require('kafkajs');
-const sequelize = require('../db/connect');
 
 // const kafka = new Kafka({
 //   clientId: 'Hospital',
@@ -18,7 +17,7 @@ const sequelize = require('../db/connect');
 
 // const producer = kafka.producer();
 
-const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const HospitalDetail = require('../../models/hospital/hospitalDetails.model');
 
 const app = express();

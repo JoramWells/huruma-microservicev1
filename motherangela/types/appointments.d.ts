@@ -1,5 +1,6 @@
 import { ConsultationTypesGroupInterface } from "./consultation";
-import { PatientInterface, UserInterface } from "./patients";
+import { PatientInterface } from "./patients";
+import { UserInterface } from "./user";
 
 
 export interface ReferralTypesInterface{

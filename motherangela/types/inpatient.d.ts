@@ -1,5 +1,6 @@
 import { AppointmentInterface } from "./appointments"
-import { AdmissionInterface, PatientInterface, UserInterface } from "./patients"
+import { AdmissionInterface, PatientInterface } from "./patients"
+import { UserInterface } from "./user"
 
 export interface InpatientTreatmentChartInterface{
     inpatient_treatment_chart_id: number

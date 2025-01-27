@@ -1,3 +1,5 @@
+import { UserInterface } from "./user"
+
 export interface PatientInterface{
     allergies: string
     cct: string
@@ -99,16 +101,3 @@ export interface AdmissionInterface {
   ward_id: string
 }
 
-export interface UserInterface {
-  user_id: string;
-  user_type_id: string;
-  full_name: string;
-  user_name: string;
-  email: string;
-  password: string;
-  status: string;
-  hospital_id: string;
-  navigation_style: string;
-  consultation_income_percentage: string;
-  procedure_income_percentage: string;
-}

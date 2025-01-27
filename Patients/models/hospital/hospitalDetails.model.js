@@ -34,9 +34,9 @@ const HospitalDetail = sequelize.define('hospital_details', {
   receipt_printer_type: {
     type: DataTypes.INTEGER,
   },
-  users_mnemonic_lab: {
-    type: DataTypes.STRING,
-  },
+  // users_mnemonic_lab: {
+  //   type: DataTypes.STRING,
+  // },
   night_shift_start: {
     type: DataTypes.STRING,
   },
@@ -52,9 +52,9 @@ const HospitalDetail = sequelize.define('hospital_details', {
   multiplication_factor_corporate: {
     type: DataTypes.INTEGER,
   },
-  difference_invoice_for_each_service_type: {
-    type: DataTypes.STRING,
-  },
+  // difference_invoice_for_each_service_type: {
+  //   type: DataTypes.STRING,
+  // },
   pre_printed_logo_height: {
     type: DataTypes.INTEGER,
   },
@@ -70,7 +70,7 @@ const HospitalDetail = sequelize.define('hospital_details', {
   smart_service_db_name: {
     type: DataTypes.STRING,
   },
-  smart_service_user_name: {
+  smart_service_db_user_name: {
     type: DataTypes.STRING,
   },
   smart_service_db_password: {

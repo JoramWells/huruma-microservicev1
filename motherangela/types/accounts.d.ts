@@ -1,6 +1,7 @@
 import { AppointmentInterface } from "./appointments"
 import { ServiceTypeInterface } from "./insurances"
-import { PatientInterface, UserInterface } from "./patients"
+import { PatientInterface } from "./patients"
+import { UserInterface } from "./user"
 
 
 export interface AccountTypeInterface{

@@ -1,10 +1,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../db/connect');
 const Users = require('../models/user.model');
 const User_privilege = require('../models/userPrivileges.model');
 const User_types = require('../models/userType.models');
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
+const { Op } = require('sequelize');
+
 
 const addUser = async (req, res, next) => {
   // create user
@@ -17,8 +19,28 @@ const addUser = async (req, res, next) => {
 };
 
 const getAllUsers = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
+
   try {
-    const users = await Users.findAll({
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Users.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      where,
       include: [
         {
           model: User_types,
@@ -26,7 +48,12 @@ const getAllUsers = async (req, res, next) => {
         },
       ],
     });
-    res.json(users);
+    res.json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
