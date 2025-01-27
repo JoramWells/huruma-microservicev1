@@ -255,24 +255,28 @@ const getAllAppointmentsById = async (req, res, next) => {
   }
 };
 
-// const getAppointmentDetail = async (req, res, next) => {
-//   const { id } = req.params;
-//   await sequelize.sync().then(() => {
-//     Appointments2.findOne({
-//       where: {
-//         appointment_id: id,
-//       },
-//       include: [
-//         {
-//           model: Account_type,
-//           attributes: ['account_type_description'],
-//         },
-//       ],
-//     }).then((response) => {
-//       res.json(response);
-//     }).catch((error) => console.error(error));
-//   });
-// };
+const getAppointmentByPatientID = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const appointment = await Appointments2.findOne({
+      order: [['appointment_date', 'DESC']],
+      where: {
+        patient_id: id,
+      },
+      // include: [
+      //   {
+      //     model: Account_type,
+      //     attributes: ['account_type_description'],
+      //   },
+      // ],
+    });
+    res.json(appointment);
+    next();
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
 
 const getAppointmentDetail = async (req, res, next) => {
   const { id } = req.params;
@@ -365,4 +369,5 @@ module.exports = {
   deleteAppointment,
   getAllAppointmentsById,
   getAppointmentPatientQueue,
+  getAppointmentByPatientID,
 };

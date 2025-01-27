@@ -29,9 +29,9 @@ const getAllUsers = async (req, res, next) => {
       where = {
         ...where,
         [Op.or]: [
-          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
-          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
-          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { full_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { user_name: { [Op.iLike]: `%${searchQuery}%` } },
+          // { last_name: { [Op.iLike]: `%${searchQuery}%` } },
         ],
       };
     }

@@ -1,0 +1,361 @@
+
+services:
+
+  # zookeeper:
+  #   image: wurstmeister/zookeeper:latest
+  #   container_name: zookeeper
+  #   ports:
+  #     - "2181:2181"
+  #   networks:
+  #     - huruma
+
+  # kafka-1:
+  #   image: wurstmeister/kafka:2.13-2.8.1
+  #   container_name: kafka-1
+  #   ports:
+  #     - "29092:29092"
+  #   environment:
+  #     KAFKA_BROKER_ID: 1
+  #     KAFKA_LISTENERS: PLAINTEXT://kafka-1:29092, PLAINTEXT_HOST://0.0.0.0:9092, 
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092, PLAINTEXT_HOST://localhost:29092
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, PLAINTEXT_HOST:PLAINTEXT
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #   depends_on:
+  #     - zookeeper
+  #   networks:
+  #     - huruma
+
+
+  # kafka-2:
+  #   image: wurstmeister/kafka:2.13-2.8.1
+  #   container_name: kafka-2
+  #   ports:
+  #     - "39092:39092"
+  #   environment:
+  #     KAFKA_BROKER_ID: 2
+  #     KAFKA_LISTENERS: PLAINTEXT://kafka-2:39092, PLAINTEXT_HOST://0.0.0.0:9092
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9092, PLAINTEXT_HOST://localhost:39092
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT, PLAINTEXT_HOST:PLAINTEXT
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #   depends_on:
+  #     - zookeeper
+  #   networks:
+  #     - huruma
+
+  database:
+    image: postgres:alpine
+    # environment:
+    #   POSTGRES_DB: "huruma2"
+    #   POSTGRES_USER: "postgres"
+    #   POSTGRES_PASSWORD: "postgres"
+
+    env_file:
+      - .env
+
+    healthcheck:
+      test: "pg_isready --username=${POSTGRES_USER} && psql --username=${POSTGRES_USER} --list"
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./huruma2.sql:/docker-entrypoint-initdb.d/huruma2.sql
+    networks:
+      - huruma
+
+  appointment-service:
+    build:
+      context: ./server/Appointments
+      dockerfile: Dockerfile
+    image: appointment-image
+    # container_name: appointment-container
+    volumes:
+      - ./server/Appointments/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5002:5002
+    depends_on:
+      - database
+      # - kafka-1
+    networks:
+      - huruma
+
+  patient-service:
+    build:
+      context: ./server/Patients
+      dockerfile: Dockerfile
+    image: patient-image
+    volumes:
+      - ./server/Patients/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5003:5003
+    depends_on:
+      # kafka:
+      #   condition: service_healthy
+      database:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+
+    networks:
+      - huruma
+
+  lab-service:
+    build:
+      context: ./server/Lab
+      dockerfile: Dockerfile
+    image: lab-image
+    volumes:
+      - ./server/Lab/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5005:5005
+    depends_on:
+      # kafka:
+      #   condition: service_healthy
+      database:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+
+    networks:
+      - huruma
+
+  vitals-service:
+    build:
+      context: ./server/VitalSigns
+      dockerfile: Dockerfile
+    image: vitals-image
+    volumes:
+      - ./server/VitalSigns/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5006:5006
+    depends_on:
+      # kafka:
+      #   condition: service_healthy
+      database:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+
+    networks:
+      - huruma
+
+  pharmacy-service:
+    build:
+      context: ./server/Pharmacy
+      dockerfile: Dockerfile
+    image: pharmacy-image
+    volumes:
+      - ./server/Pharmacy/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5007:5007
+    depends_on:
+      # kafka:
+      #   condition: service_healthy
+      database:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+
+    networks:
+      - huruma
+
+
+  eligibility-service:
+    build:
+      context: ./server/Eligibility
+      dockerfile: Dockerfile
+    image: eligibility-image
+    volumes:
+      - ./server/Eligibility/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5008:5008
+    depends_on:
+      # kafka:
+      #   condition: service_healthy
+      database:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+
+    networks:
+      - huruma
+
+  admission-service:
+    build:
+      context: ./server/Admission
+      dockerfile: Dockerfile
+    image: admission-image
+    volumes:
+      - ./server/Admission/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5009:5009
+    depends_on:
+      # kafka:
+      #   condition: service_healthy
+      database:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+
+    networks:
+      - huruma   
+
+  accounts-service:
+    build:
+      context: ./server/Accounts
+      dockerfile: Dockerfile
+    image: accounts-image
+    volumes:
+      - ./server/Accounts/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5013:5013
+    depends_on:
+      # kafka:
+      #   condition: service_healthy
+      database:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+
+    networks:
+      - huruma
+
+
+  service-service:
+    build:
+      context: ./server/Servics
+      dockerfile: Dockerfile
+    image: service-image
+    volumes:
+      - ./server/Servics/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 5012:5012
+    depends_on:
+      # kafka:
+      #   condition: service_healthy
+      database:
+        condition: service_healthy
+      # redis:
+      #   condition: service_healthy
+
+    networks:
+      - huruma            
+  
+      
+  root-server:
+    build:
+      context: ./server/root
+      dockerfile: Dockerfile
+    image: root-server-image
+    container_name: root-server-container
+    volumes:
+      - ./server/root/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "5001:5001"
+    depends_on:
+      - database
+      # - kafka
+
+    networks:
+      - huruma
+
+  payroll-service:
+    build:
+      context: ./server/Payroll
+      dockerfile: Dockerfile
+    image: payroll-image
+    volumes:
+      - ./server/Payroll/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "5014:5014"
+    depends_on:
+      - database
+    networks:
+      - huruma
+
+  # client:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   image: huruma-client
+  #   # container_name: huruma-clientv2
+  #   volumes:
+  #     - ./client:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - admission-service
+  #     - appointment-service
+  #     - charges-service
+  #     - patient-service
+  #     - vitals-service
+  #     - eligibility-service
+  #     - lab-service
+  #     - procedure-service
+  #     - service-service
+  #     - root-server
+  #   networks:
+  #     - huruma
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      # - ./nginx/ssl:/etc/nginx/ssl
+      # - ./client.sh:/usr/share/nginx/client.sh
+    ports:
+      - 8081:8081
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+    #   placement:
+    #     max_replicas_per_node: 1
+    #   update_config:
+    #     parallelism: 2
+    #     delay: 10s
+    #   restart_policy:
+    #     condition: on-failure    
+    #   resources:
+    #     limits:
+    #       cpus: '0.05'
+    #       # memory: 450M
+    #     reservations:
+    #       cpus: '0.05'
+    #       # memory: 450M 
+
+    depends_on:
+      - patient-service
+      - lab-service
+      - pharmacy-service
+      - appointment-service 
+      - vitals-service   
+      - eligibility-service
+      - admission-service
+      - accounts-service
+      - service-service
+      - root-server
+      - payroll-service
+
+    networks:
+      - huruma
+
+networks:
+ huruma:
+  driver: bridge
