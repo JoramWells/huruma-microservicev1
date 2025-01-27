@@ -1,6 +1,6 @@
 const express = require('express');
+const { addRadiologyRequest, getAllRadiologyRequests, getRadiologyRequestDetail } = require('../../controllers/radiology/radiology.controller');
 
-const { addRadiologyRequest, getAllRadiologyRequests, getRadiologyRequestDetail } = require('../controllers/radiology.controller');
 
 const router = express.Router();
 
