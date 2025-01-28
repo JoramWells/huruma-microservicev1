@@ -80,7 +80,8 @@ services:
     ports:
       - 5002:5002
     depends_on:
-      - database
+      database:
+        condition: service_healthy
       # - kafka-1
     networks:
       - huruma
@@ -268,7 +269,8 @@ services:
     ports:
       - "5001:5001"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
       # - kafka
 
     networks:
@@ -285,7 +287,8 @@ services:
     ports:
       - "5014:5014"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     networks:
       - huruma
 

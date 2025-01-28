@@ -15,7 +15,7 @@ const DoctorNotes = sequelize.define('doctor_notes', {
     type: DataTypes.BIGINT,
   },
   appointment_id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
   },
   diagnosis: {
     type: DataTypes.STRING,

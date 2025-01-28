@@ -72,7 +72,7 @@ if (cluster.isMaster) {
     app.use('/internal-pharmacy-request', internalPharmacyRequestRoutes);
     app.use('/doctor-notes', doctorNotesRoutes);
     app.use('/result-status', resultStatusRoutes);
-    app.use('/radiology', radiologyRoutes);
+    app.use('/internal-radiology-requests', radiologyRoutes);
 
     // app.use((err, req, res, next) => {
     //   const errStatus = err.status || 500;

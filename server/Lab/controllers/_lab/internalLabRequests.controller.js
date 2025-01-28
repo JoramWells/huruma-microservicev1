@@ -79,7 +79,11 @@ const getAllInternalLabRequests = async (req, res, next) => {
               include: [
                 {
                   model: ServiceType,
-                  attributes: ['service_type_id', 'service_type_description']
+                  attributes: ['service_type_id', 'service_type_description'],
+                  where: {
+                    service_type_description: 'Laboratory'
+
+                  }
                 }
               ]
             }
@@ -236,7 +240,12 @@ const getRecentInternalLabRequests = async (req, res, next) => {
               include: [
                 {
                   model: ServiceType,
-                  attributes: ['service_type_id', 'service_type_description']
+                  attributes: ['service_type_id', 'service_type_description'],
+                  where: {
+                    service_type_description: 'Laboratory'
+
+                  },
+                  required: true
                 }
               ]
             }
