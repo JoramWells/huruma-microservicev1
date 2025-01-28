@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 const { DataTypes, UUIDV4 } = require('sequelize');
-const sequelize = require('../../db/connect');
-const Appointments2 = require('../_appointment/appointments2.models');
-const Patient = require('../patient/patient2.models');
+const sequelize = require('../../../VitalSigns/db/connect');
+const Appointments2 = require('../../../VitalSigns/models/_appointment/appointments2.models');
+const Patient = require('../../../VitalSigns/models/patient/patient2.models');
 
 const VitalSigns = sequelize.define('vitalSigns', {
   id: {

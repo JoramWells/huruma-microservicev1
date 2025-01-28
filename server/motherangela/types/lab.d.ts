@@ -15,11 +15,20 @@ export interface ResultStatusInterface{
 
 }
 
+export interface ProcedureCategoryInterface{
+    category_id: number,
+    category_name: number,
+    hospital_id: number,
+    credit_account_id: number,
+
+}
+
 export interface ProcedureInterface{
     procedure_id: number,
     procedure_name: string,
     procedure_cost: number,
     procedure_category_id: number,
+    procedure_category?: ProcedureCategoryInterface,
     hospital_id: number,
     procedure_cost_corporate: number,
     normal_values: string,

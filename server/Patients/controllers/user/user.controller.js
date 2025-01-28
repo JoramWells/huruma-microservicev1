@@ -77,6 +77,31 @@ const getUserById = async (req, res, next) => {
   }
 };
 
+const login = async (req, res, next) => {
+  const { firstName, password, hospitalID } = req.body
+  try {
+    const user = await Users.findOne({
+      where: {
+        firstName: firstName,
+        hospitalID: hospitalID
+      }
+    })
+
+    // 
+    if (user !== null && user.password) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+        return user;
+      } else {
+        console.log("Password does not match!!");
+        return null;
+      }
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const editUser = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
@@ -112,5 +137,5 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-  addUser, getAllUsers, getUserById, editUser, deleteUser,
+  addUser, getAllUsers, getUserById, editUser, deleteUser, login
 };
