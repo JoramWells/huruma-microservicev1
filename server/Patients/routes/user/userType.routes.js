@@ -1,5 +1,5 @@
 const express = require('express');
-const { addUserType, getAllUserTypes, getUserTypeDetail } = require('../controllers/userType.controller');
+const { addUserType, getAllUserTypes, getUserTypeDetail } = require('../../controllers/user/userType.controller');
 
 const router = express.Router();
 

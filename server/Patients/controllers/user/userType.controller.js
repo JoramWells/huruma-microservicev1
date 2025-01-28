@@ -1,35 +1,32 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const sequelize = require('../db/connect');
-const User_types = require('../models/userType.models');
+const User_types = require('../../models/user/userType.models');
 
 const addUserType = async (req, res, next) => {
   // create data
-  console.log(req.body);
-  sequelize
-    .sync()
-    .then(() => {
-      User_types.create(req.body).then((response) => {
-        res.json(response.data);
-        next();
-      }).catch((error) => {
-        console.error('Unable to catch error: ', error);
-      });
-    });
+  try {
+    const results = await User_types.create(req.body).then((response) => {
+      res.json(response.data);
+      next();
+    })
+    res.json(results)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
 };
 
 // get all pricelists
 const getAllUserTypes = async (req, res, next) => {
-  await sequelize.sync().then(() => {
-    User_types.findAll({ limit: 100 })
-      .then((response) => {
-        // console.log(response);
-        res.json(response);
-        // res.sendStatus(200)
-        next();
-      })
-      .catch((error) => console.error('Unable to retrieve data: ', error));
-  });
+  try {
+    const results = await User_types.findAll({ limit: 100 })
+    res.json(results)
+    next()
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+
 };
 
 const getUserTypeDetail = async (req, res, next) => {

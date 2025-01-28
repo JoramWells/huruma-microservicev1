@@ -1,11 +1,10 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const Users = require('../models/user.model');
-const User_privilege = require('../models/userPrivileges.model');
-const User_types = require('../models/userType.models');
-const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 const { Op } = require('sequelize');
+const Users = require('../../models/user/user.model');
+const User_types = require('../../models/user/userType.models');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 
 const addUser = async (req, res, next) => {

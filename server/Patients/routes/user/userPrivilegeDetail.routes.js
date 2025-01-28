@@ -1,9 +1,7 @@
 /* eslint-disable import/no-unresolved */
 const express = require('express');
-const {
-  addUserPrivilegeDetail, getAllUserPrivilegeDetails, getUserPrivilegeDetail,
-  editUserPrivilegeDetail, deleteUserPrivilegeDetail,
-} = require('../controllers/userPrivilegeDetails.controller');
+const { addUserPrivilegeDetail, getAllUserPrivilegeDetails, getUserPrivilegeDetail, editUserPrivilegeDetail, deleteUserPrivilegeDetail } = require('../../controllers/user/userPrivilegeDetails.controller');
+
 
 const router = express.Router();
 

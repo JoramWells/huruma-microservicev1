@@ -2,7 +2,8 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 
-const Privilege_detail = require('../models/userPrivilegesDetails.model');
+const Privilege_detail = require("../../models/user/userPrivilegesDetails.model");
+
 
 const addUserPrivilegeDetail = async (req, res, next) => {
   try {

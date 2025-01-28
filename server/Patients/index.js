@@ -12,6 +12,12 @@ const personalChargesPaymentRoutes = require('./routes/charges/personalChargesPa
 const hospitalRoutes = require('./routes/hospital/hospital.routes');
 const sequelize = require('./db/connect');
 
+const userRoutes = require('./routes/user/user.routes');
+const userPrivilegeRoutes = require('./routes/user/userPrivilege.routes');
+const userTypeRoutes = require('./routes/user/userType.routes');
+const userPrivilegeDetailRoutes = require('./routes/user/userPrivilegeDetail.routes');
+
+
 const app = express();
 
 const PORT = process.env.PORT || 5003;
@@ -44,6 +50,11 @@ if (cluster.isMaster) {
   app.use('/personal-account-charge', personalAccountChargeRoutes);
   app.use('/personal-charges-payment', personalChargesPaymentRoutes);
   app.use('/hospital', hospitalRoutes);
+
+  app.use('/users', userRoutes);
+  app.use('/user-privileges', userPrivilegeRoutes);
+  app.use('/user-type', userTypeRoutes);
+  app.use('/user-privilege-details', userPrivilegeDetailRoutes);
 
   // app.use((err, req, res, next) => {
   //   const errStatus = err.status || 500;

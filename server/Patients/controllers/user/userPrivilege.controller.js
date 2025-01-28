@@ -2,7 +2,8 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 
-const User_privilege = require('../models/userPrivileges.model');
+const User_privilege = require("../../models/user/userPrivileges.model");
+
 
 const addUserPrivilege = async (req, res, next) => {
   try {

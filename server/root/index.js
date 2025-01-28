@@ -12,14 +12,11 @@ const departmentRoutes = require('./routes/department.routes');
 const pharmaceuticalRoutes = require('./routes/pharmaceuticalStore.routes');
 const wardRoutes = require('./routes/ward/ward.routes');
 const wardBedRoutes = require('./routes/ward/wardBed.routes');
-const userRoutes = require('./routes/user.routes');
 // const groupPrivilegeRoutes = require('./routes/groupPrivileges.routes');
 const drugRoutes = require('./routes/drugs.routes');
-const userPrivilegeRoutes = require('./routes/userPrivilege.routes');
 const physiotherapyRoutes = require('./routes/physiotherapy.routes');
 const insuranceRoutes = require('./routes/insurance/insurance.routes');
 const insuranceTypeRoutes = require('./routes/insurance/insuranceType.routes');
-const userTypeRoutes = require('./routes/userType.routes');
 const measuringUnitRoutes = require('./routes/measuringUnit.routes');
 const itemCategoryRoutes = require('./routes/itemCategory.routes');
 const itemRoutes = require('./routes/item.routes');
@@ -40,7 +37,6 @@ const companyRoutes = require('./routes/insurance/companyDetails.routes');
 const insuranceMedicationMapping = require('./routes/insurance/insuranceMedicationMapping.routes');
 const insuranceServiceCostMapping = require('./routes/insurance/insuranceServiceCostMapping.routes');
 const personalAccountChargeRoutes = require('./routes/charges/personalAccountCharges.routes');
-const userPrivilegeDetailRoutes = require('./routes/userPrivilegeDetail.routes');
 const ministryDiseasesRoutes = require('./routes/diseaseMinistry.routes');
 
 const app = express();
@@ -69,12 +65,10 @@ app.use('/price-list-items', priceListItemsRoutes);
 app.use('/pharmaceutical', pharmaceuticalRoutes);
 app.use('/wards', wardRoutes);
 app.use('/ward-beds', wardBedRoutes);
-app.use('/users', userRoutes);
-app.use('/user-privileges', userPrivilegeRoutes);
+
 // app.use('/group-privileges', groupPrivilegeRoutes);
 app.use('/physiotherapy', physiotherapyRoutes);
 app.use('/insurance', insuranceRoutes);
-app.use('/user-type', userTypeRoutes);
 app.use('/measuring-unit', measuringUnitRoutes);
 app.use('/item-category', itemCategoryRoutes);
 app.use('/items', itemRoutes);
@@ -99,7 +93,6 @@ app.use('/insurance-medication-mapping', insuranceMedicationMapping);
 app.use('/insurance-types', insuranceTypeRoutes);
 app.use('/insurance-service-cost-mapping', insuranceServiceCostMapping);
 app.use('/personal-account-charge', personalAccountChargeRoutes);
-app.use('/user-privilege-details', userPrivilegeDetailRoutes);
 app.use('/disease-ministry', ministryDiseasesRoutes);
 
 // app.use((err, req, res, next) => {
