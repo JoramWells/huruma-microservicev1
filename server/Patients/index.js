@@ -21,8 +21,10 @@ const app = express();
 
 const PORT = process.env.PORT || 5003;
 const corsOption = {
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3000', 'https://www.otzplus.xyz'],
 };
+
+app.use(cors(corsOption));
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
@@ -43,7 +45,6 @@ if (cluster.isMaster) {
   }));
 
   // enable cors
-  app.use(cors());
 
   app.use('/patient', patientRoutes);
   app.use('/personal-account-charge', personalAccountChargeRoutes);
