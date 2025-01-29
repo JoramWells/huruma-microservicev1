@@ -64,7 +64,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ../motherangela/huruma2.sql:/docker-entrypoint-initdb.d/huruma2.sql
+      - /home/anaya/Desktop/motherangela/huruma2.sql:/docker-entrypoint-initdb.d/huruma2.sql
     networks:
       - huruma
 
