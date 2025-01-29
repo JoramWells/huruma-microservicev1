@@ -9,6 +9,7 @@ const cpus = require('os').cpus().length;
 
 const sequelize = require('./db/connect');
 const procedureGroupRoutes = require('./routes/procedure/procedureGroup.routes');
+const procedureCategoryRoutes = require('./routes/procedure/procedureCategory.routes');
 const procedureDetailsRoutes = require('./routes/procedure/procedureDetails.routes');
 const procedureItemsRoutes = require('./routes/procedure/procedureItems.routes');
 const procedureRoutes = require('./routes/procedure/procedure.routes');
@@ -24,6 +25,7 @@ const labTestSummarySubSectionRoutes = require('./routes/_lab/labTestSummarySubS
 const specimenTypeRoutes = require('./routes/_lab/specimenType.routes');
 const resultStatusRoutes = require('./routes/_lab/resultStatus.routes');
 const radiologyRoutes = require('./routes/radiology/radiology.routes');
+const serviceTypeRoutes = require('./routes/services/serviceType.routes');
 
 const clusterMiddleware = require('./middleware/clusterMiddleware');
 
@@ -62,6 +64,7 @@ if (cluster.isMaster) {
 
     app.use('/procedure', procedureRoutes);
     app.use('/procedure-group', procedureGroupRoutes);
+    app.use('/procedure-category', procedureCategoryRoutes);
     app.use('/procedure-details', procedureDetailsRoutes);
     app.use('/procedure-items', procedureItemsRoutes);
 
@@ -73,6 +76,7 @@ if (cluster.isMaster) {
     app.use('/doctor-notes', doctorNotesRoutes);
     app.use('/result-status', resultStatusRoutes);
     app.use('/internal-radiology-requests', radiologyRoutes);
+    app.use('/service-types', serviceTypeRoutes);
 
     // app.use((err, req, res, next) => {
     //   const errStatus = err.status || 500;

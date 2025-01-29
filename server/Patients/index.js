@@ -17,7 +17,6 @@ const userPrivilegeRoutes = require('./routes/user/userPrivilege.routes');
 const userTypeRoutes = require('./routes/user/userType.routes');
 const userPrivilegeDetailRoutes = require('./routes/user/userPrivilegeDetail.routes');
 
-
 const app = express();
 
 const PORT = process.env.PORT || 5003;

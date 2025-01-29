@@ -137,7 +137,7 @@ const Admissions2 = sequelize.define('admissions', {
   },
 });
 
-Admissions2.belongsTo(Wards, { foreignKey: 'ward_id', targetKey: 'ward_id' });
+// Admissions2.belongsTo(Wards, { foreignKey: 'ward_id', targetKey: 'ward_id' });
 // Wards.hasMany(Admissions2, { foreignKey: 'ward_id' });
 
 Admissions2.belongsTo(WardBed, { foreignKey: 'bed_id' });
@@ -156,11 +156,11 @@ Admissions2.belongsTo(
   { foreignKey: 'inpatient_case_type_id' },
 );
 
-sequelize.sync().then(() => {
-  console.log('Adm table created');
-}).catch((error) => {
-  console.error('Unable to create table :', error);
-});
+// sequelize.sync().then(() => {
+//   console.log('Adm table created');
+// }).catch((error) => {
+//   console.error('Unable to create table :', error);
+// });
 
 module.exports = Admissions2;
 

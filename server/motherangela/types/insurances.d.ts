@@ -26,7 +26,13 @@ export interface InsuranceInterface {
 }
 
 export interface ServiceTypeInterface{
+  service_type_id: number
   service_type_description: string
+  credit_account_id: number
+  confirmation: string
+  time_allowed_before_locking_save_functionality: number
+  is_miscellaneous: string
+
 }
 
 export interface InsuranceServiceCostMappingInterface{

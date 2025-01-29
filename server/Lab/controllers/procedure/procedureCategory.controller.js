@@ -3,22 +3,20 @@
 /* eslint-disable no-unused-vars */
 const { DataTypes, Sequelize, Op } = require('sequelize');
 
-const ProcedureCategory = require('../models/_procedure/procedureCategory.model');
-const Procedure_detail = require('../models/_procedure/procedureDetails.model');
-const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
-const ServiceType = require('../models/services/serviceType.model');
+const ProcedureCategory = require('../../models/_procedure/procedureCategory.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
-const addProcedureDetail = async (req, res, next) => {
+const addProcedureCategory = async (req, res, next) => {
   // create user
   try {
-    const procedure = await Procedure_detail.create(req.body);
+    const procedure = await ProcedureCategory.create(req.body);
     res.status(201).json(procedure);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-const getAllProcedureDetails = async (req, res, next) => {
+const getAllProcedureCategories = async (req, res, next) => {
   const { page, pageSize, searchQuery, serviceType } = req.query;
   let where = {};
   let serviceTypeWhere = {};
@@ -43,24 +41,12 @@ const getAllProcedureDetails = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await Procedure_detail.findAndCountAll({
-      order: [['procedure_name', 'ASC']],
+    const { rows, count } = await ProcedureCategory.findAndCountAll({
+      order: [['category_name', 'ASC']],
       page,
       pageSize,
       limit,
       offset,
-      include: [
-        {
-          model: ProcedureCategory,
-          attributes: ['category_name'],
-          include: [{
-            model: ServiceType,
-            where: serviceTypeWhere
-          }],
-
-        },
-
-      ],
     });
     res.status(200).json({
       data: rows,
@@ -75,7 +61,7 @@ const getAllProcedureDetails = async (req, res, next) => {
   }
 };
 
-const searchProcedureDetail = async (req, res, next) => {
+const searchProcedureCategory = async (req, res, next) => {
   const { searchQuery } = req.query;
   let where = {};
 
@@ -90,7 +76,7 @@ const searchProcedureDetail = async (req, res, next) => {
         ],
       };
     }
-    const results = await Procedure_detail.findAll({
+    const results = await ProcedureCategory.findAll({
       // page,
       // pageSize,
       // limit,
@@ -106,10 +92,10 @@ const searchProcedureDetail = async (req, res, next) => {
   }
 };
 
-const getProcedureDetailsById = async (req, res, next) => {
+const getProcedureCategoryById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const procedure = await Procedure_detail.findOne({
+    const procedure = await ProcedureCategory.findOne({
       where: {
         procedure_id: id,
       },
@@ -120,10 +106,10 @@ const getProcedureDetailsById = async (req, res, next) => {
   }
 };
 
-const editProcedureDetail = async (req, res, next) => {
+const editProcedureCategory = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const procedure = await Procedure_detail.findOne({
+    const procedure = await ProcedureCategory.findOne({
       where: {
         id,
       },
@@ -135,11 +121,11 @@ const editProcedureDetail = async (req, res, next) => {
   }
 };
 
-const deleteProcedureDetail = async (req, res, next) => {
+const deleteProcedureCategory = async (req, res, next) => {
   const procedureId = req.params.id;
 
   try {
-    const results = await Procedure_detail.destroy({
+    const results = await ProcedureCategory.destroy({
       where: {
         id: procedureId,
       },
@@ -155,10 +141,10 @@ const deleteProcedureDetail = async (req, res, next) => {
 };
 
 module.exports = {
-  addProcedureDetail,
-  getAllProcedureDetails,
-  getProcedureDetailsById,
-  editProcedureDetail,
-  deleteProcedureDetail,
-  searchProcedureDetail
+  addProcedureCategory,
+  getAllProcedureCategories,
+  getProcedureCategoryById,
+  editProcedureCategory,
+  deleteProcedureCategory,
+  searchProcedureCategory
 };

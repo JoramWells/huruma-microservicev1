@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Appointments = require('../appointment/appointments2.models');
 const Users = require('../user/user.model');
 const Patient = require('../patient/patient.model');
 const PatientDetails = require('../patient/patientDetails.model');
+const Appointments = require('../appointment/appointments2.models');
 
 const DoctorNotes = sequelize.define('doctor_notes', {
   note_id: {
@@ -24,7 +24,7 @@ const DoctorNotes = sequelize.define('doctor_notes', {
     type: DataTypes.STRING,
   },
   patient_id: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
   },
   hospital_id: {
     type: DataTypes.STRING,

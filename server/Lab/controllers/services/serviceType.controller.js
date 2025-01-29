@@ -2,33 +2,24 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 const { DataTypes, Sequelize, Op } = require('sequelize');
+const ServiceType = require('../../models/services/serviceType.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
-const ProcedureCategory = require('../models/_procedure/procedureCategory.model');
-const Procedure_detail = require('../models/_procedure/procedureDetails.model');
-const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
-const ServiceType = require('../models/services/serviceType.model');
 
-const addProcedureDetail = async (req, res, next) => {
+
+const addServiceType = async (req, res, next) => {
   // create user
   try {
-    const procedure = await Procedure_detail.create(req.body);
+    const procedure = await ServiceType.create(req.body);
     res.status(201).json(procedure);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-const getAllProcedureDetails = async (req, res, next) => {
-  const { page, pageSize, searchQuery, serviceType } = req.query;
+const getAllServiceTypes = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
   let where = {};
-  let serviceTypeWhere = {};
-
-  if (serviceType?.length > 0) {
-    serviceTypeWhere = {
-      ...serviceTypeWhere,
-      service_type_description: serviceType
-    }
-  }
 
   try {
     const { limit, offset } = calculateLimitAndOffset(page, pageSize);
@@ -43,24 +34,18 @@ const getAllProcedureDetails = async (req, res, next) => {
         ],
       };
     }
-    const { rows, count } = await Procedure_detail.findAndCountAll({
-      order: [['procedure_name', 'ASC']],
+    const { rows, count } = await ServiceType.findAndCountAll({
+      order: [['service_type_description', 'ASC']],
       page,
       pageSize,
       limit,
       offset,
-      include: [
-        {
-          model: ProcedureCategory,
-          attributes: ['category_name'],
-          include: [{
-            model: ServiceType,
-            where: serviceTypeWhere
-          }],
-
-        },
-
-      ],
+      // include: [
+      //   {
+      //     model: ProcedureCategory,
+      //     attributes: ['category_name'],
+      //   },
+      // ],
     });
     res.status(200).json({
       data: rows,
@@ -75,7 +60,7 @@ const getAllProcedureDetails = async (req, res, next) => {
   }
 };
 
-const searchProcedureDetail = async (req, res, next) => {
+const searchServiceType = async (req, res, next) => {
   const { searchQuery } = req.query;
   let where = {};
 
@@ -90,7 +75,7 @@ const searchProcedureDetail = async (req, res, next) => {
         ],
       };
     }
-    const results = await Procedure_detail.findAll({
+    const results = await ServiceType.findAll({
       // page,
       // pageSize,
       // limit,
@@ -106,10 +91,10 @@ const searchProcedureDetail = async (req, res, next) => {
   }
 };
 
-const getProcedureDetailsById = async (req, res, next) => {
+const getServiceTypesById = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const procedure = await Procedure_detail.findOne({
+    const procedure = await ServiceType.findOne({
       where: {
         procedure_id: id,
       },
@@ -120,10 +105,10 @@ const getProcedureDetailsById = async (req, res, next) => {
   }
 };
 
-const editProcedureDetail = async (req, res, next) => {
+const editServiceType = async (req, res, next) => {
   const { id, firstName } = req.body;
   try {
-    const procedure = await Procedure_detail.findOne({
+    const procedure = await ServiceType.findOne({
       where: {
         id,
       },
@@ -135,11 +120,11 @@ const editProcedureDetail = async (req, res, next) => {
   }
 };
 
-const deleteProcedureDetail = async (req, res, next) => {
+const deleteServiceType = async (req, res, next) => {
   const procedureId = req.params.id;
 
   try {
-    const results = await Procedure_detail.destroy({
+    const results = await ServiceType.destroy({
       where: {
         id: procedureId,
       },
@@ -155,10 +140,10 @@ const deleteProcedureDetail = async (req, res, next) => {
 };
 
 module.exports = {
-  addProcedureDetail,
-  getAllProcedureDetails,
-  getProcedureDetailsById,
-  editProcedureDetail,
-  deleteProcedureDetail,
-  searchProcedureDetail
+  addServiceType,
+  getAllServiceTypes,
+  getServiceTypesById,
+  editServiceType,
+  deleteServiceType,
+  searchServiceType
 };

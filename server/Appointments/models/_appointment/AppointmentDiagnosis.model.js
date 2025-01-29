@@ -2,8 +2,8 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Appointments = require('./appointments.model');
 const DoctorNotes = require('../doctor/doctorNotes.model');
+const Appointments = require('./appointments.model');
 // const Patient_details = require('../patient/patients.models');
 // const Account_type = require('../accountTypes.model');
 

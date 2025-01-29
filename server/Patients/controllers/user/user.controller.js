@@ -1,11 +1,12 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const { Op } = require('sequelize');
+const { Op, where } = require('sequelize');
+const bcrypt = require('bcrypt');
 const Users = require('../../models/user/user.model');
 const User_types = require('../../models/user/userType.models');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
-
+const { generateHashedPassword } = require('../../utils/generateHashedPassword');
 
 const addUser = async (req, res, next) => {
   // create user
@@ -35,6 +36,7 @@ const getAllUsers = async (req, res, next) => {
       };
     }
     const { rows, count } = await Users.findAndCountAll({
+      order: [['user_name', 'ASC']],
       page,
       pageSize,
       limit,
@@ -67,6 +69,12 @@ const getUserById = async (req, res, next) => {
       where: {
         user_id: id,
       },
+      include: [
+        {
+          model: User_types,
+          attributes: ['user_type_desc'],
+        },
+      ],
     });
     res.json(user);
     next();
@@ -78,29 +86,58 @@ const getUserById = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-  const { firstName, password, hospitalID } = req.body
+  const { firstName, password, hospitalID } = req.body;
   try {
     const user = await Users.findOne({
       where: {
-        firstName: firstName,
-        hospitalID: hospitalID
-      }
-    })
+        user_name: firstName,
+        hospital_id: hospitalID,
+      },
+    });
 
-    // 
+    //
     if (user !== null && user.password) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
-        return user;
-      } else {
-        console.log("Password does not match!!");
-        return null;
+        res.json(user);
+        next();
       }
+      console.log('Password does not match!!');
+      next();
+      return null;
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    next(error);
   }
-}
+};
+
+const updatePassword = async (req, res, next) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  try {
+    const findUser = await Users.findOne({
+      where: {
+        user_id: id,
+      },
+    });
+
+    if (findUser) {
+      const passwordHash = await generateHashedPassword(password);
+      findUser.password = passwordHash;
+      await findUser.save();
+      res.json(findUser);
+      next();
+    } else {
+      res.status(404).json({ message: 'User Not Found' });
+      next();
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
 
 const editUser = async (req, res, next) => {
   const { id, firstName } = req.body;
@@ -137,5 +174,11 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-  addUser, getAllUsers, getUserById, editUser, deleteUser, login
+  addUser,
+  getAllUsers,
+  getUserById,
+  editUser,
+  deleteUser,
+  login,
+  updatePassword,
 };

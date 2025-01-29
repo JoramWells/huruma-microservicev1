@@ -5,7 +5,6 @@
 const { Op } = require('sequelize');
 const moment = require('moment');
 const sequelize = require('../db/connect');
-const Appointments2 = require('../models/_appointment/appointments2.models');
 // const Insurance_detail = require('../../root/models/insurance/insurance.model');
 const Patient = require('../models/patient/patients.model');
 const InsuranceDetail = require('../models/insurance/insuranceDetail.model');
@@ -258,7 +257,7 @@ const getAllAppointmentsById = async (req, res, next) => {
 const getAppointmentByPatientID = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const appointment = await Appointments2.findOne({
+    const appointment = await Appointments.findOne({
       order: [['appointment_date', 'DESC']],
       where: {
         patient_id: id,
@@ -316,7 +315,7 @@ const getAppointmentDetail = async (req, res, next) => {
 const editAppointmentDetail = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    Appointments2.findOne({
+    Appointments.findOne({
       where: {
         id,
       },
@@ -335,7 +334,7 @@ const editAppointmentDetail = async (req, res, next) => {
 const add = async (req, res, next) => {
   const { id, serviceName, serviceCategory } = req.body;
   await sequelize.sync().then(() => {
-    Appointments2.findOne({
+    Appointments.findOne({
       where: {
         id,
       },
@@ -351,7 +350,7 @@ const add = async (req, res, next) => {
 const deleteAppointment = async (req, res, next) => {
   const { id } = req.params;
   await sequelize.sync().then(() => {
-    Appointments2.destroy({
+    Appointments.destroy({
       where: {
         id,
       },
