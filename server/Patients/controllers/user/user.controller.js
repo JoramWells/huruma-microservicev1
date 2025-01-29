@@ -104,8 +104,9 @@ const login = async (req, res, next) => {
       }
       console.log('Password does not match!!');
       next();
-      return null;
+      res.status(200);
     }
+    next();
   } catch (error) {
     console.log(error);
     next(error);
