@@ -12,7 +12,7 @@ up-dev-ldap:
 
 
 up-prod:
-	docker compose -f docker-compose.prod.yml build --no-cache && docker compose -f docker-compose.prod.yml up --remove-orphans
+	sudo docker compose -f docker-compose.prod.yml build --no-cache && sudo docker compose -f docker-compose.prod.yml up --remove-orphans
 
 down:
 	docker compose -f docker-compose.dev.yml down --build
