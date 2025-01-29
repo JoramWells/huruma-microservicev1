@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 const { Sequelize, Op } = require('sequelize');
 const sequelize = require('../../db/connect');
-const Patient = require('../../models/patient/patient.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Maternity_delivery = require('../../models/maternity/maternityDelivery.model');
 const Maternity_profile = require('../../models/maternity/maternityProfile.model');

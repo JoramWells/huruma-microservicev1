@@ -5,7 +5,6 @@ const Sequelize = require('sequelize');
 const sequelize = require('../db/connect');
 const Medication = require('../models/medication/medication.model');
 const Internal_pharmacy_request2 = require('../models/pharmacy/internalPharmarcyRequest.model');
-const Patient = require('../models/patient/patient.model');
 const Patient_details = require('../models/patient/patients.models');
 
 const addInternalPharmacyRequest = async (req, res, next) => {

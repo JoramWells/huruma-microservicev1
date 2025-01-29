@@ -3,7 +3,6 @@
 const { Sequelize, Op } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Maternity_profile = require('../../models/maternity/maternityProfile.model');
-const Patient = require('../../models/patient/patient.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Patient_details = require('../../models/patient/patientDetails.models');
 // const Patient_details = require('../../models/patient/patients.models');
