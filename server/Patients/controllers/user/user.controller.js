@@ -97,17 +97,26 @@ const login = async (req, res, next) => {
     });
 
     //
-    if (user !== null && user.password) {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (isMatch) {
-        console.log('Successful!!');
-        res.json(user);
-        next();
-      }
-      console.log('Password does not match!!');
-      res.status(404);
-      next();
+    if (!user) {
+      console.log('User not found!!');
+      return res.status(404).json({ message: 'User not found' });
     }
+
+    if (!user.password) {
+      console.log('User password is missing!!');
+      return res.status(400).json({ message: 'User password missing' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    //
+    if (!isMatch) {
+      console.log('Password does not match!!');
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    console.log('Successful!!');
+    return res.json(user); // Do not call next() after sending response
   } catch (error) {
     console.log(error);
     next(error);
