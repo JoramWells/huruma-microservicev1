@@ -1,7 +1,10 @@
+import { AppointmentInterface } from "./appointments";
+
 export interface MaternityProfileInterface {
   address: string;
   anc_number: string;
   appointment_id: string;
+  appointment?: AppointmentInterface
   blood_transfusion: string | null;
   diabetes: string | null;
   drug_allergies: string | null;

@@ -13,6 +13,7 @@ const procedureCategoryRoutes = require('./routes/procedure/procedureCategory.ro
 const procedureDetailsRoutes = require('./routes/procedure/procedureDetails.routes');
 const procedureItemsRoutes = require('./routes/procedure/procedureItems.routes');
 const procedureRoutes = require('./routes/procedure/procedure.routes');
+const procedureItemResultsRoutes = require('./routes/procedure/procedureItemResults.routes');
 const diseaseRoutes = require('./routes/diseases/disease.routes');
 const diseaseDuplicatesRoutes = require('./routes/diseases/diseaseDuplicates.routes');
 const diseaseMinistryRoutes = require('./routes/diseases/diseaseMinistry.routes');
@@ -67,6 +68,7 @@ if (cluster.isMaster) {
     app.use('/procedure-category', procedureCategoryRoutes);
     app.use('/procedure-details', procedureDetailsRoutes);
     app.use('/procedure-items', procedureItemsRoutes);
+    app.use('/procedure-item-results', procedureItemResultsRoutes);
 
     app.use('/disease', diseaseRoutes);
     app.use('/disease-ministry', diseaseMinistryRoutes);

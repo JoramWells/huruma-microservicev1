@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
+const ProcedureItem = require('./procedureItems.model');
 
 const Procedure_item_result = sequelize.define('procedure_item_results', {
   procedure_item_result_id: {
@@ -11,9 +12,6 @@ const Procedure_item_result = sequelize.define('procedure_item_results', {
     type: DataTypes.INTEGER,
   },
   procedure_item_id: {
-    type: DataTypes.INTEGER,
-  },
-  procedure_id: {
     type: DataTypes.INTEGER,
   },
   input: {
@@ -31,15 +29,18 @@ const Procedure_item_result = sequelize.define('procedure_item_results', {
   lab_request_id: {
     type: DataTypes.INTEGER,
   },
-  procedure_item_checked: {
+  procedure_item_checked_value: {
     type: DataTypes.STRING,
   },
-  procedure_item_conclusions_id: {
+  procedure_items_conclusion_id: {
     type: DataTypes.INTEGER,
   },
-  procedure_item_conclusions_description: {
+  procedure_items_conclusion_description: {
     type: DataTypes.STRING,
   },
 });
+
+Procedure_item_result.belongsTo(ProcedureItem, { foreignKey: 'procedure_item_id' });
+
 
 module.exports = Procedure_item_result;

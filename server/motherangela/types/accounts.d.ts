@@ -357,3 +357,14 @@ export interface PersonalChargesPaymentsInterface{
     patient_detail: PatientInterface;
 
 }
+
+export interface PatientAccountsInterface{
+    patient_account_id: number
+    patient_id: number
+    patient_detail?: PatientInterface
+    account_type_id: number
+    account_type?: AccountTypeInterface
+    reference_account_id: number
+    accounting_account_detail?: AccountDetailsInterface
+
+}

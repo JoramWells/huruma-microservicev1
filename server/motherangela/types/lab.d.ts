@@ -1,5 +1,6 @@
 import { AppointmentInterface } from "./appointments"
 import { PatientInterface } from "./patients"
+import { ProcedureInterface } from "./procedure"
 import { UserInterface } from "./user"
 
 
@@ -13,39 +14,6 @@ export interface ResultStatusInterface{
     results_status_id: number,
     results_status_description: string,
 
-}
-
-export interface ProcedureCategoryInterface{
-    category_id: number,
-    category_name: number,
-    hospital_id: number,
-    credit_account_id: number,
-
-}
-
-export interface ProcedureInterface{
-    procedure_id: number,
-    procedure_name: string,
-    procedure_cost: number,
-    procedure_category_id: number,
-    procedure_category?: ProcedureCategoryInterface,
-    hospital_id: number,
-    procedure_cost_corporate: number,
-    normal_values: string,
-    procedure_cost_foreigner: number,
-    order_code: string,
-    print_number: string,
-    lancet_mnemonic: string,
-    test_type: string,
-    ionic: string,
-    procedure_cost_night: string,
-    withholding_tax_percentage: number,
-    discount_applicability: string,
-    results_posting_lock_setting: string,
-    procedure_cost_insurance: number,
-    show_procedure_items_table_headers: string,
-    procedure_group_id: number,
-    suspended: string,
 }
 
 export interface InternalLabRequestInterface{

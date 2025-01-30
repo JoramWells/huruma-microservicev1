@@ -25,6 +25,7 @@ const serviceTypeRoutes = require('./routes/serviceType.routes');
 const consultationTypeRoutes = require('./routes/consultation/consultationType.routes');
 const consultationTypeGroupRoutes = require('./routes/consultation/consultationTypeGroup.routes');
 const consultationTypeSubGroupRoutes = require('./routes/consultation/consultationTypeSubGroup.routes');
+const patientAccountRoutes = require('./routes/patientAccount.routes');
 const consultationGroupsWithCreditAccountsRoutes = require('./routes/consultation/consultationGroupsWithCreditAccounts.routes');
 const cashPaymentModesRoutes = require('./routes/cashPaymentModes.routes');
 const invoicePaymentRoutes = require('./routes/invoices/invoicePayment.routes');
@@ -78,6 +79,7 @@ if (cluster.isMaster) {
     app.use('/consultation-groups-with-credit-accounts', consultationGroupsWithCreditAccountsRoutes);
     app.use('/cash-payment-modes', cashPaymentModesRoutes);
     app.use('/invoice-payments', invoicePaymentRoutes);
+    app.use('/patient-accounts', patientAccountRoutes);
 
     // app.use((err, req, res, next) => {
     //   const errStatus = err.status || 500;

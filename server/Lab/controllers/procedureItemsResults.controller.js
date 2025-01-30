@@ -3,6 +3,8 @@
 /* eslint-disable camelcase */
 
 const Procedure_item_result = require('../models/_procedure/procedureItemResults.model');
+const ProcedureItem = require('../models/_procedure/procedureItems.model');
+const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
 
 const addProcedureItemResults = async (req, res, next) => {
   try {
@@ -15,12 +17,43 @@ const addProcedureItemResults = async (req, res, next) => {
 };
 
 const getAllProcedureItemResults = async (req, res, next) => {
+  const { page, pageSize, searchQuery } = req.query;
+  let where = {};
   try {
-    const results = await Procedure_item_result.findAll({});
-    res.json(results);
+    const { limit, offset } = calculateLimitAndOffset(page, pageSize);
+
+    if (searchQuery) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
+        ],
+      };
+    }
+    const { rows, count } = await Procedure_item_result.findAndCountAll({
+      page,
+      pageSize,
+      limit,
+      offset,
+      include: [
+        {
+          model: ProcedureItem,
+          attributes: ['procedure_item_description']
+        }
+      ]
+    });
+    res.status(200).json({
+      data: rows,
+      total: count,
+      page,
+      pageSize: limit,
+    });
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
+    console.log(error)
     next(error);
   }
 };
