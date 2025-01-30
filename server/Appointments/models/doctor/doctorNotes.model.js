@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const Users = require('../user/user.model');
 const PatientDetails = require('../patient/patientDetails.model');
-const Appointments2 = require('../_appointment/appointments2.models');
+const Appointments = require('../_appointment/appointments.model');
 
 const DoctorNotes = sequelize.define('doctor_notes', {
   note_id: {
@@ -159,7 +159,7 @@ const DoctorNotes = sequelize.define('doctor_notes', {
   },
 });
 
-DoctorNotes.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
+DoctorNotes.belongsTo(Appointments, { foreignKey: 'appointment_id' });
 DoctorNotes.belongsTo(PatientDetails, { foreignKey: 'patient_id' });
 DoctorNotes.belongsTo(Users, { foreignKey: 'doctor_id', targetKey: 'user_id' });
 
