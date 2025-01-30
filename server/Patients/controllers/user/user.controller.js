@@ -87,6 +87,7 @@ const getUserById = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { firstName, password, hospitalID } = req.body;
+  console.log(req.body);
   try {
     const user = await Users.findOne({
       where: {
@@ -99,14 +100,14 @@ const login = async (req, res, next) => {
     if (user !== null && user.password) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
+        console.log('Successful!!');
         res.json(user);
         next();
       }
       console.log('Password does not match!!');
+      res.status(404);
       next();
-      res.status(200);
     }
-    next();
   } catch (error) {
     console.log(error);
     next(error);
