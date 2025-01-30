@@ -87,7 +87,6 @@ const getUserById = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { firstName, password, hospitalID } = req.body;
-  console.log(req.body);
   try {
     const user = await Users.findOne({
       where: {
@@ -116,7 +115,8 @@ const login = async (req, res, next) => {
     }
 
     console.log('Successful!!');
-    return res.json(user); // Do not call next() after sending response
+    res.json(user); // Do not call next() after sending response
+    next();
   } catch (error) {
     console.log(error);
     next(error);

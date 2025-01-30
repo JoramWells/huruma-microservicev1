@@ -137,7 +137,7 @@ const Admissions2 = sequelize.define('admissions', {
   },
 });
 
-// Admissions2.belongsTo(Wards, { foreignKey: 'ward_id', targetKey: 'ward_id' });
+Admissions2.belongsTo(Wards, { foreignKey: 'ward_id', targetKey: 'ward_id' });
 // Wards.hasMany(Admissions2, { foreignKey: 'ward_id' });
 
 Admissions2.belongsTo(WardBed, { foreignKey: 'bed_id' });
