@@ -2,6 +2,9 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const ProcedureItem = require('./procedureItems.model');
+const ProcedureItemsConclusions = require('./procedureItemsConclusions.model');
+const Appointments = require('../appointment/appointments2.models');
+const InternalLabRequests = require('../_lab/internalLabRequests.model');
 
 const Procedure_item_result = sequelize.define('procedure_item_results', {
   procedure_item_result_id: {
@@ -40,7 +43,10 @@ const Procedure_item_result = sequelize.define('procedure_item_results', {
   },
 });
 
+Procedure_item_result.belongsTo(Appointments, { foreignKey: 'appointment_id' });
 Procedure_item_result.belongsTo(ProcedureItem, { foreignKey: 'procedure_item_id' });
+Procedure_item_result.belongsTo(ProcedureItemsConclusions, { foreignKey: 'procedure_items_conclusion_id' });
+Procedure_item_result.belongsTo(InternalLabRequests, { foreignKey: 'lab_request_id' });
 
 
 module.exports = Procedure_item_result;

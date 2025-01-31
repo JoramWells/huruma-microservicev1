@@ -2,9 +2,13 @@
 /* eslint-disable consistent-return */
 /* eslint-disable camelcase */
 
-const Procedure_item_result = require('../models/_procedure/procedureItemResults.model');
-const ProcedureItem = require('../models/_procedure/procedureItems.model');
-const { calculateLimitAndOffset } = require('../utils/calculateLimitAndOffset');
+const InternalLabRequests = require('../../models/_lab/internalLabRequests.model');
+const Procedure_item_result = require('../../models/_procedure/procedureItemResults.model');
+const ProcedureItem = require('../../models/_procedure/procedureItems.model');
+const ProcedureItemsConclusions = require('../../models/_procedure/procedureItemsConclusions.model');
+const Appointments = require('../../models/appointment/appointments2.models');
+const PatientDetails = require('../../models/patient/patientDetails.model');
+const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 
 const addProcedureItemResults = async (req, res, next) => {
   try {
@@ -41,6 +45,24 @@ const getAllProcedureItemResults = async (req, res, next) => {
         {
           model: ProcedureItem,
           attributes: ['procedure_item_description']
+        },
+        {
+          model: ProcedureItemsConclusions,
+          attributes: ['procedure_items_conclusion_description']
+        },
+        {
+          model: Appointments,
+          attributes: ['appointment_date']
+        },
+        {
+          model: InternalLabRequests,
+          attributes: ['results'],
+          include: [
+            {
+              model: PatientDetails,
+              attributes: ['patient_id', 'first_name', 'middle_name']
+            }
+          ]
         }
       ]
     });
@@ -70,8 +92,28 @@ const getProcedureItemResult = async (req, res, next) => {
     next();
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
+    next(error)
   }
 };
+
+// 
+const getProcedureItemResultByInternalLabRequestID = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const results = await Procedure_item_result.findOne({
+      where: {
+        lab_request_id: id,
+      },
+    });
+    res.json(results);
+    next();
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+    next(error)
+  }
+};
+
+// 
 
 const editProcedureItemResult = async (req, res, next) => {
   const { id, firstName } = req.body;
@@ -111,4 +153,5 @@ module.exports = {
   getProcedureItemResult,
   editProcedureItemResult,
   deleteProcedureItemResult,
+  getProcedureItemResultByInternalLabRequestID
 };

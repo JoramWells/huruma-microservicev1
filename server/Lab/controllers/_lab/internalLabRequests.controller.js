@@ -185,7 +185,7 @@ const getAllInternalLabRequestsByAppointmentID = async (req, res, next) => {
 
 // 
 const getRecentInternalLabRequests = async (req, res, next) => {
-  const { page, pageSize, searchQuery, date_of_request } = req.query;
+  const { page, pageSize, searchQuery, date: date_of_request } = req.query;
   let labWhere = {
     date_of_request: date_of_request?.length > 0 ? date_of_request : moment().format('YYYY-MM-DD'),
 
