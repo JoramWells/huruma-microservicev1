@@ -9,6 +9,7 @@ const HospitalDetail = sequelize.define('hospital_details', {
   hospital_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   hospital_name: {
     type: DataTypes.STRING,

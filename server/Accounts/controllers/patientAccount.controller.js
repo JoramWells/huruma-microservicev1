@@ -31,20 +31,23 @@ const getAllPatientAccounts = async (req, res, next) => {
       where = {
         ...where,
         [Op.or]: [
-          { account_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
         ],
       };
     }
+
     const { rows, count } = await PatientAccounts.findAndCountAll({
       page,
       pageSize,
       limit,
       offset,
-      where,
       include: [
         {
           model: PatientDetails,
           attributes: ['first_name', 'middle_name'],
+          where,
         },
         {
           model: Account_type,

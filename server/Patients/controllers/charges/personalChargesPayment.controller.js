@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 
-const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const PatientDetails = require('../../models/patientDetails.models');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Appointments2 = require('../../models/appointment/appointments.model');
@@ -76,17 +76,22 @@ const addPersonalChargesPayment = async (req, res, next) => {
 // };
 
 const getAllPersonalChargesPayments = async (req, res, next) => {
-  const { page, pageSize, searchQuery, status } = req.query;
+  const {
+    page, pageSize, searchQuery, status,
+  } = req.query;
   let where = {};
+  let patientWhere = {};
 
   try {
     const { limit, offset } = calculateLimitAndOffset(page, pageSize);
 
     if (searchQuery) {
-      where = {
-        ...where,
+      patientWhere = {
+        ...patientWhere,
         [Op.or]: [
-          { account_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
         ],
       };
     }
@@ -94,13 +99,13 @@ const getAllPersonalChargesPayments = async (req, res, next) => {
     if (status && status?.length > 0 && status === 'not cleared') {
       where = {
         ...where,
-        cleared: 'NO'
-      }
+        cleared: 'NO',
+      };
     } else if (status && status?.length > 0 && status === 'cleared') {
       where = {
         ...where,
-        cleared: 'YES'
-      }
+        cleared: 'YES',
+      };
     }
 
     const { rows, count } = await PersonalChargesPayment.findAndCountAll({
@@ -114,15 +119,16 @@ const getAllPersonalChargesPayments = async (req, res, next) => {
         {
           model: PatientDetails,
           attributes: ['first_name', 'middle_name'],
+          patientWhere,
         },
         {
           model: Appointments2,
-          attributes: ['appointment_date']
+          attributes: ['appointment_date'],
         },
         {
           model: Users,
-          attributes: ['full_name']
-        }
+          attributes: ['full_name'],
+        },
       ],
     });
     res.status(200).json({

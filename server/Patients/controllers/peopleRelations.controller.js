@@ -56,6 +56,7 @@ const getAllPeopleRelations = async (req, res, next) => {
       limit,
       offset,
       where,
+      order: [['description', 'ASC']],
     });
     res.json({
       data: rows,
