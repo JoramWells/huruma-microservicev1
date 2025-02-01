@@ -12,6 +12,7 @@ const Appointments2 = require('../../models/appointment/appointments.model');
 // const Personal_account_charge = require('../models/personalAccountCharges.model');
 
 const addPersonalAccountCharge = async (req, res, next) => {
+  console.log(req.body)
   try {
     const results = await PersonalAccountCharge.create(req.body);
     // const results = await Personal_account_charge.findAll({
@@ -19,7 +20,7 @@ const addPersonalAccountCharge = async (req, res, next) => {
     //     patient_id: userID,
     //   },
     // });
-    res.status(201).json(results);
+    res.status(200).json(results);
     next();
   } catch (error) {
     console.log(error);

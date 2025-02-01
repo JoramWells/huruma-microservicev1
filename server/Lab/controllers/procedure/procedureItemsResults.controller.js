@@ -9,6 +9,7 @@ const ProcedureItemsConclusions = require('../../models/_procedure/procedureItem
 const Appointments = require('../../models/appointment/appointments2.models');
 const PatientDetails = require('../../models/patient/patientDetails.model');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
+const { Op } = require('sequelize')
 
 const addProcedureItemResults = async (req, res, next) => {
   try {
@@ -60,7 +61,9 @@ const getAllProcedureItemResults = async (req, res, next) => {
           include: [
             {
               model: PatientDetails,
-              attributes: ['patient_id', 'first_name', 'middle_name']
+              attributes: ['patient_id', 'first_name', 'middle_name'],
+              order: [['first_name', 'ASC']],
+              where
             }
           ]
         }

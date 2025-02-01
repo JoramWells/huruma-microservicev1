@@ -6,7 +6,8 @@ const PatientDetails = sequelize.define('patient_details', {
   patient_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    unique: true,
     // defaultValue: UUIDV4,
   },
   in_patient_file_no: {
@@ -40,13 +41,13 @@ const PatientDetails = sequelize.define('patient_details', {
     type: DataTypes.STRING,
   },
   next_of_kin: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
   },
   nxt_of_kin_cell_phone: {
     type: DataTypes.STRING,
   },
   hospital_id: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
   },
   patient_type: {
     type: DataTypes.STRING,

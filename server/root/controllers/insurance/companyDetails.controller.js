@@ -29,11 +29,12 @@ const getAllCompanies = async (req, res, next) => {
       where = {
         ...where,
         [Op.or]: [
-          { insurance_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { company_name: { [Op.iLike]: `%${searchQuery}%` } },
         ],
       };
     }
     const { rows, count } = await Company_detail.findAndCountAll({
+      order: [['company_name', 'ASC']],
       page,
       pageSize,
       limit,

@@ -37,10 +37,7 @@ const ConsultationTypesGroup = require('../models/consultation/consultationTypeG
 // };
 
 const addAppointments = async (req, res, next) => {
-  // const {
-  //   patientId, temperature, pulse_rate, respiratoryRate,
-  //   systolic, diastolic, weight, height, bmi, sp02,
-  // } = req.body;
+  console.log(req.body);
 
   try {
     // const isAppointed = await Appointments2.findOne({
@@ -64,7 +61,7 @@ const addAppointments = async (req, res, next) => {
     //   return isAppointed.save();
     // }
     const newAppointment = await Appointments.create(req.body);
-    res.json(newAppointment);
+    res.status(200).json(newAppointment);
     next();
   } catch (error) {
     console.log(error);

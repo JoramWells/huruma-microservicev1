@@ -39,65 +39,43 @@ io.on('connection', (socket) => { console.log('Connected to patient client'); })
 // using *Patients model
 const addPatients = async (req, res, next) => {
   try {
-    // await producer.connect();
-    const { insuranceAccount } = req.body;
-
-    // the reference account_id is the id of the insurance-service-cost-mapping
-    const reference_account_id = insuranceAccount?.value;
-
-    // await producer.send({
-    //   topic: 'register-patient',
-    //   messages: [
-    //     {
-    //       value: 'hello',
-    //     },
-    //   ],
-    // });
-
-    // await producer.disconnect();
-
-    // create a new user profile
     const newProfile = await Patient_details.create(req.body);
-    let newAppointment = {};
+    // let newAppointment = {};
 
-    // // Check if user has a corporate. results = null, charges = 0
-    if (insuranceAccount) {
-      const results = await InsuranceServiceCostMapping.findOne({
-        where: {
-          insurance_id: reference_account_id,
-        },
-      });
+    // // // Check if user has a corporate. results = null, charges = 0
+    // if (insuranceAccount) {
+    //   const results = await InsuranceServiceCostMapping.findOne({
+    //     where: {
+    //       insurance_id: reference_account_id,
+    //     },
+    //   });
 
-      if (results?.cost) {
-        const { cost } = results;
+    //   if (results?.cost) {
+    //     const { cost } = results;
 
-        newAppointment = await Appointments2.afterCreate({
-          patient_id: newProfile?.patient_id,
-          account_type_id: req.body.account_type_id,
-          appointment_date: moment().format('YYYY-MM-DD'),
-          appointment_time: moment().format('hh:mm:ss'),
-          charges: cost,
-          reference_account_id,
-        });
-        io.emit('newAppointment');
-      }
-    } else {
-      // // Create ew Appointment. Initial amount 350 for new patient
-      newAppointment = await Appointments2.afterCreate({
-        patient_id: newProfile?.patient_id,
-        account_type_id: req.body.account_type_id,
-        appointment_date: moment().format('YYYY-MM-DD'),
-        appointment_time: moment().format('hh:mm:ss'),
-        charges: 350,
-        reference_account_id,
-      });
-    }
+    //     newAppointment = await Appointments2.afterCreate({
+    //       patient_id: newProfile?.patient_id,
+    //       account_type_id: req.body.account_type_id,
+    //       appointment_date: moment().format('YYYY-MM-DD'),
+    //       appointment_time: moment().format('hh:mm:ss'),
+    //       charges: cost,
+    //       reference_account_id,
+    //     });
+    //     io.emit('newAppointment');
+    //   }
+    // } else {
+    //   // // Create ew Appointment. Initial amount 350 for new patient
+    //   newAppointment = await Appointments2.afterCreate({
+    //     patient_id: newProfile?.patient_id,
+    //     account_type_id: req.body.account_type_id,
+    //     appointment_date: moment().format('YYYY-MM-DD'),
+    //     appointment_time: moment().format('hh:mm:ss'),
+    //     charges: 350,
+    //     reference_account_id,
+    //   });
+    // }
 
-    res.status(201).json({
-      patient_id: newProfile.patient_id,
-      appointment_id: newAppointment.appointment_id,
-    });
-    res.status(200);
+    res.status(200).json(newProfile);
     next();
   } catch (error) {
     console.log(error);
