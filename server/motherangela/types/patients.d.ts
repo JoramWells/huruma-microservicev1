@@ -101,3 +101,8 @@ export interface AdmissionInterface {
   ward_id: string
 }
 
+export interface PeopleRelationsInterface{
+  id: string
+  description: string
+}
+

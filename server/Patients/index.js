@@ -7,6 +7,7 @@ const cors = require('cors');
 const cluster = require('cluster');
 const cpus = require('os').cpus().length;
 const patientRoutes = require('./routes/patient.routes');
+const peopleRelationRoutes = require('./routes/peopleRelations.routes');
 const personalAccountChargeRoutes = require('./routes/charges/personalAccountCharges.routes');
 const personalChargesPaymentRoutes = require('./routes/charges/personalChargesPayment.routes');
 const hospitalRoutes = require('./routes/hospital/hospital.routes');
@@ -47,6 +48,7 @@ if (cluster.isMaster) {
   // enable cors
 
   app.use('/patient', patientRoutes);
+  app.use('/people-relations', peopleRelationRoutes);
   app.use('/personal-account-charge', personalAccountChargeRoutes);
   app.use('/personal-charges-payment', personalChargesPaymentRoutes);
   app.use('/hospital', hospitalRoutes);
