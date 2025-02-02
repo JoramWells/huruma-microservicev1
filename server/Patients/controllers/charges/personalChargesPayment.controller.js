@@ -49,32 +49,6 @@ const addPersonalChargesPayment = async (req, res, next) => {
 //   }
 // };
 
-// const getAllPersonalChargesPayments = async (req, res, next) => {
-//   try {
-//     const results = await PersonalChargesPayment.findAll({
-//       attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('personal_account_charges.patient_id_pac')), 'patient_id_pac'],
-//       [Sequelize.fn('COUNT', Sequelize.col('personal_account_charges.patient_id_pac')), 'patient_count']],
-//       group: [
-//         'personal_account_charges.patient_id_pac',
-//         'date_of_charge',
-//         'patient_detail.patient_id',
-//       ],
-//       include: [
-//         {
-//           model: PatientDetails,
-//           attributes: ['first_name', 'middle_name'],
-//         },
-//       ],
-//     });
-//     res.json(results);
-//     next();
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//     next(error);
-//   }
-// };
-
 const getAllPersonalChargesPayments = async (req, res, next) => {
   const {
     page, pageSize, searchQuery, status,
@@ -114,7 +88,7 @@ const getAllPersonalChargesPayments = async (req, res, next) => {
       pageSize,
       limit,
       offset,
-      where,
+      // where,
       include: [
         {
           model: PatientDetails,
@@ -171,7 +145,7 @@ const getUserPersonalChargesPayment = async (req, res, next) => {
       },
       include: [
         {
-          model: Patient,
+          model: PatientDetails,
           attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
         },
       ],

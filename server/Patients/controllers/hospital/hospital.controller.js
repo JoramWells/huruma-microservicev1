@@ -34,11 +34,11 @@ io.on('connection', (socket) => { console.log('Connected to Hospital client'); }
 // using *Hospitals model
 const addHospitals = async (req, res, next) => {
   try {
-    const hospital = await HospitalDetail.create(req.body)
-    res.json(hospital)
-    next()
+    const hospital = await HospitalDetail.create(req.body);
+    res.json(hospital);
+    next();
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -65,7 +65,7 @@ const getAllHospitals = async (req, res, next) => {
       pageSize,
       limit,
       offset,
-      where
+      where,
     });
     res.json({
       data: rows,
@@ -103,7 +103,7 @@ const searchHospitals = async (req, res, next) => {
       // pageSize,
       // limit,
       // offset,
-      where
+      where,
     });
     res.json(results);
     next();
@@ -137,20 +137,20 @@ const editHospital = async (req, res, next) => {
     first_name, middle_name, last_name, id_number, cell_phone,
   } = req.body;
   try {
-    const editHospital = await HospitalDetail.findOne({
+    const results = await HospitalDetail.findOne({
       where: {
         Hospital_id: id,
       },
     });
 
-    editHospital.first_name = first_name;
-    editHospital.middle_name = middle_name;
-    editHospital.last_name = last_name;
-    editHospital.id_number = id_number;
-    editHospital.cell_phone = cell_phone;
-    next();
+    results.first_name = first_name;
+    results.middle_name = middle_name;
+    results.last_name = last_name;
+    results.id_number = id_number;
+    results.cell_phone = cell_phone;
+    results.save();
 
-    return editHospital.save();
+    next();
   } catch (error) {
     res.sendStatus(500).json({ message: 'Internal Server' });
   }
@@ -166,14 +166,17 @@ const deleteHospital = async (req, res, next) => {
     });
 
     if (results) {
-      return res.status(200).json({ message: 'User deleted successfully' });
+      res.status(200).json({ message: 'User deleted successfully' });
+      next();
     }
-    return res.status(404).json({ message: 'User not found.' });
+    res.status(404).json({ message: 'User not found.' });
+    next();
   } catch (error) {
-    return res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
+    next(error);
   }
 };
 
 module.exports = {
-  addHospitals, getAllHospitals, getHospitalDetail, editHospital, deleteHospital, searchHospitals
+  addHospitals, getAllHospitals, getHospitalDetail, editHospital, deleteHospital, searchHospitals,
 };

@@ -3,13 +3,14 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../db/connect');
 const PatientDetails = require('../patientDetails.models');
 const Appointments2 = require('../appointment/appointments.model');
+const Service_type = require('../services/serviceType.model');
 
 const PersonalAccountCharge = sequelize.define('personal_account_charges', {
   personal_account_charge_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     unique: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   charge_no: {
     type: DataTypes.STRING,
@@ -88,7 +89,8 @@ const PersonalAccountCharge = sequelize.define('personal_account_charges', {
   },
 }, { timestamps: false });
 
-PersonalAccountCharge.belongsTo(PatientDetails, { foreignKey: 'patient_id_pac', targetKey: 'patient_id' })
-PersonalAccountCharge.belongsTo(Appointments2, { foreignKey: 'appointment_id' })
+PersonalAccountCharge.belongsTo(PatientDetails, { foreignKey: 'patient_id_pac', targetKey: 'patient_id' });
+PersonalAccountCharge.belongsTo(Appointments2, { foreignKey: 'appointment_id' });
+PersonalAccountCharge.belongsTo(Service_type, { foreignKey: 'service_type_id' });
 
 module.exports = PersonalAccountCharge;

@@ -106,3 +106,8 @@ export interface PeopleRelationsInterface{
   description: string
 }
 
+export interface ResidenceDetailsInterface{
+  residence_id: number
+  residence_name: string
+}
+

@@ -3,15 +3,16 @@
 /* eslint-disable linebreak-style */
 const express = require('express');
 const cors = require('cors');
-
 const cluster = require('cluster');
 const cpus = require('os').cpus().length;
+const sequelize = require('./db/connect');
+
 const patientRoutes = require('./routes/patient.routes');
+const residenceDetailsRoutes = require('./routes/residenceDetails.routes');
 const peopleRelationRoutes = require('./routes/peopleRelations.routes');
 const personalAccountChargeRoutes = require('./routes/charges/personalAccountCharges.routes');
 const personalChargesPaymentRoutes = require('./routes/charges/personalChargesPayment.routes');
 const hospitalRoutes = require('./routes/hospital/hospital.routes');
-const sequelize = require('./db/connect');
 
 const userRoutes = require('./routes/user/user.routes');
 const userPrivilegeRoutes = require('./routes/user/userPrivilege.routes');
@@ -48,6 +49,7 @@ if (cluster.isMaster) {
   // enable cors
 
   app.use('/patient', patientRoutes);
+  app.use('/residence-details', residenceDetailsRoutes);
   app.use('/people-relations', peopleRelationRoutes);
   app.use('/personal-account-charge', personalAccountChargeRoutes);
   app.use('/personal-charges-payment', personalChargesPaymentRoutes);

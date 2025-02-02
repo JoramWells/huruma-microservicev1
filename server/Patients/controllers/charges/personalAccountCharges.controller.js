@@ -1,18 +1,16 @@
-/* eslint-disable consistent-return */
 /* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
 
-const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const PersonalAccountCharge = require('../../models/charges/personalAccountCharges.model');
 const PatientDetails = require('../../models/patientDetails.models');
 const { calculateLimitAndOffset } = require('../../utils/calculateLimitAndOffset');
 const Appointments2 = require('../../models/appointment/appointments.model');
+const Service_type = require('../../models/services/serviceType.model');
 // const Patient = require('../../models/charges/patient2.models');
 
 // const Personal_account_charge = require('../models/personalAccountCharges.model');
 
 const addPersonalAccountCharge = async (req, res, next) => {
-  console.log(req.body)
   try {
     const results = await PersonalAccountCharge.create(req.body);
     // const results = await Personal_account_charge.findAll({
@@ -49,32 +47,6 @@ const addPersonalAccountCharge = async (req, res, next) => {
 //   }
 // };
 
-// const getAllPersonalAccountCharges = async (req, res, next) => {
-//   try {
-//     const results = await PersonalAccountCharge.findAll({
-//       attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('personal_account_charges.patient_id_pac')), 'patient_id_pac'],
-//       [Sequelize.fn('COUNT', Sequelize.col('personal_account_charges.patient_id_pac')), 'patient_count']],
-//       group: [
-//         'personal_account_charges.patient_id_pac',
-//         'date_of_charge',
-//         'patient_detail.patient_id',
-//       ],
-//       include: [
-//         {
-//           model: PatientDetails,
-//           attributes: ['first_name', 'middle_name'],
-//         },
-//       ],
-//     });
-//     res.json(results);
-//     next();
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//     next(error);
-//   }
-// };
-
 const getAllPersonalAccountCharges = async (req, res, next) => {
   const { page, pageSize, searchQuery } = req.query;
   let where = {};
@@ -86,7 +58,9 @@ const getAllPersonalAccountCharges = async (req, res, next) => {
       where = {
         ...where,
         [Op.or]: [
-          { account_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { first_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { middle_name: { [Op.iLike]: `%${searchQuery}%` } },
+          { last_name: { [Op.iLike]: `%${searchQuery}%` } },
         ],
       };
     }
@@ -96,16 +70,17 @@ const getAllPersonalAccountCharges = async (req, res, next) => {
       pageSize,
       limit,
       offset,
-      where,
       include: [
         {
           model: PatientDetails,
           attributes: ['first_name', 'middle_name'],
+          where,
+
         },
         {
           model: Appointments2,
-          attributes: ['appointment_date']
-        }
+          attributes: ['appointment_date'],
+        },
       ],
     });
     res.status(200).json({
@@ -129,6 +104,21 @@ const getPersonalAccountCharge = async (req, res, next) => {
       where: {
         personal_account_charge_id: id,
       },
+      include: [
+        {
+          model: PatientDetails,
+          attributes: ['first_name', 'middle_name'],
+
+        },
+        {
+          model: Appointments2,
+          attributes: ['appointment_date'],
+        },
+        {
+          model: Service_type,
+          attributes: ['service_type_description'],
+        },
+      ],
     });
     res.json(result);
     next();
@@ -148,7 +138,7 @@ const getUserPersonalAccountCharge = async (req, res, next) => {
       },
       include: [
         {
-          model: Patient,
+          model: PatientDetails,
           attributes: ['first_name', 'middle_name', 'dob', 'patient_gender'],
         },
       ],
@@ -170,9 +160,11 @@ const editPersonalAccountCharge = async (req, res, next) => {
       },
     });
     result.firstName = firstName;
-    return result.save();
+    result.save();
+    next();
   } catch (error) {
     res.status(500).json({ message: 'Internal Server Error' });
+    next(error);
   }
 };
 

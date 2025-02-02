@@ -10,7 +10,7 @@ const PersonalChargesPayment = sequelize.define('personal_charges_payments', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     unique: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
   charge_no: {
     type: DataTypes.STRING,
@@ -140,8 +140,8 @@ const PersonalChargesPayment = sequelize.define('personal_charges_payments', {
   },
 }, { timestamps: false });
 
-PersonalChargesPayment.belongsTo(PatientDetails, { foreignKey: 'patient_id_personal_charge_payments', targetKey: 'patient_id' })
-PersonalChargesPayment.belongsTo(Appointments2, { foreignKey: 'appointment_id_personal_charge_payments', targetKey: 'appointment_id' })
-PersonalChargesPayment.belongsTo(Users, { foreignKey: 'user_id' })
+PersonalChargesPayment.belongsTo(PatientDetails, { foreignKey: 'patient_id_personal_charge_payments', targetKey: 'patient_id' });
+PersonalChargesPayment.belongsTo(Appointments2, { foreignKey: 'appointment_id_personal_charge_payments', targetKey: 'appointment_id' });
+PersonalChargesPayment.belongsTo(Users, { foreignKey: 'user_id' });
 
 module.exports = PersonalChargesPayment;

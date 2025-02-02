@@ -107,7 +107,7 @@ const getAllPatients = async (req, res, next) => {
       pageSize,
       limit,
       offset,
-      where
+      where,
     });
     res.json({
       data: rows,
@@ -145,7 +145,7 @@ const searchPatients = async (req, res, next) => {
       // pageSize,
       // limit,
       // offset,
-      where
+      where,
     });
     res.json(results);
     next();
@@ -217,5 +217,5 @@ const deletePatient = async (req, res, next) => {
 };
 
 module.exports = {
-  addPatients, getAllPatients, getPatientDetail, editPatient, deletePatient, searchPatients
+  addPatients, getAllPatients, getPatientDetail, editPatient, deletePatient, searchPatients,
 };
